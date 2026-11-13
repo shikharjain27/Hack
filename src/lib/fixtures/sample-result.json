@@ -1,101 +1,353 @@
 {
-  "_note": "Hand-authored stand-in (Gemini quota was exhausted). Replace with a real response when available.",
-  "transform": {
-    "title": "From Pyruvate to Acetyl CoA",
-    "source_sentences": [
-      { "id": "s1", "text": "In order for pyruvate, the product of glycolysis, to enter the next pathway, it must undergo several changes." },
-      { "id": "s2", "text": "The conversion is a three-step process (Figure 7.10)." },
-      { "id": "s3", "text": "Step 1. A carboxyl group is removed from pyruvate, releasing a molecule of carbon dioxide into the surrounding medium." },
-      { "id": "s4", "text": "This reaction creates a two-carbon hydroxyethyl group bound to the enzyme (pyruvate dehydrogenase)." },
-      { "id": "s5", "text": "We should note that this is the first of the six carbons from the original glucose molecule to be removed." },
-      { "id": "s6", "text": "This step proceeds twice because there are two pyruvate molecules produced at the end of glycolysis for every molecule of glucose metabolized anaerobically; thus, two of the six carbons will have been removed at the end of both steps." },
-      { "id": "s7", "text": "Step 2. The hydroxyethyl group is oxidized to an acetyl group, and the electrons are picked up by NAD+, forming NADH." },
-      { "id": "s8", "text": "Step 3. The enzyme-bound acetyl group is transferred to CoA, producing a molecule of acetyl CoA." }
-    ],
-    "levels": {
-      "expert": [
-        { "id": "e1", "text": "For pyruvate, the product of glycolysis, to enter the next pathway, it must undergo several changes.", "source_ids": ["s1"] },
-        { "id": "e2", "text": "The conversion is a three-step process.", "source_ids": ["s2"] },
-        { "id": "e3", "text": "Step 1: a carboxyl group is removed from pyruvate, releasing carbon dioxide into the surrounding medium.", "source_ids": ["s3"] },
-        { "id": "e4", "text": "This creates a two-carbon hydroxyethyl group bound to the enzyme pyruvate dehydrogenase.", "source_ids": ["s4"] },
-        { "id": "e5", "text": "This is the first of the six carbons from the original glucose molecule to be removed.", "source_ids": ["s5"] },
-        { "id": "e6", "text": "The step occurs twice, since glycolysis yields two pyruvate molecules per glucose; two of the six carbons are therefore removed.", "source_ids": ["s6"] },
-        { "id": "e7", "text": "Step 2: the hydroxyethyl group is oxidized to an acetyl group, and NAD+ accepts the electrons, forming NADH.", "source_ids": ["s7"] },
-        { "id": "e8", "text": "Step 3: the enzyme-bound acetyl group is transferred to CoA, producing acetyl CoA.", "source_ids": ["s8"] }
-      ],
-      "grade10": [
-        { "id": "g1", "text": "Pyruvate, made during glycolysis, has to be changed before it can enter the next pathway.", "source_ids": ["s1"] },
-        { "id": "g2", "text": "This change happens in three steps.", "source_ids": ["s2"] },
-        { "id": "g3", "text": "First, a carboxyl group is removed from pyruvate and released as carbon dioxide.", "source_ids": ["s3"] },
-        { "id": "g4", "text": "This leaves a two-carbon group attached to the enzyme pyruvate dehydrogenase.", "source_ids": ["s4"] },
-        { "id": "g5", "text": "It is the first of the glucose molecule's six carbons to be removed.", "source_ids": ["s5"] },
-        { "id": "g6", "text": "The step runs twice per glucose because glycolysis makes two pyruvates, so two carbons are removed.", "source_ids": ["s6"] },
-        { "id": "g7", "text": "Second, the two-carbon group is oxidized to an acetyl group, and NAD+ picks up electrons to become NADH.", "source_ids": ["s7"] },
-        { "id": "g8", "text": "Third, the acetyl group is passed to CoA, making acetyl CoA.", "source_ids": ["s8"] }
-      ],
-      "grade6": [
-        { "id": "k1", "text": "Pyruvate must change before it can go on.", "source_ids": ["s1"] },
-        { "id": "k2", "text": "The change has three steps.", "source_ids": ["s2"] },
-        { "id": "k3", "text": "Step one: a carbon is taken off pyruvate.", "source_ids": ["s3"] },
-        { "id": "k4", "text": "It leaves the body as carbon dioxide gas.", "source_ids": ["s3"] },
-        { "id": "k5", "text": "A two-carbon piece stays stuck to an enzyme.", "source_ids": ["s4"] },
-        { "id": "k6", "text": "This is the first of glucose's six carbons to leave.", "source_ids": ["s5"] },
-        { "id": "k7", "text": "Step two: the piece changes form and gives away electrons.", "source_ids": ["s7"] },
-        { "id": "k8", "text": "NAD+ catches the electrons and becomes NADH.", "source_ids": ["s7"] },
-        { "id": "k9", "text": "Step three: the piece moves to CoA to make acetyl CoA.", "source_ids": ["s8"] }
-      ]
+  "title": "Breakdown of Pyruvate",
+  "source_sentences": [
+    {
+      "id": "s1",
+      "text": "In order for pyruvate, the product of glycolysis, to enter the next pathway, it must undergo several changes."
     },
-    "glossary": [
-      { "term": "pyruvate", "plain": "The product of glycolysis, made from glucose.", "emoji": "🍬" },
-      { "term": "glycolysis", "plain": "The first way cells break glucose down.", "emoji": "🔥" },
-      { "term": "carboxyl group", "plain": "A small group of atoms with one carbon and two oxygens.", "emoji": "⚛️" },
-      { "term": "hydroxyethyl group", "plain": "A two-carbon piece left after the first step.", "emoji": "🧩" },
-      { "term": "NAD+", "plain": "A helper molecule that picks up electrons.", "emoji": "🚚" },
-      { "term": "NADH", "plain": "NAD+ after it has picked up electrons.", "emoji": "🔋" },
-      { "term": "acetyl CoA", "plain": "The final product that enters the next pathway.", "emoji": "🏁" }
-    ],
-    "concept_map": {
-      "nodes": [
-        { "id": "n1", "label": "Glucose" },
-        { "id": "n2", "label": "Glycolysis" },
-        { "id": "n3", "label": "Pyruvate" },
-        { "id": "n4", "label": "CO₂" },
-        { "id": "n5", "label": "Hydroxyethyl group" },
-        { "id": "n6", "label": "Acetyl group" },
-        { "id": "n7", "label": "NADH" },
-        { "id": "n8", "label": "Acetyl CoA" }
-      ],
-      "edges": [
-        { "from": "n1", "to": "n2", "label": "is broken down by" },
-        { "from": "n2", "to": "n3", "label": "produces" },
-        { "from": "n3", "to": "n4", "label": "releases" },
-        { "from": "n3", "to": "n5", "label": "becomes" },
-        { "from": "n5", "to": "n6", "label": "is oxidized to" },
-        { "from": "n6", "to": "n7", "label": "forms" },
-        { "from": "n6", "to": "n8", "label": "is transferred to CoA as" }
-      ]
+    {
+      "id": "s2",
+      "text": "The conversion is a three-step process (Figure 7.10)."
     },
-    "quiz": [
+    {
+      "id": "s3",
+      "text": "Step 1. A carboxyl group is removed from pyruvate, releasing a molecule of carbon dioxide into the surrounding medium."
+    },
+    {
+      "id": "s4",
+      "text": "This reaction creates a two-carbon hydroxyethyl group bound to the enzyme (pyruvate dehydrogenase)."
+    },
+    {
+      "id": "s5",
+      "text": "We should note that this is the first of the six carbons from the original glucose molecule to be removed."
+    },
+    {
+      "id": "s6",
+      "text": "(This step proceeds twice because there are two pyruvate molecules produced at the end of glycolysis for every molecule of glucose metabolized anaerobically; thus, two of the six carbons will have been removed at the end of both steps.)"
+    },
+    {
+      "id": "s7",
+      "text": "Step 2. The hydroxyethyl group is oxidized to an acetyl group, and the electrons are picked up by NAD+, forming NADH."
+    },
+    {
+      "id": "s8",
+      "text": "Step 3. The enzyme-bound acetyl group is transferred to CoA, producing a molecule of acetyl CoA."
+    }
+  ],
+  "levels": {
+    "expert": [
       {
-        "q": "What is released in step 1?",
-        "options": ["Oxygen", "Carbon dioxide", "Glucose", "NADH"],
-        "answer": 1,
-        "source_id": "s3"
+        "id": "e1",
+        "text": "To enter the next pathway, pyruvate, which is the product of glycolysis, must undergo a three-step conversion process.",
+        "source_ids": [
+          "s1",
+          "s2"
+        ]
       },
       {
-        "q": "Why does step 1 happen twice per glucose?",
-        "options": ["Two enzymes are needed", "Glycolysis makes two pyruvates", "NAD+ is used twice", "CoA is split in two"],
-        "answer": 1,
-        "source_id": "s6"
+        "id": "e2",
+        "text": "In Step 1, a carboxyl group is removed from pyruvate, releasing carbon dioxide and creating a two-carbon hydroxyethyl group bound to pyruvate dehydrogenase.",
+        "source_ids": [
+          "s3",
+          "s4"
+        ]
       },
       {
-        "q": "What molecule picks up the electrons in step 2?",
-        "options": ["CoA", "Pyruvate", "NAD+", "Glucose"],
-        "answer": 2,
-        "source_id": "s7"
+        "id": "e3",
+        "text": "This represents the first of the six carbons from the original glucose molecule to be removed, occurring twice per glucose molecule as two pyruvates are formed.",
+        "source_ids": [
+          "s5",
+          "s6"
+        ]
+      },
+      {
+        "id": "e4",
+        "text": "In Step 2, the hydroxyethyl group is oxidized into an acetyl group, transferring electrons to NAD+ to form NADH.",
+        "source_ids": [
+          "s7"
+        ]
+      },
+      {
+        "id": "e5",
+        "text": "In Step 3, the enzyme-bound acetyl group is transferred to CoA, generating acetyl CoA.",
+        "source_ids": [
+          "s8"
+        ]
       }
     ],
-    "diagram_alt_text": ""
+    "grade10": [
+      {
+        "id": "g1",
+        "text": "Pyruvate from glycolysis must undergo three key steps before moving to the next pathway.",
+        "source_ids": [
+          "s1",
+          "s2"
+        ]
+      },
+      {
+        "id": "g2",
+        "text": "First, a carboxyl group is removed from pyruvate, releasing carbon dioxide gas.",
+        "source_ids": [
+          "s3"
+        ]
+      },
+      {
+        "id": "g3",
+        "text": "This leaves a two-carbon hydroxyethyl group attached to the enzyme pyruvate dehydrogenase.",
+        "source_ids": [
+          "s4"
+        ]
+      },
+      {
+        "id": "g4",
+        "text": "Because one glucose splits into two pyruvates, this step occurs twice and removes two carbon atoms.",
+        "source_ids": [
+          "s5",
+          "s6"
+        ]
+      },
+      {
+        "id": "g5",
+        "text": "Second, the hydroxyethyl group is oxidized to an acetyl group, converting NAD+ to NADH.",
+        "source_ids": [
+          "s7"
+        ]
+      },
+      {
+        "id": "g6",
+        "text": "Finally, the acetyl group attaches to CoA, forming acetyl CoA.",
+        "source_ids": [
+          "s8"
+        ]
+      }
+    ],
+    "grade6": [
+      {
+        "id": "k1",
+        "text": "Pyruvate needs three steps to get ready for the next process.",
+        "source_ids": [
+          "s1",
+          "s2"
+        ]
+      },
+      {
+        "id": "k2",
+        "text": "First, it loses carbon dioxide gas into its surroundings.",
+        "source_ids": [
+          "s3"
+        ]
+      },
+      {
+        "id": "k3",
+        "text": "This leaves a small two-carbon piece attached to an enzyme.",
+        "source_ids": [
+          "s4"
+        ]
+      },
+      {
+        "id": "k4",
+        "text": "Since glucose makes two pyruvates, this step happens twice.",
+        "source_ids": [
+          "s5",
+          "s6"
+        ]
+      },
+      {
+        "id": "k5",
+        "text": "Next, energy electrons are added to NAD+ to make NADH.",
+        "source_ids": [
+          "s7"
+        ]
+      },
+      {
+        "id": "k6",
+        "text": "Finally, the piece connects to CoA to form acetyl CoA.",
+        "source_ids": [
+          "s8"
+        ]
+      }
+    ]
   },
-  "verify": null
+  "glossary": [
+    {
+      "term": "Pyruvate",
+      "plain": "A three-carbon molecule produced at the end of glycolysis.",
+      "emoji": "🧪"
+    },
+    {
+      "term": "Glycolysis",
+      "plain": "The initial metabolic pathway that breaks down glucose to release energy.",
+      "emoji": "⚡"
+    },
+    {
+      "term": "Pyruvate dehydrogenase",
+      "plain": "An enzyme complex that helps break down pyruvate.",
+      "emoji": "🧬"
+    },
+    {
+      "term": "Carbon dioxide",
+      "plain": "A waste gas released during the breakdown of pyruvate.",
+      "emoji": "💨"
+    },
+    {
+      "term": "NADH",
+      "plain": "An energy-carrying molecule that holds high-energy electrons.",
+      "emoji": "🔋"
+    },
+    {
+      "term": "Acetyl CoA",
+      "plain": "A key molecule formed from pyruvate that enters the next stage of cellular respiration.",
+      "emoji": "🔑"
+    },
+    {
+      "term": "Coenzyme A (CoA)",
+      "plain": "A helper molecule that attaches to an acetyl group to carry it to the next pathway.",
+      "emoji": "🚚"
+    }
+  ],
+  "concept_map": {
+    "nodes": [
+      {
+        "id": "n1",
+        "label": "Pyruvate"
+      },
+      {
+        "id": "n2",
+        "label": "Pyruvate Dehydrogenase"
+      },
+      {
+        "id": "n3",
+        "label": "Carbon Dioxide"
+      },
+      {
+        "id": "n4",
+        "label": "Hydroxyethyl Group"
+      },
+      {
+        "id": "n5",
+        "label": "Acetyl Group"
+      },
+      {
+        "id": "n6",
+        "label": "NAD+"
+      },
+      {
+        "id": "n7",
+        "label": "NADH"
+      },
+      {
+        "id": "n8",
+        "label": "CoA"
+      },
+      {
+        "id": "n9",
+        "label": "Acetyl CoA"
+      }
+    ],
+    "edges": [
+      {
+        "from": "n1",
+        "to": "n3",
+        "label": "releases"
+      },
+      {
+        "from": "n1",
+        "to": "n4",
+        "label": "forms"
+      },
+      {
+        "from": "n2",
+        "to": "n4",
+        "label": "binds"
+      },
+      {
+        "from": "n4",
+        "to": "n5",
+        "label": "oxidizes into"
+      },
+      {
+        "from": "n6",
+        "to": "n7",
+        "label": "gains electrons to form"
+      },
+      {
+        "from": "n5",
+        "to": "n8",
+        "label": "transfers to"
+      },
+      {
+        "from": "n8",
+        "to": "n9",
+        "label": "produces"
+      }
+    ]
+  },
+  "quiz": [
+    {
+      "q": "What gas is released into the surrounding medium during Step 1 of pyruvate breakdown?",
+      "options": [
+        "Oxygen",
+        "Carbon dioxide",
+        "Nitrogen",
+        "Methane"
+      ],
+      "answer": 1,
+      "source_id": "s3",
+      "hint": "Think about the carboxyl group (-COO-) that is being split off.",
+      "explanation": "In Step 1, a carboxyl group is removed from pyruvate, releasing carbon dioxide (CO2)."
+    },
+    {
+      "q": "What molecule is formed when NAD+ picks up electrons in Step 2?",
+      "options": [
+        "ATP",
+        "Glucose",
+        "NADH",
+        "Pyruvate"
+      ],
+      "answer": 2,
+      "source_id": "s7",
+      "hint": "NAD+ gets reduced by capturing high-energy electrons.",
+      "explanation": "The hydroxyethyl group is oxidized to an acetyl group and electrons reduce NAD+ into NADH."
+    },
+    {
+      "q": "What molecule is formed when the acetyl group is transferred to CoA in Step 3?",
+      "options": [
+        "Acetyl CoA",
+        "Carbon dioxide",
+        "Glucose",
+        "Pyruvate dehydrogenase"
+      ],
+      "answer": 0,
+      "source_id": "s8",
+      "hint": "The name combines the two reacting entities: acetyl and CoA.",
+      "explanation": "The enzyme-bound acetyl group combines with Coenzyme A (CoA) to yield acetyl CoA."
+    },
+    {
+      "q": "How many carbons from the original 6-carbon glucose molecule are removed during the total breakdown of its two pyruvates?",
+      "options": [
+        "One carbon",
+        "Two carbons",
+        "Three carbons",
+        "All six carbons"
+      ],
+      "answer": 1,
+      "source_id": "s6",
+      "hint": "Since glycolysis yields two pyruvate molecules, Step 1 proceeds twice.",
+      "explanation": "Two pyruvates each lose one carbon dioxide, meaning two carbons out of the original six are removed."
+    },
+    {
+      "q": "Which enzyme complex coordinates the initial decarboxylation and binding of the hydroxyethyl group?",
+      "options": [
+        "ATP Synthase",
+        "Pyruvate dehydrogenase",
+        "Hexokinase",
+        "Phosphofructokinase"
+      ],
+      "answer": 1,
+      "source_id": "s4",
+      "hint": "Look for the enzyme explicitly bound to the two-carbon group.",
+      "explanation": "The reaction produces a two-carbon hydroxyethyl group bound directly to pyruvate dehydrogenase."
+    }
+  ],
+  "diagram_alt_text": "Diagram (Figure 7.10) illustrating the three-step breakdown of pyruvate. Pyruvate enters from the cytosol across the outer and inner membranes into the mitochondrial matrix via a pyruvate carrier protein. Step 1 shows CO2 being released. Step 2 shows NAD+ picking up electrons to form NADH and H+. Step 3 shows Coenzyme A attaching to form Acetyl CoA."
 }

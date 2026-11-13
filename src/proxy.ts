@@ -1,14 +1,20 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-// Refreshes the Supabase session cookie and redirects signed-out users to /login.
+// Refreshes the Supabase session cookie and redirects signed-out users to /login when Supabase is enabled.
 export async function proxy(request: NextRequest) {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  // Gracefully allow local/demo mode if Supabase keys are not set
+  if (!url || !key || !url.startsWith("http")) {
+    return NextResponse.next({ request });
+  }
+
   let response = NextResponse.next({ request });
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
+  try {
+    const supabase = createServerClient(url, key, {
       cookies: {
         getAll: () => request.cookies.getAll(),
         setAll(toSet) {
@@ -17,20 +23,24 @@ export async function proxy(request: NextRequest) {
           toSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
         },
       },
-    },
-  );
+    });
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  const isLogin = request.nextUrl.pathname.startsWith("/login");
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    const isLogin = request.nextUrl.pathname.startsWith("/login");
 
-  if (!user && !isLogin) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    if (!user && !isLogin) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+    if (user && isLogin) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  } catch {
+    // If Supabase request fails, allow pass-through
+    return response;
   }
-  if (user && isLogin) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+
   return response;
 }
 

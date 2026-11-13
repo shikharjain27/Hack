@@ -3,30 +3,28 @@ import { Type } from "@google/genai";
 const str = { type: Type.STRING };
 const strArr = { type: Type.ARRAY, items: str };
 
+const sentence = {
+  type: Type.OBJECT,
+  properties: { id: str, text: str },
+  required: ["id", "text"],
+  propertyOrdering: ["id", "text"],
+};
 const levelSentence = {
   type: Type.OBJECT,
   properties: { id: str, text: str, source_ids: strArr },
   required: ["id", "text", "source_ids"],
   propertyOrdering: ["id", "text", "source_ids"],
 };
-const levelArr = { type: Type.ARRAY, items: levelSentence };
+const level = { type: Type.ARRAY, items: levelSentence };
 
 export const transformSchema = {
   type: Type.OBJECT,
   properties: {
     title: str,
-    source_sentences: {
-      type: Type.ARRAY,
-      items: {
-        type: Type.OBJECT,
-        properties: { id: str, text: str },
-        required: ["id", "text"],
-        propertyOrdering: ["id", "text"],
-      },
-    },
+    source_sentences: { type: Type.ARRAY, items: sentence },
     levels: {
       type: Type.OBJECT,
-      properties: { expert: levelArr, grade10: levelArr, grade6: levelArr },
+      properties: { expert: level, grade10: level, grade6: level },
       required: ["expert", "grade10", "grade6"],
       propertyOrdering: ["expert", "grade10", "grade6"],
     },
@@ -68,9 +66,16 @@ export const transformSchema = {
       type: Type.ARRAY,
       items: {
         type: Type.OBJECT,
-        properties: { q: str, options: strArr, answer: { type: Type.INTEGER }, source_id: str },
+        properties: {
+          q: str,
+          options: strArr,
+          answer: { type: Type.INTEGER },
+          source_id: str,
+          hint: str,
+          explanation: str,
+        },
         required: ["q", "options", "answer", "source_id"],
-        propertyOrdering: ["q", "options", "answer", "source_id"],
+        propertyOrdering: ["q", "options", "answer", "source_id", "hint", "explanation"],
       },
     },
     diagram_alt_text: str,
@@ -79,16 +84,19 @@ export const transformSchema = {
   propertyOrdering: ["title", "source_sentences", "levels", "glossary", "concept_map", "quiz", "diagram_alt_text"],
 };
 
-const verdict = {
-  type: Type.OBJECT,
-  properties: { id: str, faithful: { type: Type.BOOLEAN }, dropped_facts: strArr, note: str },
-  required: ["id", "faithful", "dropped_facts", "note"],
-  propertyOrdering: ["id", "faithful", "dropped_facts", "note"],
-};
-
 export const verifySchema = {
   type: Type.OBJECT,
-  properties: { verdicts: { type: Type.ARRAY, items: verdict } },
+  properties: {
+    verdicts: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: { id: str, faithful: { type: Type.BOOLEAN }, dropped_facts: strArr, note: str },
+        required: ["id", "faithful", "dropped_facts", "note"],
+        propertyOrdering: ["id", "faithful", "dropped_facts", "note"],
+      },
+    },
+  },
   required: ["verdicts"],
   propertyOrdering: ["verdicts"],
 };

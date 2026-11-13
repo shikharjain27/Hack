@@ -1,0 +1,89 @@
+{
+  "verdicts": [
+    {
+      "id": "g1",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "The simplified text accurately summarizes the sources."
+    },
+    {
+      "id": "g2",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "The sentence accurately reflects all facts from the source."
+    },
+    {
+      "id": "g3",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "The sentence accurately reflects all facts from the source."
+    },
+    {
+      "id": "g4",
+      "faithful": false,
+      "dropped_facts": [
+        "the original glucose molecule contains six carbons"
+      ],
+      "note": "The simplified sentence drops the detail that original glucose has six carbons."
+    },
+    {
+      "id": "g5",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "The sentence accurately reflects all facts from the source."
+    },
+    {
+      "id": "g6",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "The sentence accurately reflects all facts from the source."
+    },
+    {
+      "id": "k1",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "The sentence accurately reflects the cited sources."
+    },
+    {
+      "id": "k2",
+      "faithful": false,
+      "dropped_facts": [
+        "a carboxyl group is removed from pyruvate"
+      ],
+      "note": "The sentence omits that it is a carboxyl group being removed."
+    },
+    {
+      "id": "k3",
+      "faithful": false,
+      "dropped_facts": [
+        "the two-carbon piece is a hydroxyethyl group",
+        "the enzyme is pyruvate dehydrogenase"
+      ],
+      "note": "The sentence omits the name of the hydroxyethyl group and the specific enzyme pyruvate dehydrogenase."
+    },
+    {
+      "id": "k4",
+      "faithful": false,
+      "dropped_facts": [
+        "two of the six carbons from glucose are removed"
+      ],
+      "note": "The sentence drops the fact that two of the six carbons are removed."
+    },
+    {
+      "id": "k5",
+      "faithful": false,
+      "dropped_facts": [
+        "hydroxyethyl group is oxidized to an acetyl group"
+      ],
+      "note": "The sentence omits the oxidation of the hydroxyethyl group to an acetyl group."
+    },
+    {
+      "id": "k6",
+      "faithful": false,
+      "dropped_facts": [
+        "an acetyl group is transferred to CoA"
+      ],
+      "note": "The sentence omits the specific name of the acetyl group."
+    }
+  ]
+}

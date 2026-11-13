@@ -3,7 +3,14 @@ export interface LevelSentence { id: string; text: string; source_ids: string[] 
 export interface GlossaryItem { term: string; plain: string; emoji: string }
 export interface ConceptNode { id: string; label: string }
 export interface ConceptEdge { from: string; to: string; label: string }
-export interface QuizItem { q: string; options: string[]; answer: number; source_id: string }
+export interface QuizItem {
+  q: string;
+  options: string[];
+  answer: number;
+  source_id: string;
+  hint?: string;
+  explanation?: string;
+}
 export interface TransformResult {
   title: string;
   source_sentences: Sentence[];
@@ -26,6 +33,9 @@ export interface StudentProfile {
   preferred_level: ReadingLevel;
   dyslexia_font: boolean;
   tts_speed: number;
+  quiz_score?: number; // total correct answers
+  quiz_total?: number; // total questions attempted
+  quiz_history?: { date: string; title: string; score: number; total: number; percentage: number }[];
   created_at: string;
   updated_at: string;
 }

@@ -15,6 +15,7 @@ import QuizCards from "@/components/QuizCards";
 import Flashcards from "@/components/Flashcards";
 import AskPanel from "@/components/AskPanel";
 import SourcePanel from "@/components/SourcePanel";
+import { SAMPLE_TEXT } from "@/lib/sample";
 import { computeMetrics } from "@/lib/readability";
 import { toMarkdown, downloadText } from "@/lib/export";
 import { loadHistory, saveHistory, type HistoryEntry } from "@/lib/history";
@@ -36,6 +37,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<TransformResult | null>(null);
   const [cached, setCached] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [level, setLevel] = useState<LevelKey>("expert");
   const [verdicts, setVerdicts] = useState<Record<string, Verdict>>({});
   const [verifying, setVerifying] = useState(false);
@@ -118,6 +120,7 @@ export default function Home() {
   async function run() {
     setLoading(true);
     setCached(false);
+    setError(null);
     const mock = new URLSearchParams(window.location.search).get("mock") === "1";
     let data: TransformResult | null = null;
     let useMock = mock;
@@ -131,13 +134,20 @@ export default function Home() {
       if (!res.ok) throw new Error("transform failed");
       data = await res.json();
     } catch {
-      try {
-        const res = await fetch("/api/transform?mock=1", { method: "POST" });
-        data = await res.json();
-        useMock = true;
-        fell = true;
-        setCached(true);
-      } catch { /* nothing more we can do */ }
+      // The saved example is only a stand-in for the built-in sample. Never pass it off as the user's own text.
+      const isSample = text.trim() === SAMPLE_TEXT.trim();
+      if (isSample) {
+        try {
+          const res = await fetch("/api/transform?mock=1", { method: "POST" });
+          data = await res.json();
+          useMock = true;
+          fell = true;
+          setCached(true);
+        } catch { /* nothing more we can do */ }
+      } else {
+        setResult(null);
+        setError("The AI is busy right now, so your text could not be processed. Nothing was changed. Please try again in a moment.");
+      }
     }
     if (data) {
       show(data);
@@ -228,6 +238,12 @@ export default function Home() {
             <div className="card space-y-3 p-6">
               <div className="flex items-center gap-2 text-sm text-indigo-700"><Loader2 className="animate-spin" size={16} /> Reading the page and building your study kit…</div>
               {[100, 92, 96, 70].map((w, i) => <div key={i} className="h-5 animate-pulse rounded bg-indigo-50" style={{ width: `${w}%` }} />)}
+            </div>
+          )}
+          {!loading && error && (
+            <div className="card fade-in mb-4 flex items-center justify-between gap-3 border-red-200 bg-red-50 p-4 text-sm text-red-800">
+              <span>{error}</span>
+              <button onClick={run} className="btn-primary shrink-0 px-3 py-1.5 text-xs">Try again</button>
             </div>
           )}
           {!loading && !result && (

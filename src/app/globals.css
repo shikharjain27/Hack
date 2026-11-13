@@ -1,31 +1,66 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --background: #f6f5ff;
+  --foreground: #1e1b4b;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(900px 400px at 85% -10%, #e0e7ff 0%, transparent 60%),
+    radial-gradient(700px 400px at -5% 10%, #fae8ff 0%, transparent 55%),
+    var(--background);
+  background-attachment: fixed;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
+.card {
+  background: #fff;
+  border: 1px solid #e5e7f5;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgb(30 27 75 / 0.04), 0 8px 24px -12px rgb(79 70 229 / 0.15);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #fff;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 6px 16px -6px rgb(79 70 229 / 0.6);
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+}
+.btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 10px 20px -8px rgb(79 70 229 / 0.7); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-ghost {
+  background: #fff;
+  border: 1px solid #dcdcf0;
+  border-radius: 0.75rem;
+  transition: background 0.15s;
+}
+.btn-ghost:hover { background: #f1f0ff; }
+
 @keyframes fadein {
-  from { opacity: 0.2; }
-  to { opacity: 1; }
+  from { opacity: 0.2; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+.fade-in { animation: fadein 0.35s ease; }
+
+.flip { perspective: 900px; }
+.flip-inner { transition: transform 0.5s; transform-style: preserve-3d; position: relative; }
+.flip-inner.flipped { transform: rotateY(180deg); }
+.flip-face { backface-visibility: hidden; position: absolute; inset: 0; }
+.flip-back { transform: rotateY(180deg); }
+
+@media print {
+  body { background: #fff; }
+  .no-print { display: none !important; }
 }

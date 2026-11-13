@@ -10,7 +10,7 @@ function Gauge({ label, value, ghost, max, unit }: { label: string; value: numbe
   const [gx1, gy1] = pt(angle(ghost), 38);
   const [gx2, gy2] = pt(angle(ghost), 52);
   return (
-    <div className="flex flex-col items-center rounded-lg border border-zinc-200 bg-white p-3">
+    <div className="flex flex-col items-center card p-3">
       <svg viewBox="0 0 120 70" className="w-full">
         <path d="M 10 60 A 50 50 0 0 1 110 60" fill="none" stroke="#e4e4e7" strokeWidth="10" />
         <line x1={gx1} y1={gy1} x2={gx2} y2={gy2} stroke="#a1a1aa" strokeWidth="2" strokeDasharray="2 2" />

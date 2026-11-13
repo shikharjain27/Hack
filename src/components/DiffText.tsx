@@ -64,7 +64,7 @@ export default function DiffText({
     });
   }
   return (
-    <p key={level} className="animate-[fadein_0.4s_ease] rounded-lg border border-zinc-200 bg-white p-4 leading-relaxed">
+    <p key={level} className="animate-[fadein_0.4s_ease] card p-4 leading-relaxed">
       {current.map((s, i) => (
         <span
           key={s.id}

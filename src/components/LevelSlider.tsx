@@ -7,7 +7,7 @@ export const LEVEL_LABELS: Record<LevelKey, string> = { expert: "Expert", grade1
 export default function LevelSlider({ level, onChange }: { level: LevelKey; onChange: (l: LevelKey) => void }) {
   const idx = LEVELS.indexOf(level);
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white p-4">
+    <div className="card p-4">
       <input
         type="range" min={0} max={2} step={1} value={idx}
         onChange={(e) => onChange(LEVELS[Number(e.target.value)])}

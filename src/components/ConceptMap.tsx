@@ -26,7 +26,7 @@ export default function ConceptMap({
   }, [nodes, edges]);
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full rounded-lg border border-zinc-200 bg-white">
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full card">
       {layout.links.map((l, i) => {
         const a = layout.pos.get(l.from)!;
         const b = layout.pos.get(l.to)!;

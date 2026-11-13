@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Play, Pause, Type } from "lucide-react";
 
-export default function KaraokePlayer({ text }: { text: string }) {
+export default function KaraokePlayer({ text, lang }: { text: string; lang?: string }) {
   const [playing, setPlaying] = useState(false);
   const [rate, setRate] = useState(1);
   const [active, setActive] = useState(-1);
@@ -24,6 +24,7 @@ export default function KaraokePlayer({ text }: { text: string }) {
     if (playing) { synth.cancel(); setPlaying(false); setActive(-1); return; }
     const u = new SpeechSynthesisUtterance(text);
     u.rate = rate;
+    if (lang) u.lang = lang;
     u.onboundary = (e) => {
       const i = words.findIndex((w) => e.charIndex >= w.start && e.charIndex < w.start + w.w.length + 1);
       if (i >= 0) setActive(i);
@@ -36,9 +37,9 @@ export default function KaraokePlayer({ text }: { text: string }) {
   }
 
   return (
-    <div className="space-y-2 rounded-lg border border-zinc-200 bg-white p-4">
+    <div className="space-y-2 card p-4">
       <div className="flex items-center gap-3">
-        <button onClick={speak} className="flex items-center gap-1 rounded-lg bg-indigo-600 px-3 py-1.5 text-sm text-white">
+        <button onClick={speak} className="flex items-center gap-1 rounded-lg btn-primary px-3 py-1.5 text-sm">
           {playing ? <Pause size={16} /> : <Play size={16} />} {playing ? "Stop" : "Listen"}
         </button>
         <select value={rate} onChange={(e) => setRate(Number(e.target.value))} className="rounded border border-zinc-300 px-2 py-1 text-sm" aria-label="Speed">

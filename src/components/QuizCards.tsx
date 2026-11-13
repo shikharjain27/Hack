@@ -11,7 +11,7 @@ export default function QuizCards({ items, onWrong }: { items: QuizItem[]; onWro
         const p = picked[qi];
         const done = p !== undefined;
         return (
-          <div key={qi} className="rounded-lg border border-zinc-200 bg-white p-4">
+          <div key={qi} className="card p-4">
             <div className="mb-2 font-semibold">{qi + 1}. {q.q}</div>
             <div className="grid gap-2">
               {q.options.map((o, oi) => {

@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { Kanit } from "next/font/google";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import type { StudentProfile } from "@/lib/types";
 import { updateProfile } from "./actions";
@@ -17,6 +18,7 @@ async function ProfilePageContent({
   searchParams: Promise<{ saved?: string; error?: string }>;
 }) {
   const { saved, error } = await searchParams;
+  await connection(); // Supabase's session check uses Date.now()
   const supabase = await createClient();
   const {
     data: { user },

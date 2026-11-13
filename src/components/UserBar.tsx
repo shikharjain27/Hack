@@ -1,9 +1,12 @@
 import Link from "next/link";
+import { connection } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "@/app/login/actions";
 
 // Server component: renders nothing when signed out (e.g. on /login).
 export default async function UserBar() {
+  // Supabase's session check uses Date.now(); opt out of prerendering first.
+  await connection();
   const supabase = await createClient();
   const {
     data: { user },

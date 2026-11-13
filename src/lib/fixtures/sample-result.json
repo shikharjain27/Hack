@@ -1,0 +1,388 @@
+{
+  "title": "The Tricarboxylic Acid (Krebs) Cycle",
+  "source_sentences": [
+    {
+      "id": "s1",
+      "text": "The tricarboxylic acid cycle, also termed the Krebs cycle, constitutes the central oxidative pathway of aerobic metabolism and occurs within the mitochondrial matrix."
+    },
+    {
+      "id": "s2",
+      "text": "Acetyl-CoA, derived from the catabolism of carbohydrates, fatty acids and amino acids, condenses with oxaloacetate to yield citrate, a six-carbon tricarboxylic acid."
+    },
+    {
+      "id": "s3",
+      "text": "Through a sequence of isomerisation, decarboxylation and dehydrogenation reactions, citrate is progressively converted back to oxaloacetate, thereby regenerating the acceptor molecule."
+    },
+    {
+      "id": "s4",
+      "text": "Each turn of the cycle liberates 2 CO₂ and generates 3 NADH, 1 FADH₂ and 1 GTP by substrate-level phosphorylation."
+    },
+    {
+      "id": "s5",
+      "text": "Because one glucose molecule yields two acetyl-CoA, two turns are required per glucose."
+    },
+    {
+      "id": "s6",
+      "text": "The reduced coenzymes NADH and FADH₂ subsequently donate their electrons to the electron transport chain, where oxidative phosphorylation drives the synthesis of the majority of cellular ATP."
+    },
+    {
+      "id": "s7",
+      "text": "Isocitrate dehydrogenase and α-ketoglutarate dehydrogenase are key regulatory enzymes, allosterically inhibited by high ratios of ATP to ADP and NADH to NAD⁺, which couples the flux of the cycle to the energetic demands of the cell."
+    }
+  ],
+  "levels": {
+    "expert": [
+      {
+        "id": "e1",
+        "text": "The tricarboxylic acid (Krebs) cycle serves as the central oxidative pathway of aerobic metabolism inside the mitochondrial matrix.",
+        "source_ids": [
+          "s1"
+        ]
+      },
+      {
+        "id": "e2",
+        "text": "Acetyl-CoA, produced from carbohydrate, fatty acid, and amino acid breakdown, condenses with oxaloacetate to form six-carbon citrate.",
+        "source_ids": [
+          "s2"
+        ]
+      },
+      {
+        "id": "e3",
+        "text": "A series of isomerisation, decarboxylation, and dehydrogenation reactions gradually convert citrate back into oxaloacetate to regenerate the acceptor molecule.",
+        "source_ids": [
+          "s3"
+        ]
+      },
+      {
+        "id": "e4",
+        "text": "One turn of the cycle releases 2 CO₂ and yields 3 NADH, 1 FADH₂, and 1 GTP via substrate-level phosphorylation.",
+        "source_ids": [
+          "s4"
+        ]
+      },
+      {
+        "id": "e5",
+        "text": "Since a single glucose molecule generates two acetyl-CoA molecules, two complete turns are required per glucose.",
+        "source_ids": [
+          "s5"
+        ]
+      },
+      {
+        "id": "e6",
+        "text": "NADH and FADH₂ transfer their electrons to the electron transport chain, driving oxidative phosphorylation to synthesize most cellular ATP.",
+        "source_ids": [
+          "s6"
+        ]
+      },
+      {
+        "id": "e7",
+        "text": "Isocitrate dehydrogenase and α-ketoglutarate dehydrogenase regulate cycle speed through allosteric inhibition by elevated ATP/ADP and NADH/NAD⁺ ratios.",
+        "source_ids": [
+          "s7"
+        ]
+      }
+    ],
+    "grade10": [
+      {
+        "id": "g1",
+        "text": "The Krebs cycle is the main oxygen-using pathway for cell energy and takes place in the mitochondrial matrix.",
+        "source_ids": [
+          "s1"
+        ]
+      },
+      {
+        "id": "g2",
+        "text": "Acetyl-CoA from broken-down fats, sugars, and proteins combines with oxaloacetate to form citrate.",
+        "source_ids": [
+          "s2"
+        ]
+      },
+      {
+        "id": "g3",
+        "text": "Citrate goes through multiple chemical changes to reform oxaloacetate so the cycle can start again.",
+        "source_ids": [
+          "s3"
+        ]
+      },
+      {
+        "id": "g4",
+        "text": "Each turn produces 2 carbon dioxide molecules, 3 NADH, 1 FADH₂, and 1 GTP molecule.",
+        "source_ids": [
+          "s4"
+        ]
+      },
+      {
+        "id": "g5",
+        "text": "Because breaking down one glucose gives two acetyl-CoA molecules, the cycle turns twice per glucose.",
+        "source_ids": [
+          "s5"
+        ]
+      },
+      {
+        "id": "g6",
+        "text": "NADH and FADH₂ carry electrons to the electron transport chain, which generates most of the cell's ATP.",
+        "source_ids": [
+          "s6"
+        ]
+      },
+      {
+        "id": "g7",
+        "text": "Key enzymes control the cycle's speed and slow down when cell energy levels like ATP and NADH are high.",
+        "source_ids": [
+          "s7"
+        ]
+      }
+    ],
+    "grade6": [
+      {
+        "id": "k1",
+        "text": "The Krebs cycle helps cells turn food into usable energy.",
+        "source_ids": [
+          "s1"
+        ]
+      },
+      {
+        "id": "k2",
+        "text": "This energy cycle happens inside the mitochondria of the cell.",
+        "source_ids": [
+          "s1"
+        ]
+      },
+      {
+        "id": "k3",
+        "text": "Acetyl-CoA comes from breaking down food like sugars and fats.",
+        "source_ids": [
+          "s2"
+        ]
+      },
+      {
+        "id": "k4",
+        "text": "Acetyl-CoA joins oxaloacetate to form a molecule named citrate.",
+        "source_ids": [
+          "s2"
+        ]
+      },
+      {
+        "id": "k5",
+        "text": "Citrate changes step by step back into oxaloacetate.",
+        "source_ids": [
+          "s3"
+        ]
+      },
+      {
+        "id": "k6",
+        "text": "Each turn releases two carbon dioxide molecules into the cell.",
+        "source_ids": [
+          "s4"
+        ]
+      },
+      {
+        "id": "k7",
+        "text": "Each turn also creates three NADH and one FADH2 molecule.",
+        "source_ids": [
+          "s4"
+        ]
+      },
+      {
+        "id": "k8",
+        "text": "One GTP molecule forms during each turn of the cycle.",
+        "source_ids": [
+          "s4"
+        ]
+      },
+      {
+        "id": "k9",
+        "text": "One sugar molecule powers two full turns of the cycle.",
+        "source_ids": [
+          "s5"
+        ]
+      },
+      {
+        "id": "k10",
+        "text": "NADH and FADH2 help make most of the cell's ATP.",
+        "source_ids": [
+          "s6"
+        ]
+      },
+      {
+        "id": "k11",
+        "text": "Special control proteins regulate how fast the cycle runs.",
+        "source_ids": [
+          "s7"
+        ]
+      },
+      {
+        "id": "k12",
+        "text": "High energy levels slow down the entire cycle when needed.",
+        "source_ids": [
+          "s7"
+        ]
+      }
+    ]
+  },
+  "glossary": [
+    {
+      "term": "Krebs cycle",
+      "plain": "A series of chemical reactions in cells that burns nutrients to make energy molecules.",
+      "emoji": "🔄"
+    },
+    {
+      "term": "Mitochondrial matrix",
+      "plain": "The inner space of the mitochondrion where the Krebs cycle takes place.",
+      "emoji": "⚡"
+    },
+    {
+      "term": "Acetyl-CoA",
+      "plain": "A small molecule made from digested food that feeds into the Krebs cycle.",
+      "emoji": "🔑"
+    },
+    {
+      "term": "Oxaloacetate",
+      "plain": "The starting and ending molecule of the Krebs cycle that binds acetyl-CoA.",
+      "emoji": "🧩"
+    },
+    {
+      "term": "NADH / FADH₂",
+      "plain": "Electron-carrying helper molecules that transport energy to make ATP later.",
+      "emoji": "🔋"
+    },
+    {
+      "term": "Substrate-level phosphorylation",
+      "plain": "A direct chemical reaction that makes energy molecules like GTP or ATP.",
+      "emoji": "🧪"
+    },
+    {
+      "term": "Oxidative phosphorylation",
+      "plain": "The process of making ATP using electrons carried to the electron transport chain.",
+      "emoji": "⚙️"
+    },
+    {
+      "term": "Allosteric inhibition",
+      "plain": "The slowing down of an enzyme when a molecule binds to it and changes its shape.",
+      "emoji": "🛑"
+    }
+  ],
+  "concept_map": {
+    "nodes": [
+      {
+        "id": "n1",
+        "label": "Carbohydrates, Fats, & Amino Acids"
+      },
+      {
+        "id": "n2",
+        "label": "Acetyl-CoA"
+      },
+      {
+        "id": "n3",
+        "label": "Oxaloacetate"
+      },
+      {
+        "id": "n4",
+        "label": "Citrate"
+      },
+      {
+        "id": "n5",
+        "label": "CO₂"
+      },
+      {
+        "id": "n6",
+        "label": "NADH & FADH₂"
+      },
+      {
+        "id": "n7",
+        "label": "GTP"
+      },
+      {
+        "id": "n8",
+        "label": "Electron Transport Chain"
+      },
+      {
+        "id": "n9",
+        "label": "ATP"
+      }
+    ],
+    "edges": [
+      {
+        "from": "n1",
+        "to": "n2",
+        "label": "broken down into"
+      },
+      {
+        "from": "n2",
+        "to": "n4",
+        "label": "condenses with oxaloacetate to form"
+      },
+      {
+        "from": "n3",
+        "to": "n4",
+        "label": "combines with acetyl-CoA to form"
+      },
+      {
+        "from": "n4",
+        "to": "n3",
+        "label": "regenerates back to"
+      },
+      {
+        "from": "n4",
+        "to": "n5",
+        "label": "releases"
+      },
+      {
+        "from": "n4",
+        "to": "n6",
+        "label": "generates"
+      },
+      {
+        "from": "n4",
+        "to": "n7",
+        "label": "produces"
+      },
+      {
+        "from": "n6",
+        "to": "n8",
+        "label": "donates electrons to"
+      },
+      {
+        "from": "n8",
+        "to": "n9",
+        "label": "drives synthesis of"
+      }
+    ]
+  },
+  "quiz": [
+    {
+      "q": "Where in the cell does the tricarboxylic acid cycle take place?",
+      "options": [
+        "Lysosomal lumen",
+        "Mitochondrial matrix",
+        "Cytosol",
+        "Endoplasmic reticulum"
+      ],
+      "answer": 1,
+      "source_id": "s1"
+    },
+    {
+      "q": "How many turns of the Krebs cycle occur for each molecule of glucose?",
+      "options": [
+        "One turn",
+        "Two turns",
+        "Three turns",
+        "Four turns"
+      ],
+      "answer": 1,
+      "source_id": "s5"
+    },
+    {
+      "q": "Which molecules allosterically inhibit the key regulatory enzymes of the cycle when present in high ratios?",
+      "options": [
+        "ADP and NAD⁺",
+        "ATP and NADH",
+        "Glucose and Pyruvate",
+        "CO₂ and GTP"
+      ],
+      "answer": 1,
+      "source_id": "s7"
+    }
+  ],
+  "diagram_alt_text": ""
+}

@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { generateJSON } from "@/lib/gemini";
 import { verifySchema } from "@/lib/schema";
+import { validateVerify } from "@/lib/validate";
 import type { TransformResult, VerifyResult } from "@/lib/types";
 
 const SYSTEM_PROMPT = `You are a strict fact-checker for simplified textbook text.
@@ -25,7 +26,7 @@ export async function POST(req: Request) {
       grade10: body.levels.grade10,
       grade6: body.levels.grade6,
     });
-    const result = await generateJSON<VerifyResult>([{ text: payload }], verifySchema, SYSTEM_PROMPT);
+    const result = await generateJSON<VerifyResult>([{ text: payload }], verifySchema, SYSTEM_PROMPT, validateVerify);
     return NextResponse.json(result);
   } catch (e) {
     return NextResponse.json({ error: e instanceof Error ? e.message : "Verify failed" }, { status: 500 });

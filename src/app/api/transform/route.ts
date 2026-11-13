@@ -4,6 +4,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { generateJSON } from "@/lib/gemini";
 import { transformSchema } from "@/lib/schema";
+import { validateTransform } from "@/lib/validate";
 import type { TransformResult } from "@/lib/types";
 
 const SYSTEM_PROMPT = `You turn a dense textbook passage (text or a photo of a page) into accessible learning material.
@@ -40,7 +41,7 @@ export async function POST(req: Request) {
       parts.push({ inlineData: { data: body.imageBase64, mimeType: body.mimeType || "image/jpeg" } });
     }
     parts.push({ text: text || "Transcribe and transform the textbook page in the image." });
-    const result = await generateJSON<TransformResult>(parts, transformSchema, SYSTEM_PROMPT);
+    const result = await generateJSON<TransformResult>(parts, transformSchema, SYSTEM_PROMPT, validateTransform);
     return NextResponse.json(result);
   } catch (e) {
     return NextResponse.json({ error: e instanceof Error ? e.message : "Transform failed" }, { status: 500 });

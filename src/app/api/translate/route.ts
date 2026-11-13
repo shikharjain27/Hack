@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Type } from "@google/genai";
 import { generateJSON } from "@/lib/gemini";
+import { validateTranslate } from "@/lib/validate";
 
 const schema = {
   type: Type.OBJECT,
@@ -30,7 +31,7 @@ export async function POST(req: Request) {
     }
     const system = `Translate each sentence into ${body.language}. Keep the same ids, the same order, the same simple reading level, and keep numbers, chemical formulas and acronyms (e.g. NADH, CO₂) unchanged. Return one translated sentence per input sentence.`;
     const result = await generateJSON<{ sentences: { id: string; text: string }[] }>(
-      [{ text: JSON.stringify(body.sentences) }], schema, system,
+      [{ text: JSON.stringify(body.sentences) }], schema, system, validateTranslate,
     );
     return NextResponse.json(result);
   } catch (e) {

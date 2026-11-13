@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Type } from "@google/genai";
 import { generateJSON } from "@/lib/gemini";
+import { validateChat } from "@/lib/validate";
 import type { Sentence } from "@/lib/types";
 
 const schema = {
@@ -32,7 +33,7 @@ export async function POST(req: Request) {
     const sources = body.source_sentences.map((s) => `[${s.id}] ${s.text}`).join("\n");
     const hist = (body.history ?? []).slice(-6).map((h) => `${h.role}: ${h.text}`).join("\n");
     const prompt = `Reading level: ${body.level ?? "Grade 6"}\n\nSOURCES:\n${sources}\n\n${hist ? `CONVERSATION SO FAR:\n${hist}\n\n` : ""}QUESTION: ${body.question.trim()}`;
-    const result = await generateJSON<{ answer: string; source_ids: string[] }>([{ text: prompt }], schema, SYSTEM);
+    const result = await generateJSON<{ answer: string; source_ids: string[] }>([{ text: prompt }], schema, SYSTEM, validateChat);
     return NextResponse.json(result);
   } catch (e) {
     return NextResponse.json({ error: e instanceof Error ? e.message : "Chat failed" }, { status: 500 });

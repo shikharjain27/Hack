@@ -1,4 +1,5 @@
 import { GoogleGenAI, type Part } from "@google/genai";
+import { activeBackups, cleanJson } from "./backup";
 
 // gemini-2.5-flash (the plan's model) is no longer available to new keys, and any single model
 // can be overloaded (503), so we walk down a chain of models until one answers.
@@ -12,6 +13,9 @@ const CHAIN = [
   "gemini-2.5-flash-lite",
 ].filter((m, i, a): m is string => !!m && a.indexOf(m) === i);
 
+// Order: first two Gemini models, then backup providers (if keys exist), then the rest of the Gemini chain.
+const EARLY = 2;
+
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const statusOf = (e: unknown): number => {
   const s = (e as { status?: number; code?: number })?.status ?? (e as { code?: number })?.code;
@@ -22,47 +26,78 @@ const statusOf = (e: unknown): number => {
 
 export interface GenOptions { json?: boolean; schema?: object; timeoutMs?: number }
 
-/** Runs one request against the model chain with retries. Returns raw text. */
-export async function generateText(parts: Part[], systemInstruction: string, opts: GenOptions = {}): Promise<string> {
-  const apiKey = process.env.GOOGLE_API_KEY;
-  if (!apiKey) throw new Error("GOOGLE_API_KEY is not set");
-  const ai = new GoogleGenAI({ apiKey });
-  let lastErr: unknown = new Error("No model available");
+type Source = { label: string; run: () => Promise<string> };
 
-  for (const model of CHAIN) {
-    let thinkingOff = true;
-    for (let attempt = 0; attempt < 2; attempt++) {
-      // a second attempt is only used after dropping the thinking config (400); overloads move to the next model
-      try {
-        const res = await ai.models.generateContent({
-          model,
-          contents: [{ role: "user", parts }],
-          config: {
-            systemInstruction,
-            ...(opts.json ? { responseMimeType: "application/json", responseSchema: opts.schema } : {}),
-            ...(thinkingOff ? { thinkingConfig: { thinkingBudget: 0 } } : {}),
-            abortSignal: AbortSignal.timeout(opts.timeoutMs ?? 25_000),
-          },
-        });
-        const text = res.text;
-        if (!text) throw new Error("Empty response from Gemini");
-        console.log(`[gemini] ${model} ok`);
-        return text;
-      } catch (e) {
-        lastErr = e;
-        const st = statusOf(e);
-        console.log(`[gemini] ${model} attempt ${attempt + 1} failed (${st || (e as Error).name})`);
-        if (st === 400 && thinkingOff) { thinkingOff = false; attempt--; continue; } // model rejects thinkingBudget:0
-        if (st === 404 || st === 403) break; // model not available to this key: next model
-        if (st === 429 || st === 500 || st === 503 || st === 0) { await sleep(300); break; } // overloaded: next model
-        break;
+function geminiSource(ai: GoogleGenAI, model: string, parts: Part[], system: string, opts: GenOptions): Source {
+  return {
+    label: model,
+    async run() {
+      let thinkingOff = true;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const res = await ai.models.generateContent({
+            model,
+            contents: [{ role: "user", parts }],
+            config: {
+              systemInstruction: system,
+              ...(opts.json ? { responseMimeType: "application/json", responseSchema: opts.schema } : {}),
+              ...(thinkingOff ? { thinkingConfig: { thinkingBudget: 0 } } : {}),
+              abortSignal: AbortSignal.timeout(opts.timeoutMs ?? 25_000),
+            },
+          });
+          if (!res.text) throw new Error("Empty response from Gemini");
+          return res.text;
+        } catch (e) {
+          if (statusOf(e) === 400 && thinkingOff) { thinkingOff = false; continue; } // model rejects thinkingBudget:0
+          throw e;
+        }
       }
-    }
-  }
-  throw lastErr instanceof Error ? lastErr : new Error("Gemini request failed");
+      throw new Error("unreachable");
+    },
+  };
 }
 
-export async function generateJSON<T>(parts: Part[], schema: object, systemInstruction: string): Promise<T> {
-  const text = await generateText(parts, systemInstruction, { json: true, schema });
-  return JSON.parse(text) as T;
+/** Tries each source in order; `accept` parses/validates the text, and a rejection moves on to the next source. */
+async function runSources<T>(sources: Source[], accept: (text: string) => T): Promise<T> {
+  let lastErr: unknown = new Error("No model available");
+  for (const s of sources) {
+    try {
+      const out = accept(await s.run());
+      console.log(`[llm] ${s.label} ok`);
+      return out;
+    } catch (e) {
+      lastErr = e;
+      const st = statusOf(e);
+      console.log(`[llm] ${s.label} failed (${st || (e as Error).message?.slice(0, 80)})`);
+      if (st === 429 || st === 500 || st === 503) await sleep(200);
+    }
+  }
+  throw lastErr instanceof Error ? lastErr : new Error("All AI providers failed");
+}
+
+function buildSources(parts: Part[], system: string, opts: GenOptions): Source[] {
+  const apiKey = process.env.GOOGLE_API_KEY;
+  const gem: Source[] = apiKey
+    ? CHAIN.map((m) => geminiSource(new GoogleGenAI({ apiKey }), m, parts, system, opts))
+    : [];
+  const backups: Source[] = activeBackups().map((b) => ({
+    label: b.name,
+    run: () => b.call(parts, system, opts.json ? opts.schema : undefined, AbortSignal.timeout(60_000)),
+  }));
+  if (!gem.length && !backups.length) throw new Error("No AI provider configured: set GOOGLE_API_KEY in .env");
+  return [...gem.slice(0, EARLY), ...backups, ...gem.slice(EARLY)];
+}
+
+export async function generateText(parts: Part[], systemInstruction: string, opts: GenOptions = {}): Promise<string> {
+  return runSources(buildSources(parts, systemInstruction, opts), (t) => t);
+}
+
+export async function generateJSON<T>(
+  parts: Part[], schema: object, systemInstruction: string, validate?: (value: unknown) => void,
+): Promise<T> {
+  return runSources(buildSources(parts, systemInstruction, { json: true, schema }), (text) => {
+    const value = JSON.parse(cleanJson(text));
+    validate?.(value); // throws if a provider returned the wrong shape, so the next provider is tried
+    return value as T;
+  });
 }

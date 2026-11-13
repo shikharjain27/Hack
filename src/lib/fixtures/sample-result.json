@@ -1,388 +1,321 @@
 {
-  "title": "The Tricarboxylic Acid (Krebs) Cycle",
+  "title": "Breakdown of Pyruvate",
   "source_sentences": [
     {
       "id": "s1",
-      "text": "The tricarboxylic acid cycle, also termed the Krebs cycle, constitutes the central oxidative pathway of aerobic metabolism and occurs within the mitochondrial matrix."
+      "text": "In order for pyruvate, the product of glycolysis, to enter the next pathway, it must undergo several changes."
     },
     {
       "id": "s2",
-      "text": "Acetyl-CoA, derived from the catabolism of carbohydrates, fatty acids and amino acids, condenses with oxaloacetate to yield citrate, a six-carbon tricarboxylic acid."
+      "text": "The conversion is a three-step process (Figure 7.10)."
     },
     {
       "id": "s3",
-      "text": "Through a sequence of isomerisation, decarboxylation and dehydrogenation reactions, citrate is progressively converted back to oxaloacetate, thereby regenerating the acceptor molecule."
+      "text": "Step 1. A carboxyl group is removed from pyruvate, releasing a molecule of carbon dioxide into the surrounding medium."
     },
     {
       "id": "s4",
-      "text": "Each turn of the cycle liberates 2 CO₂ and generates 3 NADH, 1 FADH₂ and 1 GTP by substrate-level phosphorylation."
+      "text": "This reaction creates a two-carbon hydroxyethyl group bound to the enzyme (pyruvate dehydrogenase)."
     },
     {
       "id": "s5",
-      "text": "Because one glucose molecule yields two acetyl-CoA, two turns are required per glucose."
+      "text": "We should note that this is the first of the six carbons from the original glucose molecule to be removed."
     },
     {
       "id": "s6",
-      "text": "The reduced coenzymes NADH and FADH₂ subsequently donate their electrons to the electron transport chain, where oxidative phosphorylation drives the synthesis of the majority of cellular ATP."
+      "text": "(This step proceeds twice because there are two pyruvate molecules produced at the end of glycolysis for every molecule of glucose metabolized anaerobically; thus, two of the six carbons will have been removed at the end of both steps.)"
     },
     {
       "id": "s7",
-      "text": "Isocitrate dehydrogenase and α-ketoglutarate dehydrogenase are key regulatory enzymes, allosterically inhibited by high ratios of ATP to ADP and NADH to NAD⁺, which couples the flux of the cycle to the energetic demands of the cell."
+      "text": "Step 2. The hydroxyethyl group is oxidized to an acetyl group, and the electrons are picked up by NAD+, forming NADH."
+    },
+    {
+      "id": "s8",
+      "text": "Step 3. The enzyme-bound acetyl group is transferred to CoA, producing a molecule of acetyl CoA."
     }
   ],
   "levels": {
     "expert": [
       {
         "id": "e1",
-        "text": "The tricarboxylic acid (Krebs) cycle serves as the central oxidative pathway of aerobic metabolism inside the mitochondrial matrix.",
+        "text": "To enter the next pathway, pyruvate, which is the product of glycolysis, must undergo a three-step conversion process.",
         "source_ids": [
-          "s1"
-        ]
-      },
-      {
-        "id": "e2",
-        "text": "Acetyl-CoA, produced from carbohydrate, fatty acid, and amino acid breakdown, condenses with oxaloacetate to form six-carbon citrate.",
-        "source_ids": [
+          "s1",
           "s2"
         ]
       },
       {
-        "id": "e3",
-        "text": "A series of isomerisation, decarboxylation, and dehydrogenation reactions gradually convert citrate back into oxaloacetate to regenerate the acceptor molecule.",
+        "id": "e2",
+        "text": "In Step 1, a carboxyl group is removed from pyruvate, releasing carbon dioxide and creating a two-carbon hydroxyethyl group bound to pyruvate dehydrogenase.",
         "source_ids": [
-          "s3"
-        ]
-      },
-      {
-        "id": "e4",
-        "text": "One turn of the cycle releases 2 CO₂ and yields 3 NADH, 1 FADH₂, and 1 GTP via substrate-level phosphorylation.",
-        "source_ids": [
+          "s3",
           "s4"
         ]
       },
       {
-        "id": "e5",
-        "text": "Since a single glucose molecule generates two acetyl-CoA molecules, two complete turns are required per glucose.",
+        "id": "e3",
+        "text": "This represents the first of the six carbons from the original glucose molecule to be removed, occurring twice per glucose molecule as two pyruvates are formed.",
         "source_ids": [
-          "s5"
-        ]
-      },
-      {
-        "id": "e6",
-        "text": "NADH and FADH₂ transfer their electrons to the electron transport chain, driving oxidative phosphorylation to synthesize most cellular ATP.",
-        "source_ids": [
+          "s5",
           "s6"
         ]
       },
       {
-        "id": "e7",
-        "text": "Isocitrate dehydrogenase and α-ketoglutarate dehydrogenase regulate cycle speed through allosteric inhibition by elevated ATP/ADP and NADH/NAD⁺ ratios.",
+        "id": "e4",
+        "text": "In Step 2, the hydroxyethyl group is oxidized into an acetyl group, transferring electrons to NAD+ to form NADH.",
         "source_ids": [
           "s7"
+        ]
+      },
+      {
+        "id": "e5",
+        "text": "In Step 3, the enzyme-bound acetyl group is transferred to CoA, generating acetyl CoA.",
+        "source_ids": [
+          "s8"
         ]
       }
     ],
     "grade10": [
       {
         "id": "g1",
-        "text": "The Krebs cycle is the main oxygen-using pathway for cell energy and takes place in the mitochondrial matrix.",
+        "text": "Pyruvate from glycolysis must undergo three key steps before moving to the next pathway.",
         "source_ids": [
-          "s1"
-        ]
-      },
-      {
-        "id": "g2",
-        "text": "Acetyl-CoA from broken-down fats, sugars, and proteins combines with oxaloacetate to form citrate.",
-        "source_ids": [
+          "s1",
           "s2"
         ]
       },
       {
-        "id": "g3",
-        "text": "Citrate goes through multiple chemical changes to reform oxaloacetate so the cycle can start again.",
+        "id": "g2",
+        "text": "First, a carboxyl group is removed from pyruvate, releasing carbon dioxide gas.",
         "source_ids": [
           "s3"
         ]
       },
       {
-        "id": "g4",
-        "text": "Each turn produces 2 carbon dioxide molecules, 3 NADH, 1 FADH₂, and 1 GTP molecule.",
+        "id": "g3",
+        "text": "This leaves a two-carbon hydroxyethyl group attached to the enzyme pyruvate dehydrogenase.",
         "source_ids": [
           "s4"
         ]
       },
       {
-        "id": "g5",
-        "text": "Because breaking down one glucose gives two acetyl-CoA molecules, the cycle turns twice per glucose.",
+        "id": "g4",
+        "text": "Because one glucose splits into two pyruvates, this step occurs twice and removes two carbon atoms.",
         "source_ids": [
-          "s5"
-        ]
-      },
-      {
-        "id": "g6",
-        "text": "NADH and FADH₂ carry electrons to the electron transport chain, which generates most of the cell's ATP.",
-        "source_ids": [
+          "s5",
           "s6"
         ]
       },
       {
-        "id": "g7",
-        "text": "Key enzymes control the cycle's speed and slow down when cell energy levels like ATP and NADH are high.",
+        "id": "g5",
+        "text": "Second, the hydroxyethyl group is oxidized to an acetyl group, converting NAD+ to NADH.",
         "source_ids": [
           "s7"
+        ]
+      },
+      {
+        "id": "g6",
+        "text": "Finally, the acetyl group attaches to CoA, forming acetyl CoA.",
+        "source_ids": [
+          "s8"
         ]
       }
     ],
     "grade6": [
       {
         "id": "k1",
-        "text": "The Krebs cycle helps cells turn food into usable energy.",
+        "text": "Pyruvate needs three steps to get ready for the next process.",
         "source_ids": [
-          "s1"
+          "s1",
+          "s2"
         ]
       },
       {
         "id": "k2",
-        "text": "This energy cycle happens inside the mitochondria of the cell.",
-        "source_ids": [
-          "s1"
-        ]
-      },
-      {
-        "id": "k3",
-        "text": "Acetyl-CoA comes from breaking down food like sugars and fats.",
-        "source_ids": [
-          "s2"
-        ]
-      },
-      {
-        "id": "k4",
-        "text": "Acetyl-CoA joins oxaloacetate to form a molecule named citrate.",
-        "source_ids": [
-          "s2"
-        ]
-      },
-      {
-        "id": "k5",
-        "text": "Citrate changes step by step back into oxaloacetate.",
+        "text": "First, it loses carbon dioxide gas into its surroundings.",
         "source_ids": [
           "s3"
         ]
       },
       {
-        "id": "k6",
-        "text": "Each turn releases two carbon dioxide molecules into the cell.",
+        "id": "k3",
+        "text": "This leaves a small two-carbon piece attached to an enzyme.",
         "source_ids": [
           "s4"
         ]
       },
       {
-        "id": "k7",
-        "text": "Each turn also creates three NADH and one FADH2 molecule.",
+        "id": "k4",
+        "text": "Since glucose makes two pyruvates, this step happens twice.",
         "source_ids": [
-          "s4"
-        ]
-      },
-      {
-        "id": "k8",
-        "text": "One GTP molecule forms during each turn of the cycle.",
-        "source_ids": [
-          "s4"
-        ]
-      },
-      {
-        "id": "k9",
-        "text": "One sugar molecule powers two full turns of the cycle.",
-        "source_ids": [
-          "s5"
-        ]
-      },
-      {
-        "id": "k10",
-        "text": "NADH and FADH2 help make most of the cell's ATP.",
-        "source_ids": [
+          "s5",
           "s6"
         ]
       },
       {
-        "id": "k11",
-        "text": "Special control proteins regulate how fast the cycle runs.",
+        "id": "k5",
+        "text": "Next, energy electrons are added to NAD+ to make NADH.",
         "source_ids": [
           "s7"
         ]
       },
       {
-        "id": "k12",
-        "text": "High energy levels slow down the entire cycle when needed.",
+        "id": "k6",
+        "text": "Finally, the piece connects to CoA to form acetyl CoA.",
         "source_ids": [
-          "s7"
+          "s8"
         ]
       }
     ]
   },
   "glossary": [
     {
-      "term": "Krebs cycle",
-      "plain": "A series of chemical reactions in cells that burns nutrients to make energy molecules.",
-      "emoji": "🔄"
-    },
-    {
-      "term": "Mitochondrial matrix",
-      "plain": "The inner space of the mitochondrion where the Krebs cycle takes place.",
-      "emoji": "⚡"
-    },
-    {
-      "term": "Acetyl-CoA",
-      "plain": "A small molecule made from digested food that feeds into the Krebs cycle.",
-      "emoji": "🔑"
-    },
-    {
-      "term": "Oxaloacetate",
-      "plain": "The starting and ending molecule of the Krebs cycle that binds acetyl-CoA.",
-      "emoji": "🧩"
-    },
-    {
-      "term": "NADH / FADH₂",
-      "plain": "Electron-carrying helper molecules that transport energy to make ATP later.",
-      "emoji": "🔋"
-    },
-    {
-      "term": "Substrate-level phosphorylation",
-      "plain": "A direct chemical reaction that makes energy molecules like GTP or ATP.",
+      "term": "Pyruvate",
+      "plain": "A three-carbon molecule produced at the end of glycolysis.",
       "emoji": "🧪"
     },
     {
-      "term": "Oxidative phosphorylation",
-      "plain": "The process of making ATP using electrons carried to the electron transport chain.",
-      "emoji": "⚙️"
+      "term": "Glycolysis",
+      "plain": "The initial metabolic pathway that breaks down glucose to release energy.",
+      "emoji": "⚡"
     },
     {
-      "term": "Allosteric inhibition",
-      "plain": "The slowing down of an enzyme when a molecule binds to it and changes its shape.",
-      "emoji": "🛑"
+      "term": "Pyruvate dehydrogenase",
+      "plain": "An enzyme complex that helps break down pyruvate.",
+      "emoji": "🧬"
+    },
+    {
+      "term": "Carbon dioxide",
+      "plain": "A waste gas released during the breakdown of pyruvate.",
+      "emoji": "💨"
+    },
+    {
+      "term": "NADH",
+      "plain": "An energy-carrying molecule that holds high-energy electrons.",
+      "emoji": "🔋"
+    },
+    {
+      "term": "Acetyl CoA",
+      "plain": "A key molecule formed from pyruvate that enters the next stage of cellular respiration.",
+      "emoji": "🔑"
+    },
+    {
+      "term": "Coenzyme A (CoA)",
+      "plain": "A helper molecule that attaches to an acetyl group to carry it to the next pathway.",
+      "emoji": "🚚"
     }
   ],
   "concept_map": {
     "nodes": [
       {
         "id": "n1",
-        "label": "Carbohydrates, Fats, & Amino Acids"
+        "label": "Pyruvate"
       },
       {
         "id": "n2",
-        "label": "Acetyl-CoA"
+        "label": "Pyruvate Dehydrogenase"
       },
       {
         "id": "n3",
-        "label": "Oxaloacetate"
+        "label": "Carbon Dioxide"
       },
       {
         "id": "n4",
-        "label": "Citrate"
+        "label": "Hydroxyethyl Group"
       },
       {
         "id": "n5",
-        "label": "CO₂"
+        "label": "Acetyl Group"
       },
       {
         "id": "n6",
-        "label": "NADH & FADH₂"
+        "label": "NAD+"
       },
       {
         "id": "n7",
-        "label": "GTP"
+        "label": "NADH"
       },
       {
         "id": "n8",
-        "label": "Electron Transport Chain"
+        "label": "CoA"
       },
       {
         "id": "n9",
-        "label": "ATP"
+        "label": "Acetyl CoA"
       }
     ],
     "edges": [
       {
         "from": "n1",
-        "to": "n2",
-        "label": "broken down into"
+        "to": "n3",
+        "label": "releases"
+      },
+      {
+        "from": "n1",
+        "to": "n4",
+        "label": "forms"
       },
       {
         "from": "n2",
         "to": "n4",
-        "label": "condenses with oxaloacetate to form"
-      },
-      {
-        "from": "n3",
-        "to": "n4",
-        "label": "combines with acetyl-CoA to form"
-      },
-      {
-        "from": "n4",
-        "to": "n3",
-        "label": "regenerates back to"
+        "label": "binds"
       },
       {
         "from": "n4",
         "to": "n5",
-        "label": "releases"
-      },
-      {
-        "from": "n4",
-        "to": "n6",
-        "label": "generates"
-      },
-      {
-        "from": "n4",
-        "to": "n7",
-        "label": "produces"
+        "label": "oxidizes into"
       },
       {
         "from": "n6",
+        "to": "n7",
+        "label": "gains electrons to form"
+      },
+      {
+        "from": "n5",
         "to": "n8",
-        "label": "donates electrons to"
+        "label": "transfers to"
       },
       {
         "from": "n8",
         "to": "n9",
-        "label": "drives synthesis of"
+        "label": "produces"
       }
     ]
   },
   "quiz": [
     {
-      "q": "Where in the cell does the tricarboxylic acid cycle take place?",
+      "q": "What gas is released into the surrounding medium during Step 1 of pyruvate breakdown?",
       "options": [
-        "Lysosomal lumen",
-        "Mitochondrial matrix",
-        "Cytosol",
-        "Endoplasmic reticulum"
+        "Oxygen",
+        "Carbon dioxide",
+        "Nitrogen",
+        "Methane"
       ],
       "answer": 1,
-      "source_id": "s1"
+      "source_id": "s3"
     },
     {
-      "q": "How many turns of the Krebs cycle occur for each molecule of glucose?",
+      "q": "What molecule is formed when NAD+ picks up electrons in Step 2?",
       "options": [
-        "One turn",
-        "Two turns",
-        "Three turns",
-        "Four turns"
+        "ATP",
+        "Glucose",
+        "NADH",
+        "Pyruvate"
       ],
-      "answer": 1,
-      "source_id": "s5"
-    },
-    {
-      "q": "Which molecules allosterically inhibit the key regulatory enzymes of the cycle when present in high ratios?",
-      "options": [
-        "ADP and NAD⁺",
-        "ATP and NADH",
-        "Glucose and Pyruvate",
-        "CO₂ and GTP"
-      ],
-      "answer": 1,
+      "answer": 2,
       "source_id": "s7"
+    },
+    {
+      "q": "What molecule is formed when the acetyl group is transferred to CoA in Step 3?",
+      "options": [
+        "Acetyl CoA",
+        "Carbon dioxide",
+        "Glucose",
+        "Pyruvate dehydrogenase"
+      ],
+      "answer": 0,
+      "source_id": "s8"
     }
   ],
-  "diagram_alt_text": ""
+  "diagram_alt_text": "Diagram (Figure 7.10) illustrating the three-step breakdown of pyruvate. Pyruvate enters from the cytosol across the outer and inner membranes into the mitochondrial matrix via a pyruvate carrier protein. Step 1 shows CO2 being released. Step 2 shows NAD+ picking up electrons to form NADH and H+. Step 3 shows Coenzyme A attaching to form Acetyl CoA."
 }

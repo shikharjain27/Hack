@@ -1,6 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import InputPanel from "@/components/InputPanel";
+import LevelSlider, { LEVEL_LABELS, type LevelKey } from "@/components/LevelSlider";
+import DiffText from "@/components/DiffText";
+import Gauges from "@/components/Gauges";
+import { computeMetrics } from "@/lib/readability";
 import type { TransformResult } from "@/lib/types";
 
 export default function Home() {
@@ -8,6 +12,12 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<TransformResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [level, setLevel] = useState<LevelKey>("expert");
+  const metrics = useMemo(() => {
+    if (!result) return null;
+    const m = (k: LevelKey) => computeMetrics(result.levels[k], result.glossary);
+    return { expert: m("expert"), grade10: m("grade10"), grade6: m("grade6") };
+  }, [result]);
 
   async function run() {
     setLoading(true);
@@ -22,6 +32,7 @@ export default function Home() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Request failed");
       setResult(data);
+      setLevel("expert");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");
     } finally {
@@ -42,8 +53,18 @@ export default function Home() {
           </div>
         )}
         {error && <p className="text-red-600">{error}</p>}
-        {!loading && result && (
-          <pre className="overflow-auto rounded-lg bg-zinc-900 p-4 text-xs text-zinc-100">{JSON.stringify(result, null, 2)}</pre>
+        {!loading && result && metrics && (
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-xl font-bold">{result.title}</h2>
+              <p className="text-sm text-zinc-600">
+                Grade {metrics.expert.fkGrade} → {metrics[level].fkGrade} <span className="text-zinc-400">({LEVEL_LABELS[level]})</span>
+              </p>
+            </div>
+            <LevelSlider level={level} onChange={setLevel} />
+            <DiffText expert={result.levels.expert} current={result.levels[level]} level={level} />
+            <Gauges current={metrics[level]} expert={metrics.expert} />
+          </div>
         )}
       </section>
     </main>

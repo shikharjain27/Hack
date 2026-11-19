@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Send, Loader2, Sparkles, GraduationCap } from "lucide-react";
+import { Send, Loader2, Sparkles, GraduationCap, CornerDownLeft } from "lucide-react";
 import type { Sentence } from "@/lib/types";
 
 interface Msg {
@@ -10,6 +10,13 @@ interface Msg {
   source_ids?: string[];
   error?: boolean;
 }
+
+const STARTER_PROMPTS = [
+  "What is the main mechanism here?",
+  "Explain this in simpler terms",
+  "Why is this step biologically necessary?",
+  "Give me an everyday analogy",
+];
 
 export default function AskPanel({
   sentences,
@@ -27,7 +34,8 @@ export default function AskPanel({
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [q, setQ] = useState("");
   const [busy, setBusy] = useState(false);
-  const bottom = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   async function ask(question: string) {
     if (!question.trim() || busy) return;
@@ -35,6 +43,7 @@ export default function AskPanel({
     setMsgs((m) => [...m, { role: "user", text: question }]);
     setQ("");
     setBusy(true);
+
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
@@ -42,9 +51,11 @@ export default function AskPanel({
         body: JSON.stringify({ question, source_sentences: sentences, level: levelLabel, history }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "failed");
+      if (!res.ok) throw new Error(data.error || "Chat failed");
       setMsgs((m) => [...m, { role: "tutor", text: data.answer, source_ids: data.source_ids }]);
-      onCite(data.source_ids ?? []);
+      if (data.source_ids?.length) {
+        onCite(data.source_ids);
+      }
     } catch {
       setMsgs((m) => [
         ...m,
@@ -68,63 +79,77 @@ export default function AskPanel({
   }, [pending]);
 
   useEffect(() => {
-    bottom.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [msgs, busy]);
 
-  const suggestions = [
-    "What is the main idea?",
-    "Explain it like I'm 10",
-    "Why does this matter?",
-    "Give me an everyday analogy",
-  ];
-
   return (
-    <div className="liquid-glass rounded-2xl flex h-[540px] flex-col p-5 border border-white/10 shadow-xl">
-      <div className="mb-3.5 flex items-center justify-between border-b border-white/10 pb-3 text-xs">
-        <div className="flex items-center gap-2 font-semibold text-white">
-          <GraduationCap size={16} className="text-indigo-400" />
-          <span>Ask the Textbook Assistant</span>
+    <div className="liquid-glass rounded-3xl border border-white/10 shadow-2xl flex flex-col h-[560px] overflow-hidden">
+      {/* Top Header */}
+      <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between gap-3 bg-white/[0.02]">
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 text-indigo-400">
+            <GraduationCap size={20} />
+          </div>
+          <div>
+            <h3 className="text-sm sm:text-base font-semibold text-white tracking-tight flex items-center gap-2">
+              <span>Socratic AI Tutor</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-white/60 font-mono">
+                {levelLabel}
+              </span>
+            </h3>
+            <p className="text-[11px] text-white/40">
+              Grounded exclusively in this textbook passage
+            </p>
+          </div>
         </div>
-        <span className="text-white/40">Grounded in verbatim source</span>
+
+        {msgs.length > 0 && (
+          <button
+            onClick={() => setMsgs([])}
+            className="text-[11px] text-white/50 hover:text-white transition-colors cursor-pointer"
+          >
+            Clear chat
+          </button>
+        )}
       </div>
 
-      <div className="flex-1 space-y-3 overflow-y-auto pr-1">
+      {/* Scrollable Message Thread */}
+      <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3.5 min-h-0">
         {msgs.length === 0 && (
-          <div className="flex h-full flex-col items-center justify-center gap-3 text-center text-xs text-white/50 px-4">
-            <Sparkles className="text-indigo-400" size={24} />
-            <p>Ask anything about this textbook passage. Responses are tuned to {levelLabel}.</p>
-            <div className="flex flex-wrap justify-center gap-2 pt-2">
-              {suggestions.map((s) => (
-                <button
-                  key={s}
-                  onClick={() => ask(s)}
-                  className="liquid-glass rounded-xl px-3 py-1.5 text-xs text-indigo-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-                >
-                  {s}
-                </button>
-              ))}
+          <div className="flex flex-col items-center justify-center h-full text-center p-6 space-y-4 my-auto">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-300">
+              <Sparkles size={22} />
+            </div>
+            <div>
+              <h4 className="text-base font-semibold text-white">Ask anything about this text</h4>
+              <p className="text-xs text-white/50 max-w-sm mt-1 leading-relaxed">
+                Need an analogy, clarification on a step, or a simplified breakdown? Ask below:
+              </p>
             </div>
           </div>
         )}
 
-        {msgs.map((m, i) => (
-          <div key={i} className={`fade-in flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+        {msgs.map((m, idx) => (
+          <div
+            key={idx}
+            className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
+          >
             <div
-              className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-xs md:text-sm leading-relaxed ${
+              className={`max-w-[85%] rounded-2xl px-4 py-3 text-xs sm:text-[13px] leading-relaxed ${
                 m.role === "user"
-                  ? "bg-white text-black font-medium"
+                  ? "bg-white text-black font-medium shadow-md"
                   : m.error
                   ? "border border-rose-500/30 bg-rose-500/10 text-rose-300"
-                  : "liquid-glass border border-white/15 bg-white/[0.04] text-white/95"
+                  : "liquid-glass border border-white/15 bg-white/[0.04] text-white/95 shadow-md"
               }`}
             >
-              {m.text}
+              <div className="whitespace-pre-wrap">{m.text}</div>
               {m.source_ids && m.source_ids.length > 0 && (
                 <button
                   onClick={() => onCite(m.source_ids!)}
-                  className="mt-2 block text-[11px] font-semibold text-indigo-300 hover:text-indigo-200 underline cursor-pointer"
+                  className="mt-2.5 block text-[11px] font-semibold text-indigo-300 hover:text-indigo-200 underline cursor-pointer"
                 >
-                  Jump to source citation ({m.source_ids.join(", ")})
+                  Highlight source citation ({m.source_ids.map((id) => id.toUpperCase()).join(", ")}) &rarr;
                 </button>
               )}
             </div>
@@ -132,34 +157,56 @@ export default function AskPanel({
         ))}
 
         {busy && (
-          <div className="flex items-center gap-2 text-xs text-white/50 pl-2">
-            <Loader2 size={13} className="animate-spin text-indigo-400" /> Synthesizing response…
+          <div className="flex items-center gap-2 text-xs text-indigo-300 pl-2">
+            <Loader2 size={13} className="animate-spin text-indigo-400" />
+            <span>Tutor is thinking…</span>
           </div>
         )}
-        <div ref={bottom} />
+        <div ref={bottomRef} />
       </div>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          ask(q);
-        }}
-        className="mt-3.5 flex gap-2 pt-2 border-t border-white/10"
-      >
-        <input
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Ask a question about this text…"
-          className="flex-1 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2 text-xs md:text-sm text-white placeholder:text-white/30 outline-none focus:border-indigo-400 focus:bg-white/[0.06] transition-all"
-        />
-        <button
-          disabled={busy || !q.trim()}
-          type="submit"
-          className="rounded-xl flex items-center gap-1.5 px-4 text-xs font-semibold bg-white text-black hover:bg-white/90 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer shadow-md"
+      {/* Docked Bottom Bar: Quick Chips + Input Form */}
+      <div className="p-3 sm:p-4 border-t border-white/10 bg-zinc-950/80 backdrop-blur-xl space-y-2.5">
+        {/* Quick Starter Chips */}
+        {msgs.length === 0 && (
+          <div className="flex flex-wrap gap-1.5 overflow-x-auto pb-1">
+            {STARTER_PROMPTS.map((promptText, i) => (
+              <button
+                key={i}
+                onClick={() => ask(promptText)}
+                className="liquid-glass rounded-xl px-2.5 py-1 text-[11px] text-indigo-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer border border-white/10"
+              >
+                {promptText}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Input Form */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            ask(q);
+          }}
+          className="flex items-center gap-2"
         >
-          <Send size={13} /> Ask
-        </button>
-      </form>
+          <input
+            ref={inputRef}
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Ask a question about this passage…"
+            className="flex-1 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-xs sm:text-sm text-white placeholder:text-white/30 outline-none focus:border-indigo-400 focus:bg-white/[0.06] transition-all"
+          />
+          <button
+            disabled={busy || !q.trim()}
+            type="submit"
+            className="rounded-2xl flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold bg-white text-black hover:bg-white/90 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer shadow-md shrink-0"
+          >
+            <Send size={13} />
+            <span className="hidden sm:inline">Ask</span>
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { connection } from "next/server";
 import { getStudentProfile } from "@/lib/profile";
-import { signOut } from "@/app/login/actions";
-import { Sparkles, User, Settings, LogOut, ArrowLeft } from "lucide-react";
+import { Sparkles, ArrowLeft } from "lucide-react";
+import NavbarAuthSlot from "@/components/NavbarAuthSlot";
 
 export default async function UserBar() {
   await connection();
@@ -42,29 +42,7 @@ export default async function UserBar() {
       </div>
 
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-1.5 text-white/80 font-medium text-xs sm:text-sm">
-          <User size={14} className="text-indigo-400" />
-          <span>{profile.full_name || "Student"}</span>
-          {profile.grade && <span className="text-white/40 text-xs font-normal">(Gr {profile.grade})</span>}
-        </div>
-
-        <Link
-          href="/profile"
-          className="flex items-center gap-1 rounded-full px-3 py-1 text-xs text-white/80 hover:text-white liquid-glass border border-white/10 transition-colors"
-        >
-          <Settings size={12} />
-          Profile
-        </Link>
-
-        <form action={signOut}>
-          <button
-            type="submit"
-            className="flex items-center gap-1 text-xs text-white/40 hover:text-red-400 px-2 py-1 transition-colors cursor-pointer"
-          >
-            <LogOut size={12} />
-            Sign out
-          </button>
-        </form>
+        <NavbarAuthSlot />
       </div>
     </header>
   );

@@ -27,12 +27,14 @@ export interface Metrics { fkGrade: number; avgSentenceLen: number; jargonDensit
 export type ReadingLevel = "expert" | "grade10" | "grade6";
 export interface StudentProfile {
   id: string;
+  email?: string;
   full_name: string;
   school: string;
   grade: number | null;
   preferred_level: ReadingLevel;
   dyslexia_font: boolean;
   tts_speed: number;
+  onboarding_completed?: boolean;
   quiz_score?: number; // total correct answers
   quiz_total?: number; // total questions attempted
   quiz_history?: { date: string; title: string; score: number; total: number; percentage: number }[];

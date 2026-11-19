@@ -4,13 +4,13 @@ import { activeBackups, cleanJson } from "./backup";
 // Walking down the chain of current active models with automatic fallback
 const CHAIN = [
   process.env.GEMINI_MODEL,
-  "gemini-3.1-flash-lite",
+  "gemini-3.5-flash-lite",
   "gemini-3.8-flash",
+  "gemini-3.1-flash-lite",
   "gemini-3.5-flash",
   "gemini-3.7-flash",
   "gemini-3.6-flash",
   "gemini-3-flash-preview",
-  "gemini-2.5-flash-lite",
 ].filter((m, i, a): m is string => !!m && a.indexOf(m) === i);
 
 // Order: first two Gemini models, then backup providers (if keys exist), then the rest of the Gemini chain.

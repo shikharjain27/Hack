@@ -10,9 +10,9 @@ export const metadata = { title: "Sign in · Asme" };
 async function LoginPageContent({
   searchParams,
 }: {
-  searchParams: Promise<{ mode?: string; error?: string; notice?: string }>;
+  searchParams: Promise<{ mode?: string; error?: string; notice?: string; redirect?: string }>;
 }) {
-  const { mode, error, notice } = await searchParams;
+  const { mode, error, notice, redirect: redirectParam } = await searchParams;
   const isSignUp = mode === "signup";
   const hasSupabase = isSupabaseConfigured();
 
@@ -76,6 +76,7 @@ async function LoginPageContent({
 
           {/* Form */}
           <form action={isSignUp ? signUp : signIn} className="space-y-4">
+            <input type="hidden" name="redirect" value={redirectParam || ""} />
             {isSignUp && (
               <div>
                 <input
@@ -122,7 +123,11 @@ async function LoginPageContent({
                 {isSignUp ? "Already have an account? " : "Don't have an account? "}
                 <Link
                   className="text-white hover:underline font-medium"
-                  href={isSignUp ? "/login" : "/login?mode=signup"}
+                  href={
+                    isSignUp
+                      ? `/login${redirectParam ? `?redirect=${encodeURIComponent(redirectParam)}` : ""}`
+                      : `/login?mode=signup${redirectParam ? `&redirect=${encodeURIComponent(redirectParam)}` : ""}`
+                  }
                 >
                   {isSignUp ? "Sign in" : "Sign up here"}
                 </Link>
@@ -133,12 +138,13 @@ async function LoginPageContent({
           {/* Guest One-Click Access */}
           <div className="mt-6 pt-6 border-t border-white/10 text-center">
             <form action={continueAsDemo}>
+              <input type="hidden" name="redirect" value={redirectParam || ""} />
               <button
                 type="submit"
                 className="w-full py-2.5 px-4 rounded-full liquid-glass text-white/80 hover:text-white text-xs font-medium hover:bg-white/5 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Sparkles size={14} className="text-indigo-400" />
-                Continue as Guest (Instant Workspace Access)
+                Continue as Guest (Instant Access)
               </button>
             </form>
           </div>

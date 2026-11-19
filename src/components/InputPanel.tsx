@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import { Sparkles, FileText, ImageUp, X, FileCheck } from "lucide-react";
-import { SAMPLE_TEXT } from "@/lib/sample";
 
 export interface FileInput {
   base64: string;
@@ -52,21 +51,9 @@ export default function InputPanel({
     reader.readAsDataURL(file);
   }
 
-  async function loadSample() {
-    setText(SAMPLE_TEXT);
-    try {
-      const res = await fetch("/sample/krebs.jpg");
-      if (!res.ok || !res.headers.get("content-type")?.startsWith("image/")) return;
-      const blob = await res.blob();
-      readFile(new File([blob], "krebs.jpg", { type: blob.type }));
-    } catch {
-      /* optional photo */
-    }
-  }
-
   return (
-    <div className="flex flex-col gap-3.5">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col h-full gap-3 min-h-0">
+      <div className="flex items-center justify-between shrink-0">
         <label className="text-xs font-semibold text-white/70 uppercase tracking-wider flex items-center gap-1.5">
           <FileText size={13} className="text-indigo-400" />
           Textbook Source Input
@@ -78,7 +65,7 @@ export default function InputPanel({
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Paste a dense textbook paragraph, research abstract, or lecture notes… Or upload a PDF/image below."
-        className="h-56 w-full resize-none rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-sm text-white placeholder:text-white/30 outline-none focus:border-indigo-500/50 focus:bg-white/[0.05] focus:ring-2 focus:ring-indigo-500/20 transition-all leading-relaxed"
+        className="flex-1 min-h-[140px] w-full resize-none rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-sm text-white placeholder:text-white/30 outline-none focus:border-indigo-500/50 focus:bg-white/[0.05] focus:ring-2 focus:ring-indigo-500/20 transition-all leading-relaxed"
       />
 
       <div
@@ -88,9 +75,9 @@ export default function InputPanel({
           readFile(e.dataTransfer.files[0]);
         }}
         onClick={() => fileRef.current?.click()}
-        className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-white/15 bg-white/[0.015] p-3.5 text-xs text-white/60 hover:bg-white/[0.04] hover:border-white/30 hover:text-white transition-all text-center"
+        className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-white/15 bg-white/[0.015] p-2.5 text-xs text-white/60 hover:bg-white/[0.04] hover:border-white/30 hover:text-white transition-all text-center shrink-0"
       >
-        <ImageUp size={16} className="text-indigo-400 flex-shrink-0" />
+        <ImageUp size={15} className="text-indigo-400 flex-shrink-0" />
         <span>Drop PDF chapter or textbook photo, or click to upload</span>
         <input
           ref={fileRef}
@@ -102,11 +89,11 @@ export default function InputPanel({
       </div>
 
       {image && (
-        <div className="relative flex items-center justify-between p-3 rounded-xl border border-white/15 bg-white/[0.04]">
+        <div className="relative flex items-center justify-between p-2.5 rounded-xl border border-white/15 bg-white/[0.04] shrink-0">
           {image.isPdf ? (
             <div className="flex items-center gap-2.5 overflow-hidden">
-              <div className="p-2 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400">
-                <FileCheck size={18} />
+              <div className="p-1.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400">
+                <FileCheck size={16} />
               </div>
               <div className="overflow-hidden">
                 <p className="text-xs font-medium text-white truncate max-w-[200px]">
@@ -121,7 +108,7 @@ export default function InputPanel({
               <img
                 src={image.preview}
                 alt="Uploaded page"
-                className="w-12 h-12 rounded-lg object-cover border border-white/20"
+                className="w-10 h-10 rounded-lg object-cover border border-white/20"
                 onError={() => setThumbOk(false)}
               />
               <span className="text-xs text-white/70 truncate max-w-[180px]">
@@ -142,34 +129,25 @@ export default function InputPanel({
         </div>
       )}
 
-      <div className="flex gap-2">
-        <button
-          onClick={loadSample}
-          type="button"
-          className="liquid-glass rounded-xl flex-1 py-2.5 text-xs font-medium text-white/70 hover:text-white hover:bg-white/5 transition-all cursor-pointer border border-white/10 flex items-center justify-center gap-1.5"
-        >
-          <Sparkles size={13} className="text-amber-400" />
-          Load Krebs cycle sample
-        </button>
-        <button
-          onClick={onSubmit}
-          disabled={loading || (!text.trim() && !image)}
-          type="button"
-          className="rounded-xl flex-1 bg-white py-2.5 text-xs font-semibold text-black hover:bg-white/90 disabled:opacity-40 transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-md shadow-white/10"
-        >
-          {loading ? (
-            <>
-              <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-black border-t-transparent" />
-              <span>Unjargoning…</span>
-            </>
-          ) : (
-            <>
-              <Sparkles size={13} />
-              <span>Unjargon</span>
-            </>
-          )}
-        </button>
-      </div>
+      {/* Full-Width Primary Action Button */}
+      <button
+        onClick={onSubmit}
+        disabled={loading || (!text.trim() && !image)}
+        type="button"
+        className="w-full rounded-xl bg-white py-3 text-xs font-semibold text-black hover:bg-white/90 disabled:opacity-40 transition-all cursor-pointer flex items-center justify-center gap-2 shadow-md shadow-white/10 shrink-0"
+      >
+        {loading ? (
+          <>
+            <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-black border-t-transparent" />
+            <span>Unjargoning…</span>
+          </>
+        ) : (
+          <>
+            <Sparkles size={14} className="text-black" />
+            <span>Unjargon</span>
+          </>
+        )}
+      </button>
     </div>
   );
 }

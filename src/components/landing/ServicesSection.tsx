@@ -8,15 +8,19 @@ import Link from "next/link";
 const CAPABILITIES = [
   {
     video: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4",
-    tag: "Adaptive Scaffolding",
-    title: "Live Word Diffs & Factual Audits",
+    tag: "Concept Studio",
+    title: "Interactive Passage Studio",
     description: "Slide seamlessly between Expert, Grade 10, and Grade 6 prose. Color-coded word morphs reveal exact syntactic changes, while automated faithfulness badges certify that not a single number, chemical ratio, or fact was lost.",
+    href: "/workspace",
+    cta: "Open Studio",
   },
   {
     video: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_151826_c7218672-6e92-402c-9e45-f1e0f454bdc4.mp4",
-    tag: "Multimodal Engagement",
-    title: "Karaoke TTS & Concept Knowledge Maps",
-    description: "Listen with synchronous word highlighting across 5 natural AI voices and browser fallback. Interact with dynamic force-directed concept graphs to explore terminology and definitions visually.",
+    tag: "Document Transformer",
+    title: "PDF Book & Document Simplifier",
+    description: "Upload multi-page textbooks and academic PDFs to generate section-by-section simplified chapters, concept flashcards, comprehension quizzes, and downloadable PDF exports.",
+    href: "/document",
+    cta: "Open PDF Transformer",
   },
 ];
 
@@ -75,10 +79,11 @@ export default function ServicesSection() {
                       {card.tag}
                     </span>
                     <Link
-                      href="/workspace"
-                      className="liquid-glass rounded-full p-2 text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      href={card.href}
+                      className="liquid-glass rounded-full px-3.5 py-1 text-xs text-white flex items-center gap-1.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 hover:bg-white/10"
                     >
-                      <ArrowUpRight size={16} />
+                      <span>{card.cta}</span>
+                      <ArrowUpRight size={13} />
                     </Link>
                   </div>
                   <h3 className="text-white text-xl md:text-2xl mb-3 tracking-tight font-medium">

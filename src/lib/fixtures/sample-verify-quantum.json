@@ -1,0 +1,64 @@
+{
+  "verdicts": [
+    {
+      "id": "g1",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Accurately conveys that quantum objects lose quantum properties through outside interaction."
+    },
+    {
+      "id": "g2",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Accurately represents the transition from superposition to a classical mixture."
+    },
+    {
+      "id": "g3",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Faithfully describes phase scrambling from environmental entanglement."
+    },
+    {
+      "id": "g4",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Correctly notes the loss of interference and emergence of classical probabilities."
+    },
+    {
+      "id": "k1",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Gives an accurate high-level view of decoherence."
+    },
+    {
+      "id": "k2",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Faithfully introduces superposition in simple terms."
+    },
+    {
+      "id": "k3",
+      "faithful": false,
+      "dropped_facts": [
+        "thermodynamic reservoir",
+        "orthogonal components"
+      ],
+      "note": "Simplifies thermodynamic reservoir and orthogonal components to surrounding air or heat."
+    },
+    {
+      "id": "k4",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Accurately depicts wave information leaking into the environment."
+    },
+    {
+      "id": "k5",
+      "faithful": false,
+      "dropped_facts": [
+        "eigenstates",
+        "destructive interference"
+      ],
+      "note": "Omits specific technical terms for eigenstates and destructive interference."
+    }
+  ]
+}

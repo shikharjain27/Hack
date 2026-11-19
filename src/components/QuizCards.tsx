@@ -11,6 +11,7 @@ import {
   BookOpen,
   Trophy,
   Lightbulb,
+  Check,
 } from "lucide-react";
 import type { QuizItem, Sentence } from "@/lib/types";
 
@@ -31,269 +32,221 @@ export default function QuizCards({
   const [selected, setSelected] = useState<Record<number, number>>({});
   // shown hints map: question index -> boolean
   const [showHint, setShowHint] = useState<Record<number, boolean>>({});
-  // whether quiz has been submitted
-  const [submitted, setSubmitted] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [savedSuccess, setSavedSuccess] = useState(false);
-
-  // sentence lookup
-  const sentenceMap = new Map((sourceSentences || []).map((s) => [s.id, s.text]));
 
   const totalQuestions = items.length;
   const answeredCount = Object.keys(selected).length;
-  const isComplete = answeredCount === totalQuestions;
 
-  // Calculate final score
+  // Running live score
   const correctCount = items.reduce((acc, q, idx) => {
     return acc + (selected[idx] === q.answer ? 1 : 0);
   }, 0);
-  const scorePercent = Math.round((correctCount / Math.max(1, totalQuestions)) * 100);
+  const scorePercent = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
 
-  async function handleSubmit() {
-    if (!isComplete && !window.confirm(`You answered ${answeredCount} of ${totalQuestions} questions. Submit anyway?`)) {
-      return;
-    }
-    setSubmitted(true);
-    setSaving(true);
+  function handleSelectOption(qIdx: number, optIdx: number) {
+    // Only allow selecting once per question for authentic quiz experience
+    if (selected[qIdx] !== undefined) return;
 
-    try {
-      const res = await fetch("/api/profile/quiz", {
+    const nextSelected = { ...selected, [qIdx]: optIdx };
+    setSelected(nextSelected);
+
+    // If quiz is now complete, record quiz score
+    if (Object.keys(nextSelected).length === totalQuestions) {
+      const finalCorrect = items.reduce((acc, q, idx) => {
+        return acc + (nextSelected[idx] === q.answer ? 1 : 0);
+      }, 0);
+      fetch("/api/profile/quiz", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          score: correctCount,
+          score: finalCorrect,
           total: totalQuestions,
           title: title || "Lesson Quiz",
         }),
-      });
-      if (res.ok) {
-        setSavedSuccess(true);
-        if (onQuizSubmitted) onQuizSubmitted(correctCount, totalQuestions);
-      }
-    } catch {
-      // offline/fallback
-    } finally {
-      setSaving(false);
+      }).catch(() => {});
+      if (onQuizSubmitted) onQuizSubmitted(finalCorrect, totalQuestions);
     }
   }
 
   function handleReset() {
     setSelected({});
     setShowHint({});
-    setSubmitted(false);
-    setSavedSuccess(false);
   }
 
   return (
-    <div className="space-y-6">
-      {/* Quiz Header Bar */}
-      <div className="liquid-glass rounded-3xl p-6 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div className="space-y-5">
+      {/* Quiz Header Bar with Live Real-Time Feedback */}
+      <div className="liquid-glass rounded-3xl p-5 sm:p-6 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
         <div className="flex items-center gap-3">
           <div className="p-3 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 text-indigo-400">
-            <HelpCircle size={24} />
+            <HelpCircle size={22} />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 font-semibold border border-indigo-500/30">
-                Self-Assessment
+                Interactive Quiz
               </span>
-              <span className="text-xs text-white/40">• {totalQuestions} Questions</span>
+              <span className="text-xs text-white/40">• Instant Feedback Mode</span>
             </div>
-            <h3 className="text-lg md:text-xl font-serif text-white tracking-tight mt-1">
-              Active Recall Knowledge Check
+            <h3 className="text-base sm:text-lg font-semibold text-white tracking-tight mt-0.5">
+              Knowledge Check
             </h3>
           </div>
         </div>
 
-        {submitted ? (
-          <div className="flex items-center gap-4 bg-white/[0.04] p-3 rounded-2xl border border-white/10">
-            <div className="text-right">
-              <div className="text-2xl font-mono font-bold text-white">
-                {correctCount} / {totalQuestions}
-              </div>
-              <div className="text-[10px] uppercase tracking-wider text-indigo-300">
-                Score: {scorePercent}%
-              </div>
-            </div>
-            <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30">
-              <Trophy size={22} />
-            </div>
+        {/* Live Score Counter */}
+        <div className="flex items-center gap-3">
+          <div className="text-right">
+            <span className="text-xs text-white/50 block">Live Score</span>
+            <span className="font-mono text-base font-bold text-white">
+              <span className="text-emerald-400">{correctCount}</span> / {totalQuestions}
+            </span>
           </div>
-        ) : (
-          <div className="text-xs text-white/60 bg-white/[0.04] px-4 py-2 rounded-2xl border border-white/10">
-            Answered: <b className="text-white">{answeredCount}</b> of <b className="text-white">{totalQuestions}</b>
+
+          <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center font-mono font-bold text-xs text-indigo-300">
+            {answeredCount === 0 ? "0%" : `${scorePercent}%`}
           </div>
-        )}
+
+          {answeredCount > 0 && (
+            <button
+              onClick={handleReset}
+              className="p-2 rounded-xl liquid-glass text-white/60 hover:text-white transition-colors cursor-pointer border border-white/10"
+              title="Reset quiz"
+            >
+              <RotateCcw size={14} />
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* Submitted Result Callout */}
-      {submitted && (
-        <div className="liquid-glass rounded-3xl p-6 border border-white/10 space-y-3">
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <h4 className="text-lg font-serif text-white flex items-center gap-2">
-              <Sparkles size={18} className="text-amber-400" />
-              <span>
-                {scorePercent >= 80
-                  ? "Outstanding Performance!"
-                  : scorePercent >= 50
-                  ? "Good Effort — Review the Gaps Below"
-                  : "Needs Review — Take a Look at the Proof References"}
-              </span>
-            </h4>
-            {savedSuccess && (
-              <span className="text-xs text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-3 py-1 rounded-full font-medium">
-                ✓ Recorded to student profile
-              </span>
-            )}
-          </div>
-          <p className="text-xs text-white/70 leading-relaxed">
-            Your answers are evaluated below. Any questions you missed include the exact ground-truth textbook
-            reference, explanation, and an option to view the highlighted passage in the source view.
-          </p>
-        </div>
-      )}
-
-      {/* Question List */}
+      {/* Quiz Items List with Instant Feedback */}
       <div className="space-y-4">
-        {items.map((q, qi) => {
-          const chosen = selected[qi];
-          const isAnswered = chosen !== undefined;
-          const isCorrect = isAnswered && chosen === q.answer;
-          const isWrong = submitted && chosen !== q.answer;
-          const refSentence = sentenceMap.get(q.source_id);
+        {items.map((item, qIdx) => {
+          const userChoice = selected[qIdx];
+          const isAnswered = userChoice !== undefined;
+          const isCorrect = isAnswered && userChoice === item.answer;
 
           return (
             <div
-              key={qi}
-              className={`liquid-glass rounded-3xl p-6 border transition-all ${
-                submitted
+              key={qIdx}
+              className={`liquid-glass rounded-3xl p-5 sm:p-6 border transition-all duration-200 space-y-4 ${
+                isAnswered
                   ? isCorrect
-                    ? "border-emerald-500/30 bg-emerald-950/10"
-                    : "border-rose-500/30 bg-rose-950/10"
-                  : "border-white/10 hover:border-white/20"
+                    ? "border-emerald-500/40 bg-emerald-500/[0.03]"
+                    : "border-rose-500/40 bg-rose-500/[0.03]"
+                  : "border-white/10"
               }`}
             >
-              {/* Question Header & Hint Toggle */}
-              <div className="flex items-start justify-between gap-3 mb-4">
-                <div className="font-medium text-white text-base leading-snug">
-                  <span className="text-indigo-400 font-mono mr-2.5 font-bold">Q{qi + 1}.</span>
-                  {q.q}
+              {/* Question Header */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="space-y-1">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-white/40">
+                    Question {qIdx + 1} of {totalQuestions}
+                  </span>
+                  <h4 className="text-sm sm:text-base font-semibold text-white leading-snug">
+                    {item.q}
+                  </h4>
                 </div>
 
-                {q.hint && !submitted && (
-                  <button
-                    type="button"
-                    onClick={() => setShowHint({ ...showHint, [qi]: !showHint[qi] })}
-                    className="shrink-0 text-[11px] font-medium text-amber-300 hover:text-amber-200 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 px-2.5 py-1 rounded-full flex items-center gap-1 transition-all cursor-pointer"
+                {isAnswered && (
+                  <span
+                    className={`shrink-0 flex items-center gap-1 text-xs px-2.5 py-1 rounded-full font-medium ${
+                      isCorrect
+                        ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                        : "bg-rose-500/20 text-rose-300 border border-rose-500/30"
+                    }`}
                   >
-                    <Lightbulb size={12} />
-                    <span>{showHint[qi] ? "Hide hint" : "Get hint"}</span>
-                  </button>
+                    {isCorrect ? (
+                      <>
+                        <CheckCircle2 size={13} /> Correct
+                      </>
+                    ) : (
+                      <>
+                        <XCircle size={13} /> Incorrect
+                      </>
+                    )}
+                  </span>
                 )}
               </div>
 
-              {/* Hint Box (if toggled) */}
-              {showHint[qi] && !submitted && q.hint && (
-                <div className="mb-4 text-xs text-amber-200 bg-amber-500/10 border border-amber-500/20 rounded-2xl p-3 flex items-start gap-2">
-                  <Lightbulb size={15} className="text-amber-400 shrink-0 mt-0.5" />
-                  <div>
-                    <span className="font-semibold text-amber-300">Hint: </span>
-                    {q.hint}
-                  </div>
-                </div>
-              )}
+              {/* Options Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {item.options.map((opt, optIdx) => {
+                  const isSelectedOption = userChoice === optIdx;
+                  const isTargetCorrect = optIdx === item.answer;
 
-              {/* Options */}
-              <div className="grid gap-2.5">
-                {q.options.map((optionText, optIdx) => {
-                  const isThisSelected = chosen === optIdx;
-                  const isThisCorrect = optIdx === q.answer;
-
-                  let style = "border-white/10 bg-white/[0.02] text-white/80 hover:bg-white/[0.06] hover:border-white/20";
-                  if (!submitted) {
-                    if (isThisSelected) {
-                      style = "border-indigo-500/60 bg-indigo-500/20 text-white font-medium ring-1 ring-indigo-500/40";
-                    }
-                  } else {
-                    if (isThisCorrect) {
-                      style = "border-emerald-500/60 bg-emerald-500/20 text-emerald-200 font-medium";
-                    } else if (isThisSelected && !isThisCorrect) {
-                      style = "border-rose-500/60 bg-rose-500/20 text-rose-200 font-medium";
+                  let btnStyle =
+                    "border-white/10 bg-white/[0.02] text-white/80 hover:bg-white/[0.06] hover:border-white/20";
+                  if (isAnswered) {
+                    if (isTargetCorrect) {
+                      btnStyle =
+                        "border-emerald-500/60 bg-emerald-500/20 text-emerald-200 font-medium shadow-md shadow-emerald-500/10";
+                    } else if (isSelectedOption && !isCorrect) {
+                      btnStyle =
+                        "border-rose-500/60 bg-rose-500/20 text-rose-200 font-medium line-through";
                     } else {
-                      style = "border-white/5 bg-white/[0.01] text-white/30 opacity-40";
+                      btnStyle = "border-white/5 bg-transparent text-white/30 cursor-not-allowed";
                     }
                   }
-
-                  const optLetter = "ABCD"[optIdx];
 
                   return (
                     <button
                       key={optIdx}
-                      type="button"
-                      disabled={submitted}
-                      onClick={() => setSelected({ ...selected, [qi]: optIdx })}
-                      className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm transition-all cursor-pointer ${style}`}
+                      disabled={isAnswered}
+                      onClick={() => handleSelectOption(qIdx, optIdx)}
+                      className={`text-left rounded-2xl p-3 sm:p-3.5 border text-xs sm:text-[13px] leading-relaxed transition-all flex items-start gap-2.5 cursor-pointer ${btnStyle}`}
                     >
-                      <div className="flex items-center gap-3">
-                        <span className="w-5 h-5 rounded-full border border-white/20 text-[11px] font-mono flex items-center justify-center shrink-0">
-                          {optLetter}
-                        </span>
-                        <span>{optionText}</span>
-                      </div>
-
-                      {submitted && isThisCorrect && (
-                        <CheckCircle2 size={17} className="text-emerald-400 shrink-0 ml-2" />
-                      )}
-                      {submitted && isThisSelected && !isThisCorrect && (
-                        <XCircle size={17} className="text-rose-400 shrink-0 ml-2" />
+                      <span className="w-5 h-5 rounded-lg bg-white/10 flex items-center justify-center text-[10px] font-mono font-semibold shrink-0 mt-0.5">
+                        {String.fromCharCode(65 + optIdx)}
+                      </span>
+                      <span className="flex-1">{opt}</span>
+                      {isAnswered && isTargetCorrect && (
+                        <Check size={14} className="text-emerald-400 shrink-0 mt-0.5" />
                       )}
                     </button>
                   );
                 })}
               </div>
 
-              {/* Post-submission Review & Ground Truth Reference Box */}
-              {submitted && (
-                <div className="mt-4 pt-4 border-t border-white/10 space-y-2.5">
-                  {/* Status Indicator */}
-                  <div className="flex items-center justify-between">
-                    <span
-                      className={`text-xs font-semibold uppercase tracking-wider ${
-                        isCorrect ? "text-emerald-400" : "text-rose-400"
-                      }`}
-                    >
-                      {isCorrect ? "✓ Correct Answer" : "✗ Incorrect"}
-                    </span>
+              {/* Instant Explanation / Feedback Card */}
+              {isAnswered && (
+                <div className="pt-2 border-t border-white/10 space-y-2.5 text-xs">
+                  {item.explanation && (
+                    <div className="p-3 rounded-2xl bg-white/[0.04] border border-white/10 leading-relaxed text-white/90">
+                      <strong className="text-white block font-medium mb-0.5">
+                        {isCorrect ? "Why that's right:" : "Explanation:"}
+                      </strong>
+                      <span className="text-white/70">{item.explanation}</span>
+                    </div>
+                  )}
 
-                    {onViewSourceInRead && (
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-white/50">
+                    {item.source_id && onViewSourceInRead && (
                       <button
-                        type="button"
-                        onClick={() => onViewSourceInRead(q.source_id)}
-                        className="text-xs text-indigo-300 hover:text-indigo-200 underline flex items-center gap-1 cursor-pointer"
+                        onClick={() => onViewSourceInRead(item.source_id)}
+                        className="text-indigo-300 hover:text-white flex items-center gap-1 transition-colors cursor-pointer"
                       >
                         <BookOpen size={12} />
-                        <span>View proof in Read tab</span>
-                        <ArrowRight size={10} />
+                        <span>View Source Evidence [{item.source_id.toUpperCase()}] &rarr;</span>
+                      </button>
+                    )}
+
+                    {item.hint && (
+                      <button
+                        onClick={() =>
+                          setShowHint((h) => ({ ...h, [qIdx]: !h[qIdx] }))
+                        }
+                        className="text-amber-300 hover:text-white flex items-center gap-1 transition-colors cursor-pointer"
+                      >
+                        <Lightbulb size={12} />
+                        <span>{showHint[qIdx] ? "Hide Hint" : "Show Hint"}</span>
                       </button>
                     )}
                   </div>
 
-                  {/* Explanation */}
-                  {q.explanation && (
-                    <p className="text-xs text-white/70 bg-white/[0.03] p-3 rounded-xl border border-white/5 leading-relaxed">
-                      <b className="text-white">Explanation: </b>
-                      {q.explanation}
-                    </p>
-                  )}
-
-                  {/* Ground Truth Reference Text Provided Directly Here */}
-                  {refSentence && (
-                    <div className="text-xs rounded-xl bg-amber-500/10 border border-amber-500/25 p-3 text-amber-200/90 leading-relaxed">
-                      <div className="flex items-center gap-1.5 text-amber-300 font-semibold mb-1">
-                        <Sparkles size={13} />
-                        <span>Ground Truth Textbook Reference [{q.source_id}]:</span>
-                      </div>
-                      <p className="italic font-serif text-white/90">&ldquo;{refSentence}&rdquo;</p>
+                  {showHint[qIdx] && item.hint && (
+                    <div className="p-2.5 rounded-xl bg-amber-400/10 border border-amber-400/20 text-amber-200 text-xs">
+                      <strong className="font-semibold text-amber-300">Hint: </strong>
+                      {item.hint}
                     </div>
                   )}
                 </div>
@@ -301,38 +254,6 @@ export default function QuizCards({
             </div>
           );
         })}
-      </div>
-
-      {/* Action Submit / Retry Bar */}
-      <div className="flex items-center justify-between gap-4 pt-4">
-        {submitted ? (
-          <button
-            type="button"
-            onClick={handleReset}
-            className="liquid-glass rounded-xl px-5 py-2.5 text-xs font-medium text-white/80 hover:text-white hover:bg-white/5 transition-all cursor-pointer border border-white/10 flex items-center gap-2"
-          >
-            <RotateCcw size={14} />
-            <span>Retake Quiz</span>
-          </button>
-        ) : (
-          <div className="flex items-center justify-between w-full">
-            <span className="text-xs text-white/50">
-              {answeredCount < totalQuestions
-                ? `${totalQuestions - answeredCount} questions remaining`
-                : "All questions answered — ready to grade"}
-            </span>
-
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={answeredCount === 0 || saving}
-              className="rounded-xl px-6 py-2.5 bg-white text-black font-semibold text-xs hover:bg-white/90 disabled:opacity-40 transition-all cursor-pointer flex items-center gap-2 shadow-md shadow-white/10"
-            >
-              <Sparkles size={14} />
-              <span>{saving ? "Grading & Saving…" : "Submit Quiz & See Score"}</span>
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

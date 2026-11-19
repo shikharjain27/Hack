@@ -2,7 +2,6 @@
 
 import HeroSection from "./HeroSection";
 import AboutSection from "./AboutSection";
-import FeaturedVideoSection from "./FeaturedVideoSection";
 import PhilosophySection from "./PhilosophySection";
 import ServicesSection from "./ServicesSection";
 import Link from "next/link";
@@ -11,19 +10,16 @@ import { ArrowUpRight } from "lucide-react";
 export default function LandingPage() {
   return (
     <main className="bg-black text-white min-h-screen selection:bg-white/20 selection:text-white">
-      {/* Section 1: Hero */}
+      {/* Section 1: Hero with streamlined navbar (Logo on left, Sign In & User Profile on right) */}
       <HeroSection />
 
-      {/* Section 2: About */}
+      {/* Section 2: About & Methodology */}
       <AboutSection />
 
-      {/* Section 3: Featured Video */}
-      <FeaturedVideoSection />
-
-      {/* Section 4: Philosophy / Comprehension x Accessibility */}
+      {/* Section 3: Philosophy / Comprehension x Accessibility */}
       <PhilosophySection />
 
-      {/* Section 5: Services / Core Capabilities */}
+      {/* Section 4: Core Capabilities (Concept Studio & PDF Document Transformer) */}
       <ServicesSection />
 
       {/* Site Footer */}
@@ -40,19 +36,22 @@ export default function LandingPage() {
           <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-white/60">
             <Link
               href="/workspace"
-              className="text-white hover:text-indigo-300 transition-colors flex items-center gap-1 font-medium"
+              className="hover:text-white transition-colors flex items-center gap-1 font-medium"
             >
-              Launch Workspace <ArrowUpRight size={14} />
+              Concept Studio <ArrowUpRight size={14} />
+            </Link>
+            <Link
+              href="/document"
+              className="hover:text-white transition-colors flex items-center gap-1 font-medium"
+            >
+              PDF Transformer <ArrowUpRight size={14} />
             </Link>
             <Link href="/login" className="hover:text-white transition-colors">
               Sign In
             </Link>
             <Link href="/profile" className="hover:text-white transition-colors">
-              Student Profile
+              User Profile
             </Link>
-            <a href="#about" className="hover:text-white transition-colors">
-              Methodology
-            </a>
           </div>
 
           <p className="text-white/30 text-xs">

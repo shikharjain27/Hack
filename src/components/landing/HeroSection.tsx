@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { BookOpen, ArrowRight, Sparkles, Layers, Wand2 } from "lucide-react";
+import { ArrowRight, Wand2, FileText } from "lucide-react";
+import NavbarAuthSlot from "@/components/NavbarAuthSlot";
 
 function GithubIcon({ size = 20 }: { size?: number }) {
   return (
@@ -17,28 +18,6 @@ function GithubIcon({ size = 20 }: { size?: number }) {
       strokeLinejoin="round"
     >
       <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-    </svg>
-  );
-}
-
-function DiscordIcon({ size = 20 }: { size?: number }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="9" cy="12" r="1" />
-      <circle cx="15" cy="12" r="1" />
-      <path d="M7.5 7.5c3.5-1 5.5-1 9 0" />
-      <path d="M7 16.5c3.5 1 6.5 1 10 0" />
-      <path d="M15.5 17c0 1 1.5 3 2 3 1.5 0 2.833-1.667 3.5-3 .5-3.5-.5-9.5-2-11-2-1-3.5-1-3.5-1l-.5 1" />
-      <path d="M8.5 17c0 1-1.5 3-2 3-1.5 0-2.833-1.667-3.5-3-.5-3.5.5-9.5 2-11 2-1 3.5-1 3.5-1l.5 1" />
     </svg>
   );
 }
@@ -82,7 +61,7 @@ export default function HeroSection() {
     let fadingOut = false;
 
     const handleCanPlay = () => {
-      video.play().catch(() => {});
+      video.play().catch(() => { });
       const currentOpacity = parseFloat(video.style.opacity || "0");
       animateOpacity(currentOpacity, 1, 500);
     };
@@ -105,7 +84,7 @@ export default function HeroSection() {
       setTimeout(() => {
         if (!videoRef.current) return;
         videoRef.current.currentTime = 0;
-        videoRef.current.play().catch(() => {});
+        videoRef.current.play().catch(() => { });
         animateOpacity(0, 1, 500);
       }, 100);
     };
@@ -149,62 +128,21 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(99,102,241,0.15)_0%,transparent_70%)] pointer-events-none" />
       <div className="absolute inset-0 bg-black/60 pointer-events-none" />
 
-      {/* Clean, Decoupled Top Header Bar */}
-      <header className="relative z-20 px-6 py-5">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          {/* Logo Brand */}
-          <Link href="/" className="flex items-center gap-2.5 text-white font-semibold text-lg tracking-tight group">
-            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-white text-black font-black text-sm shadow-md group-hover:scale-105 transition-transform">
-              U
-            </span>
-            <span className="font-serif-instrument text-2xl tracking-normal">Unjargon</span>
-          </Link>
+      {/* Top Header (No panel container) */}
+      <header className="relative z-20 w-full px-6 md:px-12 py-6 md:py-8 flex items-center justify-between">
+        {/* Top Left: Logo */}
+        <Link
+          href="/"
+          className="flex items-center gap-2.5 text-white font-semibold text-lg md:text-xl hover:opacity-85 transition-opacity"
+        >
+          <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-white text-black font-black text-sm shadow-md">
+            U
+          </span>
+          <span className="tracking-tight">Unjargon</span>
+        </Link>
 
-          {/* Right Auth Action Pill */}
-          <div className="liquid-glass rounded-full px-2 py-1.5 flex items-center gap-1 border border-white/10 shadow-lg">
-            <Link
-              href="/login?mode=signup"
-              className="px-4 py-2 text-white/80 hover:text-white text-xs font-medium transition-colors"
-            >
-              Sign Up
-            </Link>
-            <Link
-              href="/login"
-              className="rounded-full px-5 py-2 bg-white text-black font-semibold text-xs hover:bg-white/90 transition-all shadow-md"
-            >
-              Login
-            </Link>
-          </div>
-        </div>
-
-        {/* Dedicated Navigation Sub-Pill */}
-        <div className="mt-4 flex justify-center">
-          <nav className="liquid-glass rounded-full px-5 py-2 flex items-center gap-6 border border-white/10 shadow-md overflow-x-auto max-w-full">
-            <a href="#about" className="text-white/70 hover:text-white text-xs font-medium transition-colors whitespace-nowrap">
-              Methodology
-            </a>
-            <a href="#services" className="text-white/70 hover:text-white text-xs font-medium transition-colors whitespace-nowrap">
-              Capabilities
-            </a>
-            <a href="#philosophy" className="text-white/70 hover:text-white text-xs font-medium transition-colors whitespace-nowrap">
-              Accessibility
-            </a>
-            <span className="h-3 w-px bg-white/20" />
-            <Link
-              href="/workspace"
-              className="text-white/80 hover:text-white text-xs font-medium transition-colors whitespace-nowrap flex items-center gap-1.5"
-            >
-              <span>Concept Studio</span>
-            </Link>
-            <Link
-              href="/document"
-              className="text-indigo-300 hover:text-white text-xs font-semibold transition-colors whitespace-nowrap flex items-center gap-1.5"
-            >
-              <Sparkles size={12} className="text-indigo-400" />
-              <span>Full PDF Transformer</span>
-            </Link>
-          </nav>
-        </div>
+        {/* Top Right: Dynamic Auth Slot */}
+        <NavbarAuthSlot />
       </header>
 
       {/* Hero Content */}
@@ -216,14 +154,14 @@ export default function HeroSection() {
         </div>
 
         {/* Heading */}
-        <h1 className="text-6xl md:text-8xl lg:text-9xl text-white tracking-tight whitespace-nowrap font-serif-instrument mb-6">
+        <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-white tracking-tight font-serif-instrument mb-6 max-w-5xl leading-[1.05]">
           Unjargon then <em className="italic">everything</em>.
         </h1>
 
         {/* Subtitle with Project Context */}
         <p className="text-white/90 text-sm md:text-base leading-relaxed px-4 max-w-2xl mb-8">
-          Dense textbooks shouldn&apos;t gatekeep student potential. Turn opaque academic passages and research papers into 
-          accessible reading levels (Expert &rarr; Grade 10 &rarr; Grade 6) with live word diffs, readability gauges, 
+          Dense textbooks shouldn&apos;t gatekeep student potential. Turn opaque academic passages and research papers into
+          accessible reading levels (Expert &rarr; Grade 10 &rarr; Grade 6) with live word diffs, readability gauges,
           karaoke audio narration, and interactive concept graphs.
         </p>
 
@@ -254,49 +192,34 @@ export default function HeroSection() {
 
         {/* Action Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
-          <a
-            href="#about"
-            className="liquid-glass rounded-full px-7 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors cursor-pointer"
-          >
-            How it Works
-          </a>
           <Link
             href="/workspace"
             className="rounded-full px-8 py-3 bg-white text-black font-semibold text-sm hover:bg-white/90 transition-transform hover:scale-105 flex items-center gap-2 shadow-xl"
           >
             <Wand2 size={16} />
-            Launch Assistant
+            Launch Studio
+          </Link>
+          <Link
+            href="/document"
+            className="liquid-glass rounded-full px-7 py-3 text-white text-sm font-medium hover:bg-white/10 transition-colors flex items-center gap-2 border border-white/10"
+          >
+            <FileText size={16} />
+            PDF Transformer
           </Link>
         </div>
       </div>
 
-      {/* Social / Community Icons Footer */}
-      <footer className="relative z-10 flex justify-center gap-4 pb-12">
+      {/* Social / GitHub Link Footer */}
+      <footer className="relative z-10 flex justify-center pb-12">
         <a
-          href="https://github.com"
+          href="https://github.com/shikharjain27/Hack/"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub Repository"
-          className="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all"
+          className="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/10 transition-all border border-white/10"
         >
           <GithubIcon size={20} />
         </a>
-        <a
-          href="https://discord.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Community Discord"
-          className="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all"
-        >
-          <DiscordIcon size={20} />
-        </a>
-        <Link
-          href="/workspace"
-          aria-label="Open Workspace"
-          className="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all"
-        >
-          <BookOpen size={20} />
-        </Link>
       </footer>
     </div>
   );

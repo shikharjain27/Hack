@@ -1,0 +1,64 @@
+{
+  "verdicts": [
+    {
+      "id": "g1",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Accurately represents self-balancing property and color storage."
+    },
+    {
+      "id": "g2",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Faithfully summarizes the five core structural invariants."
+    },
+    {
+      "id": "g3",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Correctly describes tree restoration through rotations and recolorings."
+    },
+    {
+      "id": "g4",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Accurately conveys logarithmic worst-case time complexity bounds."
+    },
+    {
+      "id": "k1",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Simple and faithful introductory statement of red and black nodes."
+    },
+    {
+      "id": "k2",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Directly captures invariant 2 that the root is black."
+    },
+    {
+      "id": "k3",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Accurately expresses the constraint against adjacent red nodes in plain terms."
+    },
+    {
+      "id": "k4",
+      "faithful": false,
+      "dropped_facts": ["NIL sentinel", "black-height"],
+      "note": "Simplifies black-height without explicitly defining NIL sentinel pointers."
+    },
+    {
+      "id": "k5",
+      "faithful": false,
+      "dropped_facts": ["O(1) pointer restructuring", "O(log n) recolorings"],
+      "note": "Omits the specific asymptotic complexities of rotations and recolorings."
+    },
+    {
+      "id": "k6",
+      "faithful": false,
+      "dropped_facts": ["O(log n) asymptotic bound", "insertion and deletion operations"],
+      "note": "Replaces exact Big-O logarithmic notation with 'super fast' colloquial phrase."
+    }
+  ]
+}

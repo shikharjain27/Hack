@@ -1,0 +1,64 @@
+{
+  "verdicts": [
+    {
+      "id": "g1",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Accurately introduces BGP and Autonomous Systems in accessible terminology."
+    },
+    {
+      "id": "g2",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Faithfully mentions TCP on port 179 and reachability sharing."
+    },
+    {
+      "id": "g3",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Correctly describes AS_PATH loop suppression and route discarding."
+    },
+    {
+      "id": "g4",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Accurately summarizes the attribute hierarchy (LOCAL_PREF, hop length, tiebreakers)."
+    },
+    {
+      "id": "k1",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Simple, faithful analogy of BGP as the global Internet road map."
+    },
+    {
+      "id": "k2",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Captures the core concept of independent networks communicating."
+    },
+    {
+      "id": "k3",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Explicitly preserves the technical details of TCP port 179."
+    },
+    {
+      "id": "k4",
+      "faithful": false,
+      "dropped_facts": ["AS_PATH attribute", "Autonomous System Number (ASN)"],
+      "note": "Simplifies AS_PATH and ASN into 'list of visited networks'."
+    },
+    {
+      "id": "k5",
+      "faithful": false,
+      "dropped_facts": ["Autonomous System Number (ASN)", "routing update advertisement"],
+      "note": "Uses conversational wording ('throws it away') instead of 'discards advertisement'."
+    },
+    {
+      "id": "k6",
+      "faithful": false,
+      "dropped_facts": ["LOCAL_PREF", "origin code", "Multi-Exit Discriminator (MED)"],
+      "note": "Focuses primarily on network jumps, omitting LOCAL_PREF and MED metrics."
+    }
+  ]
+}

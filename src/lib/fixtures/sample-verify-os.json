@@ -1,0 +1,70 @@
+{
+  "verdicts": [
+    {
+      "id": "g1",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Accurately introduces virtual memory isolation in accessible student terms."
+    },
+    {
+      "id": "g2",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Faithfully explains the MMU checking the fast TLB cache."
+    },
+    {
+      "id": "g3",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Correctly describes walking through directory tables upon a TLB miss."
+    },
+    {
+      "id": "g4",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Faithfully introduces the page fault exception concept."
+    },
+    {
+      "id": "g5",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Accurately details validation, demand paging frame allocation, and thread resumption."
+    },
+    {
+      "id": "k1",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Simple playground analogy for virtual memory isolation."
+    },
+    {
+      "id": "k2",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Faithfully simplifies the TLB as a fast cheat sheet."
+    },
+    {
+      "id": "k3",
+      "faithful": false,
+      "dropped_facts": ["radix directory tree", "PGD, PUD, PMD, PTE levels"],
+      "note": "Simplifies multi-level radix directory levels to 'reading page books'."
+    },
+    {
+      "id": "k4",
+      "faithful": false,
+      "dropped_facts": ["Present bit", "Interrupt Vector 14", "synchronous exception"],
+      "note": "Omits the specific Interrupt Vector 14 and Present bit terminology."
+    },
+    {
+      "id": "k5",
+      "faithful": false,
+      "dropped_facts": ["VMA validation", "PTE protection bits", "TLB flush"],
+      "note": "Describes physical frame allocation simply as 'grabs an empty memory box'."
+    },
+    {
+      "id": "k6",
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "Faithfully conveys seamless resumption of thread execution."
+    }
+  ]
+}

@@ -11,43 +11,59 @@ For EVERY sentence in levels.grade10 and levels.grade6 (return exactly one verdi
 List in dropped_facts any facts, numbers or quantities from the cited source sentences that were lost or distorted (e.g. "produces 2 CO₂"). Be strict: every number, quantity, named molecule or product in the cited source sentences that is missing from the simplified sentence counts as dropped, even if the sentence is otherwise accurate (a sentence citing several facts that mentions only some of them is NOT faithful). Set faithful=false if anything is dropped or distorted, otherwise true with an empty dropped_facts. note is one short sentence.`;
 
 const VERIFY_FIXTURES: Record<string, string> = {
-  krebs: "sample-verify.json",
-  quantum: "sample-verify-quantum.json",
-  law: "sample-verify-law.json",
+  dsa: "sample-verify-dsa.json",
+  networking: "sample-verify-networking.json",
+  os: "sample-verify-os.json",
+  // Legacy aliases
+  krebs: "sample-verify-dsa.json",
+  quantum: "sample-verify-networking.json",
+  law: "sample-verify-os.json",
 };
 
-export function detectVerifySampleId(sourceSentences?: { id: string; text: string }[]): "krebs" | "quantum" | "law" | null {
+export function detectVerifySampleId(sourceSentences?: { id: string; text: string }[]): "dsa" | "networking" | "os" | "krebs" | "quantum" | "law" | null {
   if (!sourceSentences?.length) return null;
   const fullText = sourceSentences.map((s) => s.text).join(" ").toLowerCase();
   if (
+    fullText.includes("red-black") ||
+    fullText.includes("black-height") ||
+    fullText.includes("tree rotation") ||
+    fullText.includes("structural invariants") ||
+    fullText.includes("binary search tree") ||
     fullText.includes("pyruvate") ||
-    fullText.includes("glycolysis") ||
-    fullText.includes("krebs") ||
-    fullText.includes("hydroxyethyl")
+    fullText.includes("krebs")
   ) {
-    return "krebs";
+    return "dsa";
   }
   if (
-    fullText.includes("quantum") ||
-    fullText.includes("decoherence") ||
-    fullText.includes("superposition") ||
-    fullText.includes("eigenstate")
+    fullText.includes("border gateway protocol") ||
+    fullText.includes("bgp") ||
+    fullText.includes("autonomous system") ||
+    fullText.includes("as_path") ||
+    fullText.includes("local_pref") ||
+    fullText.includes("multi-exit discriminator") ||
+    fullText.includes("nlri") ||
+    fullText.includes("quantum")
   ) {
-    return "quantum";
+    return "networking";
   }
   if (
-    fullText.includes("commerce") ||
-    fullText.includes("constitution") ||
-    fullText.includes("interstate") ||
-    fullText.includes("plenary")
+    fullText.includes("virtual memory") ||
+    fullText.includes("page table") ||
+    fullText.includes("tlb") ||
+    fullText.includes("translation lookaside") ||
+    fullText.includes("page fault") ||
+    fullText.includes("mmu") ||
+    fullText.includes("demand paging") ||
+    fullText.includes("vma") ||
+    fullText.includes("commerce")
   ) {
-    return "law";
+    return "os";
   }
   return null;
 }
 
 async function loadVerifyFixture(id: string): Promise<VerifyResult> {
-  const filename = VERIFY_FIXTURES[id] ?? VERIFY_FIXTURES.krebs;
+  const filename = VERIFY_FIXTURES[id] ?? VERIFY_FIXTURES.dsa;
   const file = path.join(process.cwd(), "src/lib/fixtures", filename);
   return JSON.parse(await fs.readFile(file, "utf8"));
 }
@@ -59,10 +75,10 @@ export async function POST(req: Request) {
     if (mockParam) {
       const sampleId =
         mockParam === "1"
-          ? "krebs"
+          ? "dsa"
           : mockParam in VERIFY_FIXTURES
             ? mockParam
-            : "krebs";
+            : "dsa";
       return NextResponse.json(await loadVerifyFixture(sampleId));
     }
 

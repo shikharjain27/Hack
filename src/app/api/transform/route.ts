@@ -29,45 +29,59 @@ Return JSON matching the schema. Rules:
 - title: a concise, descriptive title for the passage.`;
 
 const SAMPLE_FIXTURES: Record<string, string> = {
-  krebs: "sample-result.json",
-  quantum: "sample-quantum.json",
-  law: "sample-law.json",
+  dsa: "sample-dsa.json",
+  networking: "sample-networking.json",
+  os: "sample-os.json",
+  // Legacy aliases
+  krebs: "sample-dsa.json",
+  quantum: "sample-networking.json",
+  law: "sample-os.json",
 };
 
-export function detectSampleId(text?: string): "krebs" | "quantum" | "law" | null {
+export function detectSampleId(text?: string): "dsa" | "networking" | "os" | "krebs" | "quantum" | "law" | null {
   if (!text) return null;
   const lower = text.toLowerCase();
   if (
+    lower.includes("red-black") ||
+    lower.includes("black-height") ||
+    lower.includes("tree rotation") ||
+    lower.includes("structural invariants") ||
+    lower.includes("binary search tree") ||
     lower.includes("pyruvate") ||
-    lower.includes("glycolysis") ||
-    lower.includes("krebs") ||
-    lower.includes("acetyl coa") ||
-    lower.includes("hydroxyethyl")
+    lower.includes("krebs")
   ) {
-    return "krebs";
+    return "dsa";
   }
   if (
-    lower.includes("quantum") ||
-    lower.includes("decoherence") ||
-    lower.includes("superposition") ||
-    lower.includes("eigenstate")
+    lower.includes("border gateway protocol") ||
+    lower.includes("bgp") ||
+    lower.includes("autonomous system") ||
+    lower.includes("as_path") ||
+    lower.includes("local_pref") ||
+    lower.includes("multi-exit discriminator") ||
+    lower.includes("nlri") ||
+    lower.includes("quantum")
   ) {
-    return "quantum";
+    return "networking";
   }
   if (
-    lower.includes("commerce") ||
-    lower.includes("constitution") ||
-    lower.includes("interstate") ||
-    lower.includes("plenary authority") ||
-    lower.includes("clause 3")
+    lower.includes("virtual memory") ||
+    lower.includes("page table") ||
+    lower.includes("tlb") ||
+    lower.includes("translation lookaside") ||
+    lower.includes("page fault") ||
+    lower.includes("mmu") ||
+    lower.includes("demand paging") ||
+    lower.includes("vma") ||
+    lower.includes("commerce")
   ) {
-    return "law";
+    return "os";
   }
   return null;
 }
 
 async function loadSampleFixture(id: string): Promise<TransformResult> {
-  const filename = SAMPLE_FIXTURES[id] ?? SAMPLE_FIXTURES.krebs;
+  const filename = SAMPLE_FIXTURES[id] ?? SAMPLE_FIXTURES.dsa;
   const file = path.join(process.cwd(), "src/lib/fixtures", filename);
   const raw = JSON.parse(await fs.readFile(file, "utf8"));
   return raw.transform ?? raw;
@@ -80,10 +94,10 @@ export async function POST(req: Request) {
     if (mockParam) {
       const sampleId =
         mockParam === "1"
-          ? "krebs"
+          ? "dsa"
           : mockParam in SAMPLE_FIXTURES
             ? mockParam
-            : "krebs";
+            : "dsa";
       const fixture = await loadSampleFixture(sampleId);
       return NextResponse.json(fixture, {
         headers: { "X-Unjargon-Cached": "1" },

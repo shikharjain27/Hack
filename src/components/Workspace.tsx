@@ -134,11 +134,35 @@ export default function Workspace({ initialProfile }: { initialProfile?: Student
     }, 3000);
   }
 
-  function detectSampleType(t: string): "krebs" | "quantum" | "law" | null {
+  function detectSampleType(t: string): "dsa" | "networking" | "os" | "krebs" | "quantum" | "law" | null {
     const lower = t.toLowerCase();
-    if (lower.includes("pyruvate") || lower.includes("glycolysis") || lower.includes("krebs")) return "krebs";
-    if (lower.includes("quantum") || lower.includes("decoherence") || lower.includes("superposition")) return "quantum";
-    if (lower.includes("commerce") || lower.includes("constitution") || lower.includes("interstate")) return "law";
+    if (
+      lower.includes("red-black") ||
+      lower.includes("black-height") ||
+      lower.includes("tree rotation") ||
+      lower.includes("structural invariants") ||
+      lower.includes("pyruvate") ||
+      lower.includes("krebs")
+    )
+      return "dsa";
+    if (
+      lower.includes("border gateway protocol") ||
+      lower.includes("bgp") ||
+      lower.includes("autonomous system") ||
+      lower.includes("as_path") ||
+      lower.includes("local_pref") ||
+      lower.includes("quantum")
+    )
+      return "networking";
+    if (
+      lower.includes("virtual memory") ||
+      lower.includes("page table") ||
+      lower.includes("tlb") ||
+      lower.includes("translation lookaside") ||
+      lower.includes("page fault") ||
+      lower.includes("commerce")
+    )
+      return "os";
     return null;
   }
 

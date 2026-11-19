@@ -1,0 +1,218 @@
+{
+  "title": "BGP-4 Path-Vector Routing & Autonomous Systems",
+  "source_sentences": [
+    {
+      "id": "s1",
+      "text": "The Border Gateway Protocol (BGP-4) is the standardized exterior gateway routing protocol facilitating policy-driven inter-domain traffic routing across autonomous systems (AS) on the global Internet backbone."
+    },
+    {
+      "id": "s2",
+      "text": "Unlike interior gateway protocols such as OSPF that calculate shortest paths using Dijkstra's algorithm across a uniform metric space, BGP functions as a path-vector protocol exchanging Network Layer Reachability Information (NLRI) over reliable Transmission Control Protocol (TCP) peering sessions on destination port 179."
+    },
+    {
+      "id": "s3",
+      "text": "BGP border routers actively suppress routing loops by evaluating the mandatory AS_PATH attribute; if a router identifies its own autonomous system number (ASN) within the advertised sequence of traversed systems, the routing update is immediately discarded."
+    },
+    {
+      "id": "s4",
+      "text": "Best-path determination evaluates advertised routes through a deterministic hierarchy of path attributes, sequentially prioritizing highest Local Preference (LOCAL_PREF), shortest AS_PATH hop length, lowest origin code, and lowest Multi-Exit Discriminator (MED) before evaluating interior gateway protocol tiebreakers."
+    }
+  ],
+  "levels": {
+    "expert": [
+      {
+        "id": "e1",
+        "text": "BGP-4 is the standardized exterior gateway protocol orchestrating policy-based inter-domain traffic exchange among autonomous systems across the Internet.",
+        "source_ids": ["s1"]
+      },
+      {
+        "id": "e2",
+        "text": "Diverging from link-state IGPs using Dijkstra's algorithm, BGP operates as a path-vector protocol distributing NLRI over persistent TCP sessions on port 179.",
+        "source_ids": ["s2"]
+      },
+      {
+        "id": "e3",
+        "text": "Border routers prevent routing loops by verifying the AS_PATH attribute, unconditionally dropping advertisements containing their own ASN.",
+        "source_ids": ["s3"]
+      },
+      {
+        "id": "e4",
+        "text": "Deterministic path selection systematically evaluates LOCAL_PREF, AS_PATH length, origin type, and MED metrics prior to IGP tiebreakers.",
+        "source_ids": ["s4"]
+      }
+    ],
+    "grade10": [
+      {
+        "id": "g1",
+        "text": "The Border Gateway Protocol (BGP) is the primary system that connects large independent internet networks, called Autonomous Systems, across the globe.",
+        "source_ids": ["s1"]
+      },
+      {
+        "id": "g2",
+        "text": "Instead of calculating simple shortest physical distances, BGP shares reachability information through reliable TCP network connections on port 179.",
+        "source_ids": ["s2"]
+      },
+      {
+        "id": "g3",
+        "text": "Routers prevent data from circling in endless loops by checking the list of visited networks; if a router sees its own network ID, it discards the route.",
+        "source_ids": ["s3"]
+      },
+      {
+        "id": "g4",
+        "text": "BGP selects the best path using a step-by-step checklist: first highest local preference, then shortest network hops, and finally lower metric tiebreakers.",
+        "source_ids": ["s4"]
+      }
+    ],
+    "grade6": [
+      {
+        "id": "k1",
+        "text": "BGP is the road map that connects the entire global Internet.",
+        "source_ids": ["s1"]
+      },
+      {
+        "id": "k2",
+        "text": "Big network companies use BGP to talk to each other.",
+        "source_ids": ["s1"]
+      },
+      {
+        "id": "k3",
+        "text": "Messages travel over reliable TCP connections on port 179.",
+        "source_ids": ["s2"]
+      },
+      {
+        "id": "k4",
+        "text": "Each message lists every network it visited along the way.",
+        "source_ids": ["s3"]
+      },
+      {
+        "id": "k5",
+        "text": "If a router sees its own name in the list, it throws it away.",
+        "source_ids": ["s3"]
+      },
+      {
+        "id": "k6",
+        "text": "The router picks routes that have fewer network jumps.",
+        "source_ids": ["s4"]
+      }
+    ]
+  },
+  "glossary": [
+    {
+      "term": "Autonomous System (AS)",
+      "plain": "A large network or collection of IP prefixes under a single administrative authority (like an ISP or university).",
+      "emoji": "🌐"
+    },
+    {
+      "term": "Path-Vector Protocol",
+      "plain": "A routing protocol that maintains the entire sequence of autonomous systems a route travels through.",
+      "emoji": "🧭"
+    },
+    {
+      "term": "AS_PATH Attribute",
+      "plain": "An ordered list of autonomous system numbers that an advertisement has traversed, used to detect loops.",
+      "emoji": "⛓️"
+    },
+    {
+      "term": "LOCAL_PREF",
+      "plain": "A BGP metric configured inside an organization to choose which outbound exit point is favored.",
+      "emoji": "⭐"
+    },
+    {
+      "term": "Multi-Exit Discriminator (MED)",
+      "plain": "An optional attribute that suggests to an external neighbor which path into your network is preferred.",
+      "emoji": "🚪"
+    },
+    {
+      "term": "NLRI",
+      "plain": "Network Layer Reachability Information: the IP prefix and subnet mask being advertised across routers.",
+      "emoji": "📡"
+    }
+  ],
+  "concept_map": {
+    "nodes": [
+      { "id": "n1", "label": "BGP-4 Protocol" },
+      { "id": "n2", "label": "Autonomous Systems (AS)" },
+      { "id": "n3", "label": "TCP Peering (Port 179)" },
+      { "id": "n4", "label": "AS_PATH Attribute" },
+      { "id": "n5", "label": "Loop Prevention" },
+      { "id": "n6", "label": "LOCAL_PREF & MED" },
+      { "id": "n7", "label": "Deterministic Best-Path Selection" }
+    ],
+    "edges": [
+      { "from": "n1", "to": "n2", "label": "interconnects" },
+      { "from": "n1", "to": "n3", "label": "transports over" },
+      { "from": "n1", "to": "n4", "label": "advertises" },
+      { "from": "n4", "to": "n5", "label": "enforces" },
+      { "from": "n6", "to": "n7", "label": "ranks" },
+      { "from": "n4", "to": "n7", "label": "influences" }
+    ]
+  },
+  "quiz": [
+    {
+      "q": "What transport layer protocol and destination port does BGP-4 utilize for peering sessions?",
+      "options": [
+        "UDP on port 53",
+        "TCP on destination port 179",
+        "ICMP on port 80",
+        "Raw IP packets without transport layer protocols"
+      ],
+      "answer": 1,
+      "source_id": "s2",
+      "hint": "Check sentence 2 for the reliable transport mechanism mentioned.",
+      "explanation": "BGP establishes reliable peering sessions using TCP connections on destination port 179."
+    },
+    {
+      "q": "How does a BGP border router detect and prevent routing loops?",
+      "options": [
+        "By setting a TTL counter to 15 hops",
+        "By inspecting the AS_PATH attribute and discarding routes containing its own ASN",
+        "By re-running Dijkstra's algorithm every 30 seconds",
+        "By encrypting the route with asymmetric SSL certificates"
+      ],
+      "answer": 1,
+      "source_id": "s3",
+      "hint": "Consider what happens if a router discovers its own network number in the traversed history.",
+      "explanation": "If a router's own ASN appears in the AS_PATH sequence, it knows the packet would loop back and discards the update."
+    },
+    {
+      "q": "Which path attribute is prioritized first in standard BGP best-path determination?",
+      "options": [
+        "Shortest AS_PATH hop length",
+        "Highest Local Preference (LOCAL_PREF)",
+        "Lowest Multi-Exit Discriminator (MED)",
+        "Oldest router uptime"
+      ],
+      "answer": 1,
+      "source_id": "s4",
+      "hint": "Look at the sequential hierarchy of attributes described in sentence 4.",
+      "explanation": "BGP path selection begins by prioritizing the route with the highest LOCAL_PREF attribute."
+    },
+    {
+      "q": "How does BGP differ fundamentally from interior protocols like OSPF?",
+      "options": [
+        "OSPF runs across the entire global Internet while BGP is only local",
+        "BGP is a policy-driven path-vector protocol rather than a link-state shortest-path algorithm",
+        "BGP cannot carry IPv4 addresses",
+        "OSPF requires manual approval for every single packet"
+      ],
+      "answer": 1,
+      "source_id": "s2",
+      "hint": "Compare path-vector policy routing with Dijkstra's shortest-path algorithm.",
+      "explanation": "BGP operates across independent networks using path-vector policies rather than uniform metric link-state algorithms."
+    },
+    {
+      "q": "What does NLRI represent in BGP routing exchanges?",
+      "options": [
+        "Network Layer Reachability Information (IP prefixes advertised)",
+        "Non-Linear Routing Indicators",
+        "Native Link Rate Identification",
+        "New Local Router Interface"
+      ],
+      "answer": 0,
+      "source_id": "s2",
+      "hint": "Refer to the glossary and sentence 2 discussing network layer reachability.",
+      "explanation": "NLRI stands for Network Layer Reachability Information, denoting prefixes reachable through the advertising router."
+    }
+  ],
+  "diagram_alt_text": "Network architecture diagram of BGP inter-domain routing: AS 100 advertises IP prefix 198.51.100.0/24 to AS 200, appending ASN 100 to AS_PATH. AS 200 propagates the prefix to AS 300 with AS_PATH [200, 100]. If AS 300 tries to announce this back to AS 100, AS 100 detects its own ASN (100) and drops the update to prevent a loop."
+}

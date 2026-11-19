@@ -1,0 +1,218 @@
+{
+  "title": "Red-Black Tree Balancing & Invariants",
+  "source_sentences": [
+    {
+      "id": "s1",
+      "text": "A Red-Black tree is a self-balancing binary search tree where each node stores an extra bit representing its color, designated as either RED or BLACK."
+    },
+    {
+      "id": "s2",
+      "text": "To maintain approximately logarithmic tree height, the data structure strictly enforces five structural invariants: every node is colored either red or black; the root node is unconditionally black; every leaf node (represented by a NIL sentinel) is black; if a node is red, both of its immediate children must be black, which precludes consecutive red nodes along any root-to-leaf path; and for every node, all simple paths from that node to its descendant NIL leaves traverse the exact same number of black nodes, defined as the node's black-height."
+    },
+    {
+      "id": "s3",
+      "text": "When an element insertion or deletion violates these invariants, the tree initiates a restoration procedure consisting of O(1) pointer restructuring tree rotations (left and right rotations) and at most O(log n) node recoloring operations."
+    },
+    {
+      "id": "s4",
+      "text": "Consequently, basic dynamic-set operations including search, insertion, and deletion achieve an asymptotic upper bound of O(log n) time in the worst case."
+    }
+  ],
+  "levels": {
+    "expert": [
+      {
+        "id": "e1",
+        "text": "A Red-Black tree is a self-balancing binary search tree storing a one-bit color tag (RED or BLACK) per node.",
+        "source_ids": ["s1"]
+      },
+      {
+        "id": "e2",
+        "text": "Five structural invariants govern balance: every node is red or black; the root is black; all NIL leaves are black; red nodes cannot have red children; and all paths from any node to descendant leaves share an identical black-height.",
+        "source_ids": ["s2"]
+      },
+      {
+        "id": "e3",
+        "text": "Upon insertion or deletion violations, the tree restores balance via O(1) local tree rotations and at most O(log n) recolorings.",
+        "source_ids": ["s3"]
+      },
+      {
+        "id": "e4",
+        "text": "This guarantees worst-case O(log n) time complexity for search, insertion, and deletion operations.",
+        "source_ids": ["s4"]
+      }
+    ],
+    "grade10": [
+      {
+        "id": "g1",
+        "text": "A Red-Black tree is a special binary search tree that automatically keeps itself balanced using node colors (red or black).",
+        "source_ids": ["s1"]
+      },
+      {
+        "id": "g2",
+        "text": "It stays balanced by following five strict rules: nodes are red or black, the root is black, all leaf endpoints are black, two red nodes never touch, and every path down has the same count of black nodes.",
+        "source_ids": ["s2"]
+      },
+      {
+        "id": "g3",
+        "text": "When you insert or delete an item and break a rule, the tree quickly fixes itself using small pointer pivots (rotations) and color swaps.",
+        "source_ids": ["s3"]
+      },
+      {
+        "id": "g4",
+        "text": "Because the tree cannot get too tall or lopsided, finding, adding, or removing items always finishes very quickly in O(log n) time.",
+        "source_ids": ["s4"]
+      }
+    ],
+    "grade6": [
+      {
+        "id": "k1",
+        "text": "A Red-Black tree is a tree of numbers colored red or black.",
+        "source_ids": ["s1"]
+      },
+      {
+        "id": "k2",
+        "text": "The top root node is always painted black.",
+        "source_ids": ["s2"]
+      },
+      {
+        "id": "k3",
+        "text": "Two red nodes are never allowed to touch each other.",
+        "source_ids": ["s2"]
+      },
+      {
+        "id": "k4",
+        "text": "Every path to the bottom has the exact same black nodes.",
+        "source_ids": ["s2"]
+      },
+      {
+        "id": "k5",
+        "text": "When items are added, the tree twists and swaps colors to stay even.",
+        "source_ids": ["s3"]
+      },
+      {
+        "id": "k6",
+        "text": "Searching this tree is always super fast.",
+        "source_ids": ["s4"]
+      }
+    ]
+  },
+  "glossary": [
+    {
+      "term": "Binary Search Tree",
+      "plain": "A tree data structure where left children hold smaller values and right children hold larger values.",
+      "emoji": "🌲"
+    },
+    {
+      "term": "Black-Height",
+      "plain": "The number of black nodes encountered along any path from a node down to a leaf.",
+      "emoji": "📏"
+    },
+    {
+      "term": "NIL Sentinel",
+      "plain": "A dummy leaf node at the bottom of the tree used to mark empty child spots.",
+      "emoji": "🛑"
+    },
+    {
+      "term": "Tree Rotation",
+      "plain": "A fast constant-time operation that reshuffles pointers between nodes to balance the tree.",
+      "emoji": "🔄"
+    },
+    {
+      "term": "O(log n) Complexity",
+      "plain": "A time bound that grows very slowly as elements double, guaranteeing fast searches.",
+      "emoji": "⚡"
+    },
+    {
+      "term": "Structural Invariant",
+      "plain": "A mandatory rule that must remain true after every tree update.",
+      "emoji": "🛡️"
+    }
+  ],
+  "concept_map": {
+    "nodes": [
+      { "id": "n1", "label": "Red-Black Tree" },
+      { "id": "n2", "label": "5 Structural Invariants" },
+      { "id": "n3", "label": "Black-Height Balance" },
+      { "id": "n4", "label": "Insertion / Deletion" },
+      { "id": "n5", "label": "Tree Rotations (O(1))" },
+      { "id": "n6", "label": "Recoloring (O(log n))" },
+      { "id": "n7", "label": "Worst-Case O(log n) Search" }
+    ],
+    "edges": [
+      { "from": "n1", "to": "n2", "label": "enforces" },
+      { "from": "n2", "to": "n3", "label": "maintains" },
+      { "from": "n4", "to": "n2", "label": "may violate" },
+      { "from": "n4", "to": "n5", "label": "triggers" },
+      { "from": "n4", "to": "n6", "label": "triggers" },
+      { "from": "n3", "to": "n7", "label": "guarantees" }
+    ]
+  },
+  "quiz": [
+    {
+      "q": "What color is the root node of a Red-Black tree required to be?",
+      "options": [
+        "Unconditionally red",
+        "Unconditionally black",
+        "Either color depending on tree height",
+        "Alternating red and black every second"
+      ],
+      "answer": 1,
+      "source_id": "s2",
+      "hint": "Check the five structural invariants regarding the top-most node.",
+      "explanation": "Invariant 2 specifies that the root node must always be black."
+    },
+    {
+      "q": "What rule prevents two red nodes from appearing directly consecutively?",
+      "options": [
+        "Every node must have a unique color",
+        "If a node is red, both of its immediate children must be black",
+        "Red nodes can only exist at leaf positions",
+        "The black-height must equal zero"
+      ],
+      "answer": 1,
+      "source_id": "s2",
+      "hint": "Consider the structural requirement applied whenever a node is colored red.",
+      "explanation": "Invariant 4 forbids adjacent red nodes by requiring that any red node must have two black children."
+    },
+    {
+      "q": "What is the time complexity of a tree rotation during rebalancing?",
+      "options": [
+        "O(1) constant time",
+        "O(log n) logarithmic time",
+        "O(n) linear time",
+        "O(n log n) time"
+      ],
+      "answer": 0,
+      "source_id": "s3",
+      "hint": "Rotations only adjust a fixed number of parent-child pointers.",
+      "explanation": "Tree rotations are local pointer adjustments that execute in O(1) constant time."
+    },
+    {
+      "q": "What does the term 'black-height' measure?",
+      "options": [
+        "The total number of red and black nodes in the entire tree",
+        "The number of black nodes traversed on simple paths from a node to descendant NIL leaves",
+        "The height of the tree multiplied by two",
+        "The memory size of each node in bytes"
+      ],
+      "answer": 1,
+      "source_id": "s2",
+      "hint": "Look at invariant 5 regarding paths from a node down to descendant leaves.",
+      "explanation": "Black-height is the invariant count of black nodes along any simple downward path to a leaf."
+    },
+    {
+      "q": "What is the worst-case asymptotic time complexity for dynamic-set operations in a Red-Black tree?",
+      "options": [
+        "O(1)",
+        "O(log n)",
+        "O(n)",
+        "O(n²)"
+      ],
+      "answer": 1,
+      "source_id": "s4",
+      "hint": "Because the maximum path length cannot exceed 2 * black-height, height remains logarithmic.",
+      "explanation": "Strict invariants ensure logarithmic height, guaranteeing O(log n) worst-case time for search, insert, and delete."
+    }
+  ],
+  "diagram_alt_text": "Conceptual diagram of a Red-Black tree: The root node 13 is black. Left child 8 is red with two black children 1 and 11. Right child 17 is red with two black children 15 and 25. Every branch terminates at black NIL leaf boxes, maintaining uniform black-height of 2 across all paths."
+}

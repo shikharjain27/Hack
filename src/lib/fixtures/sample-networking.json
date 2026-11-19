@@ -82,76 +82,104 @@
       {
         "id": "e1",
         "text": "BGP-4 is the standardized exterior gateway protocol orchestrating policy-based inter-domain traffic exchange among autonomous systems across the Internet.",
-        "source_ids": ["s1"]
+        "source_ids": [
+          "s1"
+        ]
       },
       {
         "id": "e2",
         "text": "Diverging from link-state IGPs using Dijkstra's algorithm, BGP operates as a path-vector protocol distributing NLRI over persistent TCP sessions on port 179.",
-        "source_ids": ["s2"]
+        "source_ids": [
+          "s2"
+        ]
       },
       {
         "id": "e3",
         "text": "Border routers prevent routing loops by verifying the AS_PATH attribute, unconditionally dropping advertisements containing their own ASN.",
-        "source_ids": ["s3"]
+        "source_ids": [
+          "s3"
+        ]
       },
       {
         "id": "e4",
         "text": "Deterministic path selection systematically evaluates LOCAL_PREF, AS_PATH length, origin type, and MED metrics prior to IGP tiebreakers.",
-        "source_ids": ["s4"]
+        "source_ids": [
+          "s4"
+        ]
       }
     ],
     "grade10": [
       {
         "id": "g1",
         "text": "The Border Gateway Protocol (BGP-4) is the exterior gateway routing protocol connecting autonomous systems (AS—large independent networks like ISPs) across the global Internet.",
-        "source_ids": ["s1"]
+        "source_ids": [
+          "s1"
+        ]
       },
       {
         "id": "g2",
         "text": "Unlike interior gateway protocols such as OSPF (which calculates shortest paths using Dijkstra's algorithm), BGP functions as a path-vector protocol exchanging NLRI (Network Layer Reachability Information—lists of reachable IP prefixes) over reliable TCP peering sessions on port 179.",
-        "source_ids": ["s2"]
+        "source_ids": [
+          "s2"
+        ]
       },
       {
         "id": "g3",
         "text": "BGP border routers prevent routing loops by checking the AS_PATH attribute; if a router finds its own ASN (Autonomous System Number) in the path sequence, the update is immediately discarded.",
-        "source_ids": ["s3"]
+        "source_ids": [
+          "s3"
+        ]
       },
       {
         "id": "g4",
         "text": "BGP determines best paths through a deterministic hierarchy of attributes: highest LOCAL_PREF (Local Preference), shortest AS_PATH hop length, lowest origin code, and lowest MED (Multi-Exit Discriminator).",
-        "source_ids": ["s4"]
+        "source_ids": [
+          "s4"
+        ]
       }
     ],
     "grade6": [
       {
         "id": "k1",
         "text": "The BGP-4 protocol connects large Autonomous Systems (AS networks) across the Internet.",
-        "source_ids": ["s1"]
+        "source_ids": [
+          "s1"
+        ]
       },
       {
         "id": "k2",
         "text": "BGP does not use internal protocols like OSPF or Dijkstra's algorithm to calculate shortest paths.",
-        "source_ids": ["s2"]
+        "source_ids": [
+          "s2"
+        ]
       },
       {
         "id": "k3",
         "text": "Instead, BGP works as a path-vector protocol exchanging NLRI (Network Layer Reachability Information) over TCP on port 179.",
-        "source_ids": ["s2"]
+        "source_ids": [
+          "s2"
+        ]
       },
       {
         "id": "k4",
         "text": "Border routers stop routing loops by checking the AS_PATH attribute.",
-        "source_ids": ["s3"]
+        "source_ids": [
+          "s3"
+        ]
       },
       {
         "id": "k5",
         "text": "If a router spots its own ASN (Autonomous System Number) in the AS_PATH, it drops the route.",
-        "source_ids": ["s3"]
+        "source_ids": [
+          "s3"
+        ]
       },
       {
         "id": "k6",
         "text": "BGP chooses the best path using LOCAL_PREF (Local Preference), shortest AS_PATH length, and MED (Multi-Exit Discriminator).",
-        "source_ids": ["s4"]
+        "source_ids": [
+          "s4"
+        ]
       }
     ]
   },
@@ -204,21 +232,66 @@
   ],
   "concept_map": {
     "nodes": [
-      { "id": "n1", "label": "BGP-4 Protocol" },
-      { "id": "n2", "label": "Autonomous Systems (AS)" },
-      { "id": "n3", "label": "TCP Port 179" },
-      { "id": "n4", "label": "NLRI Reachability" },
-      { "id": "n5", "label": "AS_PATH Loop Check" },
-      { "id": "n6", "label": "LOCAL_PREF & MED" },
-      { "id": "n7", "label": "OSPF & Dijkstra (Internal)" }
+      {
+        "id": "n1",
+        "label": "BGP-4 Protocol"
+      },
+      {
+        "id": "n2",
+        "label": "Autonomous Systems (AS)"
+      },
+      {
+        "id": "n3",
+        "label": "TCP Port 179"
+      },
+      {
+        "id": "n4",
+        "label": "NLRI Reachability"
+      },
+      {
+        "id": "n5",
+        "label": "AS_PATH Loop Check"
+      },
+      {
+        "id": "n6",
+        "label": "LOCAL_PREF & MED"
+      },
+      {
+        "id": "n7",
+        "label": "OSPF & Dijkstra (Internal)"
+      }
     ],
     "edges": [
-      { "from": "n1", "to": "n2", "label": "interconnects" },
-      { "from": "n1", "to": "n3", "label": "transports over" },
-      { "from": "n3", "to": "n4", "label": "carries" },
-      { "from": "n4", "to": "n5", "label": "verified by" },
-      { "from": "n5", "to": "n6", "label": "ranked via" },
-      { "from": "n1", "to": "n7", "label": "differs from" }
+      {
+        "from": "n1",
+        "to": "n2",
+        "label": "interconnects"
+      },
+      {
+        "from": "n1",
+        "to": "n3",
+        "label": "transports over"
+      },
+      {
+        "from": "n3",
+        "to": "n4",
+        "label": "carries"
+      },
+      {
+        "from": "n4",
+        "to": "n5",
+        "label": "verified by"
+      },
+      {
+        "from": "n5",
+        "to": "n6",
+        "label": "ranked via"
+      },
+      {
+        "from": "n1",
+        "to": "n7",
+        "label": "differs from"
+      }
     ]
   },
   "quiz": [

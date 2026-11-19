@@ -366,11 +366,10 @@ export default function Workspace({ initialProfile }: { initialProfile?: Student
           {/* Dyslexia Font Toggle */}
           <button
             onClick={() => setDyslexiaFont(!dyslexiaFont)}
-            className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-medium text-xs transition-all cursor-pointer ${
-              dyslexiaFont
+            className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-medium text-xs transition-all cursor-pointer ${dyslexiaFont
                 ? "bg-white text-black font-semibold shadow-[0_0_12px_rgba(255,255,255,0.4)]"
                 : "liquid-glass text-white/70 hover:text-white border border-white/10"
-            }`}
+              }`}
             title="Toggle dyslexia-friendly Lexend typography"
           >
             <Type size={12} />
@@ -476,11 +475,10 @@ export default function Workspace({ initialProfile }: { initialProfile?: Student
                   <button
                     key={k}
                     onClick={() => setTab(k)}
-                    className={`flex items-center gap-1.5 whitespace-nowrap rounded-xl px-3 sm:px-3.5 py-1.5 text-xs transition-all cursor-pointer ${
-                      isActive
+                    className={`flex items-center gap-1.5 whitespace-nowrap rounded-xl px-3 sm:px-3.5 py-1.5 text-xs transition-all cursor-pointer ${isActive
                         ? "bg-white text-black font-semibold shadow-md"
                         : "text-white/60 hover:text-white hover:bg-white/5"
-                    }`}
+                      }`}
                   >
                     <Icon size={13} />
                     <span>{label}</span>

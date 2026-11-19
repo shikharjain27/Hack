@@ -439,8 +439,8 @@ export default function DiffText({
     level === "expert"
       ? "Expert Original"
       : level === "grade10"
-      ? "Grade 10 Clarity"
-      : "Grade 6 Plain Language";
+        ? "Grade 10 Clarity"
+        : "Grade 6 Plain Language";
 
   return (
     <div
@@ -448,9 +448,9 @@ export default function DiffText({
       style={
         dyslexiaFont
           ? {
-              fontFamily: "var(--font-lexend), sans-serif",
-              letterSpacing: "0.025em",
-            }
+            fontFamily: "var(--font-lexend), sans-serif",
+            letterSpacing: "0.025em",
+          }
           : undefined
       }
     >
@@ -468,11 +468,10 @@ export default function DiffText({
               <button
                 onClick={() => setViewMode("clean")}
                 type="button"
-                className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs transition-all cursor-pointer ${
-                  viewMode === "clean"
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs transition-all cursor-pointer ${viewMode === "clean"
                     ? "bg-white text-black shadow-md font-semibold"
                     : "text-white/60 hover:text-white"
-                }`}
+                  }`}
               >
                 <Eye size={12} />
                 <span>Clean Read</span>
@@ -480,11 +479,10 @@ export default function DiffText({
               <button
                 onClick={() => setViewMode("diff")}
                 type="button"
-                className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs transition-all cursor-pointer ${
-                  viewMode === "diff"
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs transition-all cursor-pointer ${viewMode === "diff"
                     ? "bg-white text-black shadow-md font-semibold"
                     : "text-white/60 hover:text-white"
-                }`}
+                  }`}
               >
                 <GitCompare size={12} />
                 <span>Vocabulary Diff</span>
@@ -511,8 +509,8 @@ export default function DiffText({
               {ttsStatus === "loading"
                 ? "Preparing…"
                 : ttsStatus === "playing"
-                ? "Pause"
-                : "Listen (TTS)"}
+                  ? "Pause"
+                  : "Listen (TTS)"}
             </span>
           </button>
 

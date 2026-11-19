@@ -78,76 +78,104 @@
       {
         "id": "e1",
         "text": "A Red-Black tree is a self-balancing binary search tree storing a one-bit color tag (RED or BLACK) per node.",
-        "source_ids": ["s1"]
+        "source_ids": [
+          "s1"
+        ]
       },
       {
         "id": "e2",
         "text": "Five structural invariants govern balance: every node is red or black; the root is black; all NIL leaves are black; red nodes cannot have red children; and all paths from any node to descendant leaves share an identical black-height.",
-        "source_ids": ["s2"]
+        "source_ids": [
+          "s2"
+        ]
       },
       {
         "id": "e3",
         "text": "Upon insertion or deletion violations, the tree restores balance via O(1) local tree rotations and at most O(log n) recolorings.",
-        "source_ids": ["s3"]
+        "source_ids": [
+          "s3"
+        ]
       },
       {
         "id": "e4",
         "text": "This guarantees worst-case O(log n) time complexity for search, insertion, and deletion operations.",
-        "source_ids": ["s4"]
+        "source_ids": [
+          "s4"
+        ]
       }
     ],
     "grade10": [
       {
         "id": "g1",
         "text": "A Red-Black tree is a self-balancing binary search tree where each node stores a one-bit color indicator (RED or BLACK).",
-        "source_ids": ["s1"]
+        "source_ids": [
+          "s1"
+        ]
       },
       {
         "id": "g2",
         "text": "To keep tree height logarithmic, it strictly enforces five structural invariants: the root is unconditionally black, all leaf endpoints are NIL sentinel nodes (colored black), red nodes cannot have red children, and all downward paths have the exact same black-height (count of black nodes).",
-        "source_ids": ["s2"]
+        "source_ids": [
+          "s2"
+        ]
       },
       {
         "id": "g3",
         "text": "When an insertion or deletion breaks these invariants, the tree initiates O(1) tree rotations (left and right pointer restructuring) and at most O(log n) node recoloring operations.",
-        "source_ids": ["s3"]
+        "source_ids": [
+          "s3"
+        ]
       },
       {
         "id": "g4",
         "text": "Consequently, basic dynamic-set operations (search, insertion, and deletion) achieve a worst-case O(log n) time complexity bound.",
-        "source_ids": ["s4"]
+        "source_ids": [
+          "s4"
+        ]
       }
     ],
     "grade6": [
       {
         "id": "k1",
         "text": "A Red-Black tree is a self-balancing binary search tree with red and black nodes.",
-        "source_ids": ["s1"]
+        "source_ids": [
+          "s1"
+        ]
       },
       {
         "id": "k2",
         "text": "The top root node is unconditionally black, and all leaf endpoints are black NIL sentinel nodes.",
-        "source_ids": ["s2"]
+        "source_ids": [
+          "s2"
+        ]
       },
       {
         "id": "k3",
         "text": "Two red nodes are never allowed to touch along any path.",
-        "source_ids": ["s2"]
+        "source_ids": [
+          "s2"
+        ]
       },
       {
         "id": "k4",
         "text": "Every path from a node to the bottom has the exact same black-height (black node count).",
-        "source_ids": ["s2"]
+        "source_ids": [
+          "s2"
+        ]
       },
       {
         "id": "k5",
         "text": "When rules break, the tree fixes itself with O(1) tree rotations (pointer pivots) and O(log n) recoloring.",
-        "source_ids": ["s3"]
+        "source_ids": [
+          "s3"
+        ]
       },
       {
         "id": "k6",
         "text": "Because the tree stays balanced, search, insert, and delete always run in worst-case O(log n) time.",
-        "source_ids": ["s4"]
+        "source_ids": [
+          "s4"
+        ]
       }
     ]
   },
@@ -185,21 +213,66 @@
   ],
   "concept_map": {
     "nodes": [
-      { "id": "n1", "label": "Red-Black Tree" },
-      { "id": "n2", "label": "5 Structural Invariants" },
-      { "id": "n3", "label": "Black-Height Balance" },
-      { "id": "n4", "label": "Insertion / Deletion" },
-      { "id": "n5", "label": "Tree Rotations (O(1))" },
-      { "id": "n6", "label": "Recoloring (O(log n))" },
-      { "id": "n7", "label": "Worst-Case O(log n) Search" }
+      {
+        "id": "n1",
+        "label": "Red-Black Tree"
+      },
+      {
+        "id": "n2",
+        "label": "5 Structural Invariants"
+      },
+      {
+        "id": "n3",
+        "label": "Black-Height Balance"
+      },
+      {
+        "id": "n4",
+        "label": "Insertion / Deletion"
+      },
+      {
+        "id": "n5",
+        "label": "Tree Rotations (O(1))"
+      },
+      {
+        "id": "n6",
+        "label": "Recoloring (O(log n))"
+      },
+      {
+        "id": "n7",
+        "label": "Worst-Case O(log n) Search"
+      }
     ],
     "edges": [
-      { "from": "n1", "to": "n2", "label": "enforces" },
-      { "from": "n2", "to": "n3", "label": "maintains" },
-      { "from": "n4", "to": "n2", "label": "may violate" },
-      { "from": "n4", "to": "n5", "label": "triggers" },
-      { "from": "n4", "to": "n6", "label": "triggers" },
-      { "from": "n3", "to": "n7", "label": "guarantees" }
+      {
+        "from": "n1",
+        "to": "n2",
+        "label": "enforces"
+      },
+      {
+        "from": "n2",
+        "to": "n3",
+        "label": "maintains"
+      },
+      {
+        "from": "n4",
+        "to": "n2",
+        "label": "may violate"
+      },
+      {
+        "from": "n4",
+        "to": "n5",
+        "label": "triggers"
+      },
+      {
+        "from": "n4",
+        "to": "n6",
+        "label": "triggers"
+      },
+      {
+        "from": "n3",
+        "to": "n7",
+        "label": "guarantees"
+      }
     ]
   },
   "quiz": [

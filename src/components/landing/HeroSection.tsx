@@ -149,60 +149,62 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(99,102,241,0.15)_0%,transparent_70%)] pointer-events-none" />
       <div className="absolute inset-0 bg-black/60 pointer-events-none" />
 
-      {/* Navbar */}
-      <header className="relative z-20 px-6 py-6">
-        <nav className="liquid-glass rounded-full max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
-          {/* Left brand & links */}
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-2 text-white font-semibold text-lg">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-white text-black font-black text-sm">
-                U
-              </span>
-              <span>Unjargon</span>
-            </Link>
+      {/* Clean, Decoupled Top Header Bar */}
+      <header className="relative z-20 px-6 py-5">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          {/* Logo Brand */}
+          <Link href="/" className="flex items-center gap-2.5 text-white font-semibold text-lg tracking-tight group">
+            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-white text-black font-black text-sm shadow-md group-hover:scale-105 transition-transform">
+              U
+            </span>
+            <span className="font-serif-instrument text-2xl tracking-normal">Unjargon</span>
+          </Link>
 
-            <div className="hidden md:flex items-center gap-8 ml-8">
-              <a href="#about" className="text-white/80 hover:text-white text-sm font-medium transition-colors">
-                Methodology
-              </a>
-              <a href="#services" className="text-white/80 hover:text-white text-sm font-medium transition-colors">
-                Capabilities
-              </a>
-              <a href="#philosophy" className="text-white/80 hover:text-white text-sm font-medium transition-colors">
-                Accessibility
-              </a>
-              <Link
-                href="/workspace"
-                className="text-white/80 hover:text-white text-sm font-medium transition-colors flex items-center gap-1"
-              >
-                Concept Studio
-              </Link>
-              <Link
-                href="/document"
-                className="text-indigo-300 hover:text-white text-sm font-medium transition-colors flex items-center gap-1"
-              >
-                <Sparkles size={13} />
-                PDF Book Transformer
-              </Link>
-            </div>
-          </div>
-
-          {/* Right actions */}
-          <div className="flex items-center gap-4">
+          {/* Right Auth Action Pill */}
+          <div className="liquid-glass rounded-full px-2 py-1.5 flex items-center gap-1 border border-white/10 shadow-lg">
             <Link
               href="/login?mode=signup"
-              className="text-white text-sm font-medium hover:text-white/80 transition-colors"
+              className="px-4 py-2 text-white/80 hover:text-white text-xs font-medium transition-colors"
             >
               Sign Up
             </Link>
             <Link
               href="/login"
-              className="liquid-glass rounded-full px-6 py-2 text-white text-sm font-medium hover:bg-white/5 transition-colors"
+              className="rounded-full px-5 py-2 bg-white text-black font-semibold text-xs hover:bg-white/90 transition-all shadow-md"
             >
               Login
             </Link>
           </div>
-        </nav>
+        </div>
+
+        {/* Dedicated Navigation Sub-Pill */}
+        <div className="mt-4 flex justify-center">
+          <nav className="liquid-glass rounded-full px-5 py-2 flex items-center gap-6 border border-white/10 shadow-md overflow-x-auto max-w-full">
+            <a href="#about" className="text-white/70 hover:text-white text-xs font-medium transition-colors whitespace-nowrap">
+              Methodology
+            </a>
+            <a href="#services" className="text-white/70 hover:text-white text-xs font-medium transition-colors whitespace-nowrap">
+              Capabilities
+            </a>
+            <a href="#philosophy" className="text-white/70 hover:text-white text-xs font-medium transition-colors whitespace-nowrap">
+              Accessibility
+            </a>
+            <span className="h-3 w-px bg-white/20" />
+            <Link
+              href="/workspace"
+              className="text-white/80 hover:text-white text-xs font-medium transition-colors whitespace-nowrap flex items-center gap-1.5"
+            >
+              <span>Concept Studio</span>
+            </Link>
+            <Link
+              href="/document"
+              className="text-indigo-300 hover:text-white text-xs font-semibold transition-colors whitespace-nowrap flex items-center gap-1.5"
+            >
+              <Sparkles size={12} className="text-indigo-400" />
+              <span>Full PDF Transformer</span>
+            </Link>
+          </nav>
+        </div>
       </header>
 
       {/* Hero Content */}

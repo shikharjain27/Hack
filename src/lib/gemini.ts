@@ -5,12 +5,11 @@ import { activeBackups, cleanJson } from "./backup";
 const CHAIN = [
   process.env.GEMINI_MODEL,
   "gemini-3.5-flash-lite",
-  "gemini-3.8-flash",
   "gemini-3.1-flash-lite",
+  "gemini-3.8-flash",
   "gemini-3.5-flash",
   "gemini-3.7-flash",
   "gemini-3.6-flash",
-  "gemini-3-flash-preview",
 ].filter((m, i, a): m is string => !!m && a.indexOf(m) === i);
 
 // Order: first two Gemini models, then backup providers (if keys exist), then the rest of the Gemini chain.
@@ -32,7 +31,7 @@ function geminiSource(ai: GoogleGenAI, model: string, parts: Part[], system: str
   return {
     label: model,
     async run() {
-      let thinkingOff = true;
+      let thinkingBudget: number | undefined = undefined;
       for (let attempt = 0; attempt < 2; attempt++) {
         try {
           const res = await ai.models.generateContent({
@@ -41,14 +40,18 @@ function geminiSource(ai: GoogleGenAI, model: string, parts: Part[], system: str
             config: {
               systemInstruction: system,
               ...(opts.json ? { responseMimeType: "application/json", responseSchema: opts.schema } : {}),
-              ...(thinkingOff ? { thinkingConfig: { thinkingBudget: 0 } } : {}),
-              abortSignal: AbortSignal.timeout(opts.timeoutMs ?? 25_000),
+              ...(thinkingBudget !== undefined ? { thinkingConfig: { thinkingBudget } } : {}),
+              abortSignal: AbortSignal.timeout(opts.timeoutMs ?? 75_000),
             },
           });
           if (!res.text) throw new Error("Empty response from Gemini");
           return res.text;
         } catch (e) {
-          if (statusOf(e) === 400 && thinkingOff) { thinkingOff = false; continue; } // model rejects thinkingBudget:0
+          const msg = (e as Error)?.message || "";
+          if ((statusOf(e) === 400 || msg.includes("thinkingBudget")) && thinkingBudget === undefined) {
+            thinkingBudget = 0;
+            continue;
+          }
           throw e;
         }
       }
@@ -85,7 +88,8 @@ function buildSources(parts: Part[], system: string, opts: GenOptions): Source[]
     run: () => b.call(parts, system, opts.json ? opts.schema : undefined, AbortSignal.timeout(60_000)),
   }));
   if (!gem.length && !backups.length) throw new Error("No AI provider configured: set GOOGLE_API_KEY in .env");
-  return [...gem.slice(0, EARLY), ...backups, ...gem.slice(EARLY)];
+  // Prioritize active backups (e.g. Groq/OpenAI) for ultra-fast and reliable responses
+  return [...backups, ...gem];
 }
 
 export async function generateText(parts: Part[], systemInstruction: string, opts: GenOptions = {}): Promise<string> {

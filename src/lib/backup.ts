@@ -65,17 +65,21 @@ const anthropic: BackupProvider = {
 const openai: BackupProvider = {
   name: "openai-compatible",
   async call(parts, system, schema, signal) {
-    const content = [
-      ...images(parts).map((i) => ({ type: "image_url", image_url: { url: `data:${i.mimeType || "image/jpeg"};base64,${i.data}` } })),
-      { type: "text", text: textOf(parts) },
-    ];
+    const hasImages = images(parts).length > 0;
+    const userContent = hasImages
+      ? [
+          ...images(parts).map((i) => ({ type: "image_url", image_url: { url: `data:${i.mimeType || "image/jpeg"};base64,${i.data}` } })),
+          { type: "text", text: textOf(parts) },
+        ]
+      : textOf(parts);
+
     const base = (process.env.OPENAI_BASE_URL || "https://api.openai.com/v1").replace(/\/$/, "");
     const data = await post(
       `${base}/chat/completions`,
       { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
       {
         model: process.env.OPENAI_MODEL || "gpt-4o-mini",
-        messages: [{ role: "system", content: system + jsonInstruction(schema) }, { role: "user", content }],
+        messages: [{ role: "system", content: system + jsonInstruction(schema) }, { role: "user", content: userContent }],
         ...(schema ? { response_format: { type: "json_object" } } : {}),
       },
       signal,

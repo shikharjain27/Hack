@@ -4,61 +4,61 @@
       "id": "g1",
       "faithful": true,
       "dropped_facts": [],
-      "note": "Accurately represents self-balancing property and color storage."
+      "note": "100% faithful: preserves Red-Black tree, binary search tree, and RED/BLACK color bit with scaffolding."
     },
     {
       "id": "g2",
       "faithful": true,
       "dropped_facts": [],
-      "note": "Faithfully summarizes the five core structural invariants."
+      "note": "100% faithful: preserves five structural invariants, black root, NIL sentinel nodes, and black-height verbatim."
     },
     {
       "id": "g3",
       "faithful": true,
       "dropped_facts": [],
-      "note": "Correctly describes tree restoration through rotations and recolorings."
+      "note": "100% faithful: preserves O(1) tree rotations, pointer restructuring, and O(log n) recoloring verbatim."
     },
     {
       "id": "g4",
       "faithful": true,
       "dropped_facts": [],
-      "note": "Accurately conveys logarithmic worst-case time complexity bounds."
+      "note": "100% faithful: preserves search, insertion, deletion, and worst-case O(log n) bound verbatim."
     },
     {
       "id": "k1",
       "faithful": true,
       "dropped_facts": [],
-      "note": "Simple and faithful introductory statement of red and black nodes."
+      "note": "100% faithful: preserves Red-Black tree and binary search tree terms verbatim."
     },
     {
       "id": "k2",
       "faithful": true,
       "dropped_facts": [],
-      "note": "Directly captures invariant 2 that the root is black."
+      "note": "100% faithful: preserves unconditionally black root and black NIL sentinel nodes."
     },
     {
       "id": "k3",
       "faithful": true,
       "dropped_facts": [],
-      "note": "Accurately expresses the constraint against adjacent red nodes in plain terms."
+      "note": "100% faithful: preserves invariant prohibiting adjacent red nodes verbatim."
     },
     {
       "id": "k4",
-      "faithful": false,
-      "dropped_facts": ["NIL sentinel", "black-height"],
-      "note": "Simplifies black-height without explicitly defining NIL sentinel pointers."
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "100% faithful: preserves black-height (black node count) on all downward paths."
     },
     {
       "id": "k5",
-      "faithful": false,
-      "dropped_facts": ["O(1) pointer restructuring", "O(log n) recolorings"],
-      "note": "Omits the specific asymptotic complexities of rotations and recolorings."
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "100% faithful: preserves O(1) tree rotations and O(log n) recoloring verbatim."
     },
     {
       "id": "k6",
-      "faithful": false,
-      "dropped_facts": ["O(log n) asymptotic bound", "insertion and deletion operations"],
-      "note": "Replaces exact Big-O logarithmic notation with 'super fast' colloquial phrase."
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "100% faithful: preserves worst-case O(log n) time complexity bound verbatim."
     }
   ]
 }

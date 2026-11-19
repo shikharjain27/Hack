@@ -21,6 +21,8 @@ export function validateTransform(v: unknown) {
     if (typeof q.explanation !== "string") q.explanation = "";
   }
   if (typeof r.diagram_alt_text !== "string") r.diagram_alt_text = "";
+  if (!Array.isArray(r.preserved_terms)) r.preserved_terms = [];
+  if (!Array.isArray(r.atomic_facts)) r.atomic_facts = [];
 }
 
 export function validateVerify(v: unknown) {

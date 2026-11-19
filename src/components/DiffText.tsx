@@ -11,9 +11,11 @@ import {
   Play,
   Pause,
   Volume2,
+  ShieldCheck,
+  Lock,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { LevelSentence, Verdict } from "@/lib/types";
+import type { LevelSentence, Verdict, GlossaryItem, PreservedTerm } from "@/lib/types";
 import type { LevelKey } from "./LevelSlider";
 import { formatMathAndFormulas } from "@/lib/formatMath";
 
@@ -33,7 +35,7 @@ function Badge({ verdict, pending }: { verdict?: Verdict; pending: boolean }) {
   }
   if (verdict.faithful) {
     return (
-      <span className="inline-flex items-center ml-1.5 align-middle" title="Factually verified against source">
+      <span className="inline-flex items-center ml-1.5 align-middle" title="Factually verified against source (100% faithful)">
         <CheckCircle2 size={13} className="text-emerald-400" />
       </span>
     );
@@ -62,6 +64,8 @@ export default function DiffText({
   initialRate = 1,
   dyslexiaFont = false,
   langCode,
+  glossary = [],
+  preservedTerms = [],
 }: {
   expert: LevelSentence[];
   current: LevelSentence[];
@@ -72,6 +76,8 @@ export default function DiffText({
   initialRate?: number;
   dyslexiaFont?: boolean;
   langCode?: string;
+  glossary?: GlossaryItem[];
+  preservedTerms?: (string | PreservedTerm)[];
 }) {
   const [viewMode, setViewMode] = useState<"clean" | "diff">("clean");
 
@@ -95,6 +101,39 @@ export default function DiffText({
     }
     return list;
   }, [fullText]);
+
+  // Build unified term dictionary for hover tooltips & entity locking
+  const termLookup = useMemo(() => {
+    const map = new Map<string, { term: string; definition: string; emoji?: string; category?: string }>();
+    for (const g of glossary) {
+      map.set(g.term.toLowerCase(), {
+        term: g.term,
+        definition: g.plain,
+        emoji: g.emoji,
+        category: "Concept Definition",
+      });
+    }
+    for (const pt of preservedTerms) {
+      if (typeof pt === "string") {
+        if (!map.has(pt.toLowerCase())) {
+          map.set(pt.toLowerCase(), {
+            term: pt,
+            definition: "Technical keyword locked & preserved verbatim from source text.",
+            emoji: "🛡️",
+            category: "Preserved Keyword",
+          });
+        }
+      } else if (pt?.term) {
+        map.set(pt.term.toLowerCase(), {
+          term: pt.term,
+          definition: pt.definition || "Technical keyword locked & preserved verbatim from source text.",
+          emoji: "🛡️",
+          category: pt.category || "Preserved Keyword",
+        });
+      }
+    }
+    return map;
+  }, [glossary, preservedTerms]);
 
   function stopAudio() {
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -205,12 +244,72 @@ export default function DiffText({
     }
   }
 
-  // Compute Diff
-  const a = expert.map((s) => s.text).join(" ");
-  const diff =
-    level === "expert" ? [] : (diffWords(a, fullText) as Part[]);
+  // Helper to test if a string contains any preserved technical term
+  function findPreservedTerm(str: string) {
+    const lower = str.toLowerCase();
+    for (const [key, info] of termLookup.entries()) {
+      if (lower.includes(key) || (key.length > 4 && key.includes(lower.trim()))) {
+        return info;
+      }
+    }
+    return null;
+  }
 
-  // Walk the diff once, handing out added/unchanged text to sentences in order
+  // Render text with interactive hover tooltips for Clean Read
+  function renderScaffoldedSentence(text: string, keyPrefix: string) {
+    if (termLookup.size === 0) {
+      return <span key={keyPrefix}>{formatMathAndFormulas(text)}</span>;
+    }
+
+    const sortedTerms = Array.from(termLookup.keys()).sort((a, b) => b.length - a.length);
+    const escaped = sortedTerms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+    if (!escaped) {
+      return <span key={keyPrefix}>{formatMathAndFormulas(text)}</span>;
+    }
+
+    const regex = new RegExp(`(\\b(?:${escaped})\\b)`, "gi");
+    const segments = text.split(regex);
+
+    return (
+      <span key={keyPrefix}>
+        {segments.map((seg, segIdx) => {
+          const lower = seg.toLowerCase();
+          const info = termLookup.get(lower);
+          if (info) {
+            return (
+              <span
+                key={`${keyPrefix}-${segIdx}`}
+                className="group/term relative inline cursor-help border-b-2 border-indigo-400/50 hover:border-indigo-400 text-white font-medium px-1 py-0.5 rounded bg-indigo-500/[0.08] hover:bg-indigo-500/20 transition-all select-text"
+              >
+                <span>{formatMathAndFormulas(seg)}</span>
+                <span className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 hidden -translate-x-1/2 rounded-2xl border border-indigo-400/30 bg-zinc-950/95 p-3 text-xs text-white shadow-2xl backdrop-blur-xl group-hover/term:block min-w-[220px] max-w-[320px] text-left leading-relaxed">
+                  <span className="flex items-center justify-between gap-2 border-b border-white/10 pb-1.5 mb-1.5">
+                    <span className="font-semibold text-indigo-300 flex items-center gap-1.5">
+                      <span>{info.emoji || "🛡️"}</span>
+                      <span>{info.term}</span>
+                    </span>
+                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 uppercase font-mono font-bold tracking-wider">
+                      Preserved
+                    </span>
+                  </span>
+                  <span className="text-[11px] text-white/80 block leading-snug">
+                    {info.definition}
+                  </span>
+                </span>
+              </span>
+            );
+          }
+          return <span key={`${keyPrefix}-${segIdx}`}>{formatMathAndFormulas(seg)}</span>;
+        })}
+      </span>
+    );
+  }
+
+  // Compute Diff between Expert and simplified Current level
+  const a = expert.map((s) => s.text).join(" ");
+  const diff = level === "expert" ? [] : (diffWords(a, fullText) as Part[]);
+
+  // Walk the diff, distributing parts across sentences
   let sIdx = 0;
   let consumed = 0;
   const sentenceNodes: React.ReactNode[][] = current.map(() => []);
@@ -219,16 +318,14 @@ export default function DiffText({
     current.forEach((s, sIndex) => {
       // If audio is playing in clean mode, highlight active words
       if (ttsStatus === "playing" && activeWordIdx >= 0) {
-        // Calculate sentence start offset in fullText
         let sentenceOffset = 0;
         for (let j = 0; j < sIndex; j++) {
-          sentenceOffset += current[j].text.length + 1; // +1 space
+          sentenceOffset += current[j].text.length + 1;
         }
         const sEnd = sentenceOffset + s.text.length;
         const currentActiveWord = words[activeWordIdx];
 
         if (currentActiveWord && currentActiveWord.start >= sentenceOffset && currentActiveWord.end <= sEnd) {
-          // Break sentence into words to highlight the exact word
           const sWords = s.text.split(/(\s+)/);
           let charCursor = sentenceOffset;
           sentenceNodes[sIndex].push(
@@ -253,37 +350,80 @@ export default function DiffText({
           return;
         }
       }
-      sentenceNodes[sIndex].push(<span key="t">{formatMathAndFormulas(s.text)}</span>);
+      sentenceNodes[sIndex].push(renderScaffoldedSentence(s.text, `clean-${sIndex}`));
     });
   } else {
+    // Vocabulary Diff Mode: Never strike through preserved technical keywords!
     diff.forEach((p, pi) => {
       if (p.removed) {
         const i = Math.min(sIdx, current.length - 1);
-        sentenceNodes[i].push(
-          <span
-            key={pi}
-            className="bg-rose-500/20 text-rose-300 line-through rounded px-1 decoration-rose-400/60 mx-0.5"
-            title="Original word (simplified away)"
-          >
-            {formatMathAndFormulas(p.value)}
-          </span>,
-        );
+        const preserved = findPreservedTerm(p.value);
+
+        if (preserved) {
+          // Technical keyword locked & retained: Highlight in cyan locked accent instead of strikethrough!
+          sentenceNodes[i].push(
+            <span
+              key={pi}
+              className="rounded bg-cyan-500/15 border border-cyan-400/30 text-cyan-200 px-1.5 py-0.5 font-semibold mx-0.5 inline-flex items-center gap-1 shadow-sm"
+              title={`Technical keyword locked & preserved: ${preserved.term}`}
+            >
+              <ShieldCheck size={11} className="text-cyan-400 shrink-0" />
+              <span>{formatMathAndFormulas(p.value)}</span>
+            </span>
+          );
+        } else {
+          // Dense academic phrasing simplified away
+          sentenceNodes[i].push(
+            <span
+              key={pi}
+              className="bg-rose-500/20 text-rose-300 line-through rounded px-1 decoration-rose-400/60 mx-0.5"
+              title="Academic phrasing simplified into plain English"
+            >
+              {formatMathAndFormulas(p.value)}
+            </span>
+          );
+        }
         return;
       }
+
       let rest = p.value;
       while (rest.length && sIdx < current.length) {
         if (consumed === 0) rest = rest.replace(/^\s+/, "");
         if (!rest.length) break;
         const room = current[sIdx].text.length - consumed;
         const take = rest.slice(0, Math.max(room, 0) || rest.length);
-        const cls = p.added
-          ? "rounded bg-emerald-500/25 text-emerald-200 border-b border-emerald-400/40 px-1 font-medium mx-0.5"
-          : "";
-        sentenceNodes[sIdx].push(
-          <span key={`${pi}-${sIdx}-${consumed}`} className={cls}>
-            {formatMathAndFormulas(take)}
-          </span>,
-        );
+
+        const preserved = findPreservedTerm(take);
+
+        if (preserved && p.added) {
+          sentenceNodes[sIdx].push(
+            <span
+              key={`${pi}-${sIdx}-${consumed}`}
+              className="rounded bg-cyan-500/15 border border-cyan-400/30 text-cyan-200 px-1.5 py-0.5 font-semibold mx-0.5 inline-flex items-center gap-1 shadow-sm"
+              title={`Technical keyword preserved verbatim: ${preserved.term}`}
+            >
+              <ShieldCheck size={11} className="text-cyan-400 shrink-0" />
+              <span>{formatMathAndFormulas(take)}</span>
+            </span>
+          );
+        } else if (p.added) {
+          sentenceNodes[sIdx].push(
+            <span
+              key={`${pi}-${sIdx}-${consumed}`}
+              className="rounded bg-emerald-500/25 text-emerald-200 border-b border-emerald-400/40 px-1 font-medium mx-0.5"
+              title="Plain-English scaffolding added for clarity"
+            >
+              {formatMathAndFormulas(take)}
+            </span>
+          );
+        } else {
+          sentenceNodes[sIdx].push(
+            <span key={`${pi}-${sIdx}-${consumed}`}>
+              {formatMathAndFormulas(take)}
+            </span>
+          );
+        }
+
         rest = rest.slice(take.length);
         consumed += take.length;
         if (consumed >= current[sIdx].text.length) {
@@ -414,7 +554,25 @@ export default function DiffText({
         </div>
       </div>
 
-      {/* Main Prose Text (Rendered Once, Synchronized with Audio and Diffs) */}
+      {/* Vocabulary Diff Legend: Displayed exclusively in diff mode */}
+      {viewMode === "diff" && level !== "expert" && (
+        <div className="flex flex-wrap items-center gap-3 py-1 px-1 text-[11px] text-white/60 border-b border-white/5">
+          <span className="flex items-center gap-1.5 text-cyan-300 font-medium">
+            <span className="w-2 h-2 rounded-full bg-cyan-400" />
+            <span>Preserved Technical Keywords (100% Locked)</span>
+          </span>
+          <span className="flex items-center gap-1.5 text-emerald-300 font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            <span>Plain-English Scaffolding</span>
+          </span>
+          <span className="flex items-center gap-1.5 text-rose-300 font-medium">
+            <span className="w-2 h-2 rounded-full bg-rose-400 line-through" />
+            <span>Academic Filler Simplified</span>
+          </span>
+        </div>
+      )}
+
+      {/* Main Prose Text (Rendered Once, Synchronized with Audio, Scaffolding, and Diffs) */}
       <AnimatePresence mode="wait">
         <motion.div
           key={`${level}-${viewMode}`}

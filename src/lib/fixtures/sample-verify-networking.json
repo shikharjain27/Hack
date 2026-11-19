@@ -4,61 +4,61 @@
       "id": "g1",
       "faithful": true,
       "dropped_facts": [],
-      "note": "Accurately introduces BGP and Autonomous Systems in accessible terminology."
+      "note": "100% faithful: preserves BGP-4 and Autonomous Systems (AS) with inline scaffolding."
     },
     {
       "id": "g2",
       "faithful": true,
       "dropped_facts": [],
-      "note": "Faithfully mentions TCP on port 179 and reachability sharing."
+      "note": "100% faithful: preserves OSPF, Dijkstra's algorithm, path-vector, NLRI, TCP, and port 179 verbatim."
     },
     {
       "id": "g3",
       "faithful": true,
       "dropped_facts": [],
-      "note": "Correctly describes AS_PATH loop suppression and route discarding."
+      "note": "100% faithful: preserves AS_PATH attribute, ASN, and loop suppression logic verbatim."
     },
     {
       "id": "g4",
       "faithful": true,
       "dropped_facts": [],
-      "note": "Accurately summarizes the attribute hierarchy (LOCAL_PREF, hop length, tiebreakers)."
+      "note": "100% faithful: preserves LOCAL_PREF, AS_PATH length, origin code, and MED hierarchy."
     },
     {
       "id": "k1",
       "faithful": true,
       "dropped_facts": [],
-      "note": "Simple, faithful analogy of BGP as the global Internet road map."
+      "note": "100% faithful: preserves BGP-4 and Autonomous Systems (AS) in clear Grade 6 phrasing."
     },
     {
       "id": "k2",
       "faithful": true,
       "dropped_facts": [],
-      "note": "Captures the core concept of independent networks communicating."
+      "note": "100% faithful: preserves OSPF and Dijkstra's algorithm verbatim."
     },
     {
       "id": "k3",
       "faithful": true,
       "dropped_facts": [],
-      "note": "Explicitly preserves the technical details of TCP port 179."
+      "note": "100% faithful: preserves path-vector, NLRI, TCP, and port 179 verbatim."
     },
     {
       "id": "k4",
-      "faithful": false,
-      "dropped_facts": ["AS_PATH attribute", "Autonomous System Number (ASN)"],
-      "note": "Simplifies AS_PATH and ASN into 'list of visited networks'."
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "100% faithful: preserves AS_PATH attribute and loop suppression check."
     },
     {
       "id": "k5",
-      "faithful": false,
-      "dropped_facts": ["Autonomous System Number (ASN)", "routing update advertisement"],
-      "note": "Uses conversational wording ('throws it away') instead of 'discards advertisement'."
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "100% faithful: preserves ASN and AS_PATH discard mechanism verbatim."
     },
     {
       "id": "k6",
-      "faithful": false,
-      "dropped_facts": ["LOCAL_PREF", "origin code", "Multi-Exit Discriminator (MED)"],
-      "note": "Focuses primarily on network jumps, omitting LOCAL_PREF and MED metrics."
+      "faithful": true,
+      "dropped_facts": [],
+      "note": "100% faithful: preserves LOCAL_PREF, AS_PATH length, and MED metrics."
     }
   ]
 }

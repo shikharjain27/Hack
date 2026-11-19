@@ -22,6 +22,80 @@
       "text": "The kernel validates the faulting address against the process's Virtual Memory Area (VMA) structures, initiating demand paging to allocate an available physical page frame, populate the PTE protection bits, flush stale TLB entries, and seamlessly resume thread execution."
     }
   ],
+  "preserved_terms": [
+    {
+      "term": "Virtual memory",
+      "category": "OS Architecture",
+      "definition": "An operating system memory management abstraction that gives each process the illusion of contiguous, dedicated RAM."
+    },
+    {
+      "term": "Process memory isolation",
+      "category": "Security/Isolation",
+      "definition": "Hardware-enforced separation preventing one process from reading or corrupting the memory of another."
+    },
+    {
+      "term": "Physical DRAM frames",
+      "category": "Hardware",
+      "definition": "Fixed-size contiguous blocks of actual physical dynamic random-access memory chips."
+    },
+    {
+      "term": "Multi-level hierarchical page tables",
+      "category": "Data Structure",
+      "definition": "A tree-structured radix directory (PGD, PUD, PMD, PTE) mapping virtual page numbers to physical frame numbers."
+    },
+    {
+      "term": "Memory Management Unit (MMU)",
+      "category": "Hardware",
+      "definition": "The processor hardware subsystem that performs virtual-to-physical address translation on every memory cycle."
+    },
+    {
+      "term": "Translation Lookaside Buffer (TLB)",
+      "category": "Hardware Cache",
+      "definition": "A high-speed on-chip associative hardware cache holding recent virtual-to-physical page translation descriptors."
+    },
+    {
+      "term": "VPN & PFN",
+      "category": "Addressing",
+      "definition": "Virtual Page Number and Physical Frame Number: the high-order bits representing virtual and physical page indices."
+    },
+    {
+      "term": "TLB miss",
+      "category": "Hardware Event",
+      "definition": "The event occurring when requested virtual page translation is not cached in the TLB, requiring a page table walk."
+    },
+    {
+      "term": "Page table walk",
+      "category": "Algorithm",
+      "definition": "Traversing the multi-level radix page directories in RAM to locate the target Page Table Entry."
+    },
+    {
+      "term": "Present bit",
+      "category": "PTE Flag",
+      "definition": "A single-bit flag in a Page Table Entry indicating whether the mapped page frame is currently resident in physical RAM."
+    },
+    {
+      "term": "Page fault exception (Interrupt Vector 14)",
+      "category": "CPU Interrupt",
+      "definition": "A synchronous processor trap generated when an instruction accesses a virtual page whose Present bit is 0."
+    },
+    {
+      "term": "Virtual Memory Area (VMA)",
+      "category": "Kernel Structure",
+      "definition": "A kernel data structure describing a contiguous range of valid allocated virtual addresses belonging to a process."
+    },
+    {
+      "term": "Demand paging",
+      "category": "Algorithm",
+      "definition": "Lazy memory allocation where physical RAM frames are only assigned when a program actively references the page."
+    }
+  ],
+  "atomic_facts": [
+    "Virtual memory translates non-contiguous DRAM frames to contiguous virtual address spaces",
+    "MMU queries the on-chip TLB associative cache to resolve VPN to PFN",
+    "TLB miss triggers a page table walk traversing PGD, PUD, PMD, and PTE directories",
+    "Cleared Present bit triggers a synchronous page fault exception on Interrupt Vector 14",
+    "Kernel validates address against VMA tree, allocates DRAM frame via demand paging, and updates PTE"
+  ],
   "levels": {
     "expert": [
       {
@@ -53,59 +127,54 @@
     "grade10": [
       {
         "id": "g1",
-        "text": "Operating systems give each running program its own private virtual memory space so programs cannot spy on or crash each other.",
+        "text": "In multi-tasking operating systems, virtual memory subsystems provide process memory isolation by translating non-contiguous physical DRAM frames into contiguous virtual address spaces using multi-level hierarchical page tables.",
         "source_ids": ["s1"]
       },
       {
         "id": "g2",
-        "text": "When a program asks for memory, a fast chip component called the MMU checks a quick cache (the TLB) to look up where data really lives in RAM.",
+        "text": "When the CPU executes memory instructions, the MMU (Memory Management Unit) queries the TLB (Translation Lookaside Buffer—a fast on-chip associative cache matching VPNs to PFNs).",
         "source_ids": ["s2"]
       },
       {
         "id": "g3",
-        "text": "If the translation is missing from the cache (a TLB miss), the computer walks through a step-by-step table directory to find it.",
+        "text": "Upon a TLB miss, a page table walk traverses the multi-level directory tree (PGD, PUD, PMD, and PTE) to retrieve the physical page descriptor.",
         "source_ids": ["s3"]
       },
       {
         "id": "g4",
-        "text": "If the requested page is not loaded into RAM yet, the processor triggers a 'page fault' alarm and pauses the program.",
+        "text": "If the Present bit in the Page Table Entry is cleared (0), the processor triggers a synchronous page fault exception (Interrupt Vector 14), shifting execution to the kernel interrupt handler.",
         "source_ids": ["s4"]
       },
       {
         "id": "g5",
-        "text": "The operating system checks that the request is valid, loads a fresh memory slot from disk, updates the tables, and restarts the program smoothly.",
+        "text": "The kernel validates the faulting address against process VMA (Virtual Memory Area) structures, invoking demand paging to allocate an available physical DRAM frame, configure PTE protection bits, flush stale TLB entries, and resume thread execution.",
         "source_ids": ["s5"]
       }
     ],
     "grade6": [
       {
         "id": "k1",
-        "text": "Virtual memory gives every app its own private playground in memory.",
+        "text": "Virtual memory gives every app protected space by mapping physical DRAM frames into virtual addresses with multi-level page tables.",
         "source_ids": ["s1"]
       },
       {
         "id": "k2",
-        "text": "The computer checks a fast cheat sheet called the TLB first.",
+        "text": "The MMU hardware unit queries the TLB cache to match VPNs (virtual page numbers) with PFNs (physical frame numbers).",
         "source_ids": ["s2"]
       },
       {
         "id": "k3",
-        "text": "If the address is not on the cheat sheet, it reads page books.",
+        "text": "When a TLB miss occurs, a page table walk traverses PGD, PUD, PMD, and PTE tables to find the descriptor.",
         "source_ids": ["s3"]
       },
       {
         "id": "k4",
-        "text": "If the memory page is completely missing, a page fault happens.",
+        "text": "If the Present bit is turned off, the CPU fires a page fault exception (Interrupt Vector 14) to the kernel.",
         "source_ids": ["s4"]
       },
       {
         "id": "k5",
-        "text": "The operating system grabs an empty memory box and fills it.",
-        "source_ids": ["s5"]
-      },
-      {
-        "id": "k6",
-        "text": "The app starts running again without noticing any pause.",
+        "text": "The kernel checks process VMA structures, uses demand paging to allocate an available physical DRAM frame, sets PTE protection bits, flushes the TLB, and resumes thread execution.",
         "source_ids": ["s5"]
       }
     ]

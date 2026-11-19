@@ -17,11 +17,20 @@ const levelSentence = {
 };
 const level = { type: Type.ARRAY, items: levelSentence };
 
+const preservedTerm = {
+  type: Type.OBJECT,
+  properties: { term: str, category: str, definition: str },
+  required: ["term", "category", "definition"],
+  propertyOrdering: ["term", "category", "definition"],
+};
+
 export const transformSchema = {
   type: Type.OBJECT,
   properties: {
     title: str,
     source_sentences: { type: Type.ARRAY, items: sentence },
+    preserved_terms: { type: Type.ARRAY, items: preservedTerm },
+    atomic_facts: strArr,
     levels: {
       type: Type.OBJECT,
       properties: { expert: level, grade10: level, grade6: level },

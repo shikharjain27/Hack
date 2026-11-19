@@ -11,6 +11,11 @@ export interface QuizItem {
   hint?: string;
   explanation?: string;
 }
+export interface PreservedTerm {
+  term: string;
+  category: string;
+  definition: string;
+}
 export interface TransformResult {
   title: string;
   source_sentences: Sentence[];
@@ -19,6 +24,8 @@ export interface TransformResult {
   concept_map: { nodes: ConceptNode[]; edges: ConceptEdge[] };
   quiz: QuizItem[];
   diagram_alt_text: string;
+  preserved_terms?: PreservedTerm[];
+  atomic_facts?: string[];
 }
 export interface Verdict { id: string; faithful: boolean; dropped_facts: string[]; note: string }
 export interface VerifyResult { verdicts: Verdict[] }

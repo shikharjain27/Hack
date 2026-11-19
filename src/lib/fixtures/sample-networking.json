@@ -18,6 +18,65 @@
       "text": "Best-path determination evaluates advertised routes through a deterministic hierarchy of path attributes, sequentially prioritizing highest Local Preference (LOCAL_PREF), shortest AS_PATH hop length, lowest origin code, and lowest Multi-Exit Discriminator (MED) before evaluating interior gateway protocol tiebreakers."
     }
   ],
+  "preserved_terms": [
+    {
+      "term": "BGP-4",
+      "category": "Protocol",
+      "definition": "The standard path-vector routing protocol used to exchange routing information between autonomous systems on the Internet."
+    },
+    {
+      "term": "Autonomous Systems (AS)",
+      "category": "Network Architecture",
+      "definition": "A collection of connected IP routing prefixes under the control of one or more network operators (like an ISP or tech company)."
+    },
+    {
+      "term": "OSPF",
+      "category": "Interior Protocol",
+      "definition": "Open Shortest Path First: an interior gateway routing protocol used within a single local network."
+    },
+    {
+      "term": "Dijkstra's algorithm",
+      "category": "Algorithm",
+      "definition": "A graph search algorithm that solves the single-source shortest path problem for non-negative edge costs."
+    },
+    {
+      "term": "NLRI",
+      "category": "Routing Data",
+      "definition": "Network Layer Reachability Information: the IP prefixes and subnet lengths being advertised in BGP updates."
+    },
+    {
+      "term": "TCP port 179",
+      "category": "Transport",
+      "definition": "The standard transmission control protocol port used for reliable BGP peering sessions."
+    },
+    {
+      "term": "AS_PATH",
+      "category": "Attribute",
+      "definition": "An ordered list of autonomous system numbers that a route advertisement has passed through, used for loop detection."
+    },
+    {
+      "term": "ASN",
+      "category": "Identifier",
+      "definition": "Autonomous System Number: a unique globally recognized identifier assigned to each autonomous network."
+    },
+    {
+      "term": "LOCAL_PREF",
+      "category": "Attribute",
+      "definition": "Local Preference: a BGP path attribute indicating preferred outbound exit paths from an autonomous system."
+    },
+    {
+      "term": "MED",
+      "category": "Attribute",
+      "definition": "Multi-Exit Discriminator: an attribute suggesting to external neighbors which inbound entry link is preferred."
+    }
+  ],
+  "atomic_facts": [
+    "BGP-4 is an exterior gateway path-vector protocol connecting autonomous systems",
+    "BGP peers exchange NLRI reachability updates over TCP destination port 179",
+    "Unlike link-state OSPF using Dijkstra's algorithm, BGP routing decisions follow administrative policies",
+    "Loop prevention inspects AS_PATH and unconditionally discards advertisements containing the local ASN",
+    "Best-path selection deterministically prioritizes LOCAL_PREF, shortest AS_PATH, origin code, and MED"
+  ],
   "levels": {
     "expert": [
       {
@@ -44,72 +103,92 @@
     "grade10": [
       {
         "id": "g1",
-        "text": "The Border Gateway Protocol (BGP) is the primary system that connects large independent internet networks, called Autonomous Systems, across the globe.",
+        "text": "The Border Gateway Protocol (BGP-4) is the exterior gateway routing protocol connecting autonomous systems (AS—large independent networks like ISPs) across the global Internet.",
         "source_ids": ["s1"]
       },
       {
         "id": "g2",
-        "text": "Instead of calculating simple shortest physical distances, BGP shares reachability information through reliable TCP network connections on port 179.",
+        "text": "Unlike interior gateway protocols such as OSPF (which calculates shortest paths using Dijkstra's algorithm), BGP functions as a path-vector protocol exchanging NLRI (Network Layer Reachability Information—lists of reachable IP prefixes) over reliable TCP peering sessions on port 179.",
         "source_ids": ["s2"]
       },
       {
         "id": "g3",
-        "text": "Routers prevent data from circling in endless loops by checking the list of visited networks; if a router sees its own network ID, it discards the route.",
+        "text": "BGP border routers prevent routing loops by checking the AS_PATH attribute; if a router finds its own ASN (Autonomous System Number) in the path sequence, the update is immediately discarded.",
         "source_ids": ["s3"]
       },
       {
         "id": "g4",
-        "text": "BGP selects the best path using a step-by-step checklist: first highest local preference, then shortest network hops, and finally lower metric tiebreakers.",
+        "text": "BGP determines best paths through a deterministic hierarchy of attributes: highest LOCAL_PREF (Local Preference), shortest AS_PATH hop length, lowest origin code, and lowest MED (Multi-Exit Discriminator).",
         "source_ids": ["s4"]
       }
     ],
     "grade6": [
       {
         "id": "k1",
-        "text": "BGP is the road map that connects the entire global Internet.",
+        "text": "The BGP-4 protocol connects large Autonomous Systems (AS networks) across the Internet.",
         "source_ids": ["s1"]
       },
       {
         "id": "k2",
-        "text": "Big network companies use BGP to talk to each other.",
-        "source_ids": ["s1"]
+        "text": "BGP does not use internal protocols like OSPF or Dijkstra's algorithm to calculate shortest paths.",
+        "source_ids": ["s2"]
       },
       {
         "id": "k3",
-        "text": "Messages travel over reliable TCP connections on port 179.",
+        "text": "Instead, BGP works as a path-vector protocol exchanging NLRI (Network Layer Reachability Information) over TCP on port 179.",
         "source_ids": ["s2"]
       },
       {
         "id": "k4",
-        "text": "Each message lists every network it visited along the way.",
+        "text": "Border routers stop routing loops by checking the AS_PATH attribute.",
         "source_ids": ["s3"]
       },
       {
         "id": "k5",
-        "text": "If a router sees its own name in the list, it throws it away.",
+        "text": "If a router spots its own ASN (Autonomous System Number) in the AS_PATH, it drops the route.",
         "source_ids": ["s3"]
       },
       {
         "id": "k6",
-        "text": "The router picks routes that have fewer network jumps.",
+        "text": "BGP chooses the best path using LOCAL_PREF (Local Preference), shortest AS_PATH length, and MED (Multi-Exit Discriminator).",
         "source_ids": ["s4"]
       }
     ]
   },
   "glossary": [
     {
-      "term": "Autonomous System (AS)",
-      "plain": "A large network or collection of IP prefixes under a single administrative authority (like an ISP or university).",
+      "term": "BGP-4",
+      "plain": "Border Gateway Protocol version 4: the core routing protocol of the global Internet.",
       "emoji": "🌐"
     },
     {
-      "term": "Path-Vector Protocol",
-      "plain": "A routing protocol that maintains the entire sequence of autonomous systems a route travels through.",
-      "emoji": "🧭"
+      "term": "Autonomous System (AS)",
+      "plain": "A large network or collection of IP prefixes under a single administrative authority (like an ISP).",
+      "emoji": "🏢"
     },
     {
-      "term": "AS_PATH Attribute",
-      "plain": "An ordered list of autonomous system numbers that an advertisement has traversed, used to detect loops.",
+      "term": "OSPF",
+      "plain": "Open Shortest Path First: an internal routing protocol that maps links inside a single network.",
+      "emoji": "🗺️"
+    },
+    {
+      "term": "Dijkstra's Algorithm",
+      "plain": "A mathematical graph algorithm used by OSPF to compute the shortest route across network routers.",
+      "emoji": "📐"
+    },
+    {
+      "term": "NLRI",
+      "plain": "Network Layer Reachability Information: the IP prefixes and subnet masks advertised between routers.",
+      "emoji": "📡"
+    },
+    {
+      "term": "TCP Port 179",
+      "plain": "The reliable communication channel used to maintain live BGP peering sessions.",
+      "emoji": "🔌"
+    },
+    {
+      "term": "AS_PATH",
+      "plain": "The ordered list of network IDs that a route has visited, used to detect and prevent infinite loops.",
       "emoji": "⛓️"
     },
     {
@@ -118,33 +197,28 @@
       "emoji": "⭐"
     },
     {
-      "term": "Multi-Exit Discriminator (MED)",
-      "plain": "An optional attribute that suggests to an external neighbor which path into your network is preferred.",
+      "term": "MED",
+      "plain": "Multi-Exit Discriminator: an attribute that suggests to outside peers which link into your network is preferred.",
       "emoji": "🚪"
-    },
-    {
-      "term": "NLRI",
-      "plain": "Network Layer Reachability Information: the IP prefix and subnet mask being advertised across routers.",
-      "emoji": "📡"
     }
   ],
   "concept_map": {
     "nodes": [
       { "id": "n1", "label": "BGP-4 Protocol" },
       { "id": "n2", "label": "Autonomous Systems (AS)" },
-      { "id": "n3", "label": "TCP Peering (Port 179)" },
-      { "id": "n4", "label": "AS_PATH Attribute" },
-      { "id": "n5", "label": "Loop Prevention" },
+      { "id": "n3", "label": "TCP Port 179" },
+      { "id": "n4", "label": "NLRI Reachability" },
+      { "id": "n5", "label": "AS_PATH Loop Check" },
       { "id": "n6", "label": "LOCAL_PREF & MED" },
-      { "id": "n7", "label": "Deterministic Best-Path Selection" }
+      { "id": "n7", "label": "OSPF & Dijkstra (Internal)" }
     ],
     "edges": [
       { "from": "n1", "to": "n2", "label": "interconnects" },
       { "from": "n1", "to": "n3", "label": "transports over" },
-      { "from": "n1", "to": "n4", "label": "advertises" },
-      { "from": "n4", "to": "n5", "label": "enforces" },
-      { "from": "n6", "to": "n7", "label": "ranks" },
-      { "from": "n4", "to": "n7", "label": "influences" }
+      { "from": "n3", "to": "n4", "label": "carries" },
+      { "from": "n4", "to": "n5", "label": "verified by" },
+      { "from": "n5", "to": "n6", "label": "ranked via" },
+      { "from": "n1", "to": "n7", "label": "differs from" }
     ]
   },
   "quiz": [

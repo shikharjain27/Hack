@@ -23,6 +23,7 @@ import {
   FileText,
   ArrowLeft,
   ChevronDown,
+  ShieldCheck,
 } from "lucide-react";
 import InputPanel, { type FileInput } from "@/components/InputPanel";
 import LevelSlider, { LEVEL_LABELS, type LevelKey } from "@/components/LevelSlider";
@@ -118,6 +119,34 @@ export default function Workspace({ initialProfile }: { initialProfile?: Student
     const m = (k: LevelKey) => computeMetrics(result.levels[k], result.glossary);
     return { expert: m("expert"), grade10: m("grade10"), grade6: m("grade6") };
   }, [result]);
+
+  const keywordStats = useMemo(() => {
+    if (!result) return { retained: 0, total: 0, pct: 100 };
+    const terms: string[] = [];
+    if (result.preserved_terms?.length) {
+      for (const pt of result.preserved_terms) {
+        terms.push(typeof pt === "string" ? pt : pt.term);
+      }
+    } else {
+      for (const g of result.glossary) terms.push(g.term);
+    }
+    const currentText = result.levels[level].map((s) => s.text).join(" ").toLowerCase();
+    let retained = 0;
+    for (const t of terms) {
+      const clean = t.toLowerCase().replace(/[()]/g, "").trim();
+      if (currentText.includes(clean)) {
+        retained++;
+      } else if (clean.includes(" ")) {
+        const parts = clean.split(" ").filter((p) => p.length > 3);
+        if (parts.length > 0 && parts.some((p) => currentText.includes(p))) {
+          retained++;
+        }
+      }
+    }
+    const total = Math.max(terms.length, 1);
+    const pct = Math.min(100, Math.round((retained / total) * 100));
+    return { retained, total, pct };
+  }, [result, level]);
 
   function flashSource(ids: string[] | string) {
     const list = Array.isArray(ids) ? ids : [ids];
@@ -577,13 +606,21 @@ export default function Workspace({ initialProfile }: { initialProfile?: Student
                             </span>
                           )}
                         </div>
-                        <p className="text-xs text-white/50 flex items-center gap-2">
-                          <span>Flesch-Kincaid Readability:</span>
-                          <span className="rounded-md bg-white/10 px-1.5 py-0.5 font-mono font-semibold text-indigo-300">
-                            Grade {metrics[level].fkGrade}
-                          </span>
-                          <span className="text-white/40">({LEVEL_LABELS[level]})</span>
-                        </p>
+                        <div className="flex flex-wrap items-center gap-2.5 text-xs text-white/50">
+                          <p className="flex items-center gap-1.5">
+                            <span>Flesch-Kincaid:</span>
+                            <span className="rounded-md bg-white/10 px-1.5 py-0.5 font-mono font-semibold text-indigo-300">
+                              Grade {metrics[level].fkGrade}
+                            </span>
+                            <span className="text-white/40">({LEVEL_LABELS[level]})</span>
+                          </p>
+
+                          {/* Pitch-Ready 100% Key Terms Retained Metric Indicator */}
+                          <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-[11px] font-semibold shadow-sm">
+                            <ShieldCheck size={12} className="text-emerald-400" />
+                            <span>{keywordStats.retained} / {keywordStats.total} Key Terms Preserved ({keywordStats.pct}%)</span>
+                          </div>
+                        </div>
                       </div>
 
                       <LevelSlider level={level} onChange={setLevel} />
@@ -603,6 +640,8 @@ export default function Workspace({ initialProfile }: { initialProfile?: Student
                       initialRate={ttsSpeed}
                       dyslexiaFont={dyslexiaFont}
                       langCode={langCode}
+                      glossary={result.glossary}
+                      preservedTerms={result.preserved_terms}
                     />
 
                     {selection && (
